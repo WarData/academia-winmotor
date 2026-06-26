@@ -25,8 +25,9 @@ export const modules: ModuleItem[] = [
     slug: "sales",
     href: "/academy/sales",
     description:
-      "Operaciones comerciales con VN/VO, accesorios y facturación básica y avanzada.",
+      "Operaciones comerciales con VN/VO, accesorios, documentos de venta y cobros ligados a clientes.",
     videos: [
+      // Operaciones comerciales y vehículos
       {
         title: "Vídeo 1.3.14 Pasos de una operación comercial con VO",
         url: "https://www.youtube.com/watch?v=gRMGfQYIPQc",
@@ -59,18 +60,10 @@ export const modules: ModuleItem[] = [
           "Vídeo 1.3.7 Convertir un bastidor a unidad demo",
         url: "https://www.youtube.com/watch?v=57t7fakqEuk",
       },
+
+      // Documentos de venta y tarifas
       {
-        title: "Vídeo 1.0.7 Copiar y pegar entre documentos de todo tipo",
-        url: "https://www.youtube.com/watch?v=V7pImjf9_SM",
-      },
-      {
-        title:
-          "Vídeo 1.0.6 Operaciones genéricas - filtrar - partir - multipartir - listas virtuales",
-        url: "https://www.youtube.com/watch?v=Sc97JwkvPsk",
-      },
-      {
-        title:
-          "Vídeo 1.8.1 Grabación de un presupuesto de ventas",
+        title: "Vídeo 1.8.1 Grabación de un presupuesto de ventas",
         url: "https://www.youtube.com/watch?v=s2j5MX-R9Dk",
       },
       {
@@ -97,6 +90,8 @@ export const modules: ModuleItem[] = [
         title: "Vídeo 1.4 Artículos y tarifa de artículos",
         url: "https://www.youtube.com/watch?v=5Pd4kE0VN9A",
       },
+
+      // Entidades y configuración de clientes
       {
         title:
           "Vídeo 1.5.5 Datos importantes - Históricos - Tipos de pago - Cuenta contable",
@@ -119,10 +114,51 @@ export const modules: ModuleItem[] = [
         title: "Vídeo 1.5.1 Alta de entidad",
         url: "https://www.youtube.com/watch?v=KjwttXdZ4Hs",
       },
+
+      // Operaciones genéricas y copia/pega entre documentos
+      {
+        title: "Vídeo 1.0.7 Copiar y pegar entre documentos de todo tipo",
+        url: "https://www.youtube.com/watch?v=V7pImjf9_SM",
+      },
+      {
+        title:
+          "Vídeo 1.0.6 Operaciones genéricas - filtrar - partir - multipartir - listas virtuales",
+        url: "https://www.youtube.com/watch?v=Sc97JwkvPsk",
+      },
+
+      // Facturación y cobros ligados a ventas
+      {
+        title: "Vídeo 1.9.15 Crear factura de venta de servicios",
+        url: "https://www.youtube.com/watch?v=1SDf1kJPUBI",
+      },
+      {
+        title:
+          "Vídeo 1.9.17 Facturación en tanda de albaranes de ventas",
+        url: "https://www.youtube.com/watch?v=rekB1NbepHI",
+      },
+      {
+        title:
+          "Vídeo 1.9.16 Añadir albaranes ORs a una factura de ventas",
+        url: "https://www.youtube.com/watch?v=XHC95_iRS3c",
+      },
+      {
+        title:
+          "Vídeo 1.9.9 Crear anticipo de cobro a cliente sin pedido ni operación",
+        url: "https://www.youtube.com/watch?v=mryBbM_dlWo",
+      },
+      {
+        title:
+          "Vídeo 1.9.6 Creación cobro de anticipo de pedido de ventas",
+        url: "https://www.youtube.com/watch?v=rKyJG8G09zY",
+      },
+      {
+        title: "Vídeo 1.9.5 Cobro de factura botón",
+        url: "https://www.youtube.com/watch?v=Kq6uO1qGPA8",
+      },
     ],
     helpLinks: [
       {
-        title: "Centro de Ayuda Winmotor Automoción - Ventas",
+        title: "Centro de Ayuda Winmotor Automoción",
         url: "https://winmotor.gitbook.io/winmotor-automocion",
       },
     ],
@@ -134,6 +170,7 @@ export const modules: ModuleItem[] = [
     description:
       "Gestión de citas, órdenes de reparación, calendario de taller y seguimiento de trabajos.",
     videos: [
+      // Agenda y planificación
       {
         title: "Vídeo 1.10.5 Agenda de taller y calendarios",
         url: "https://www.youtube.com/watch?v=NODJ3-mUAQQ",
@@ -150,6 +187,8 @@ export const modules: ModuleItem[] = [
         title: "Vídeo 1.10.1 Fichaje de los mecánicos",
         url: "https://www.youtube.com/watch?v=tJakqZndiS4",
       },
+
+      // Citas y vehículos
       {
         title: "Vídeo 3.0.1 Cita con cliente y vehículos existentes",
         url: "https://www.youtube.com/watch?v=00V2ruQBhZk",
@@ -171,6 +210,8 @@ export const modules: ModuleItem[] = [
         title: "Vídeo 3.0.5 Alta de OR desde cita",
         url: "https://www.youtube.com/watch?v=b6WJnRntpNA",
       },
+
+      // Órdenes de reparación
       {
         title: "Vídeo 2.0.1 Alta de OR Vehículo Cliente",
         url: "https://www.youtube.com/watch?v=nR_vv-Zn-xw",
@@ -187,6 +228,8 @@ export const modules: ModuleItem[] = [
         title: "Vídeo 2.0.4 Alta de OR Facturación",
         url: "https://www.youtube.com/watch?v=Qcnel8GHAYI",
       },
+
+      // Vehículos de taller y cesiones
       {
         title:
           "Vídeo 1.3.6 Alta de vehículo de taller en OR - VO en albarán de compra - cesiones",
@@ -195,7 +238,7 @@ export const modules: ModuleItem[] = [
     ],
     helpLinks: [
       {
-        title: "Centro de Ayuda Winmotor Automoción - Taller",
+        title: "Centro de Ayuda Winmotor Automoción",
         url: "https://winmotor.gitbook.io/winmotor-automocion",
       },
     ],
