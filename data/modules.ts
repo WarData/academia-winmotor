@@ -106,4 +106,22 @@ export const modules: ModuleItem[] = [
       { slug: "v-1-3-6-alta-vehiculo-taller",order: 14, process: "1.3",  title: "Vídeo 1.3.6 Alta de vehículo de taller en OR - VO en albarán de compra",        youtubeId: "LSkr9xnBvHU", url: "https://www.youtube.com/watch?v=LSkr9xnBvHU" },
     ],
   },
+    // ─────────────────────────────────────────────────────────────────
+  // MÓDULO 3: ADMINISTRACIÓN Y CONTABILIDAD
+  // ─────────────────────────────────────────────────────────────────
+  {
+    name: "Administración y Contabilidad",
+    slug: "administracion",
+    href: "/academy/administracion",
+    order: 3,
+    description:
+      "Gestión de caja, pagos, cobros, apuntes contables y tesorería del negocio.",
+    helplinks: [
+      {
+        title: "Centro de Ayuda Winmotor Automooción",
+        url: "https://winmotor.gitbook.io/winmotor-automocion",
+      },
+    ],
+    videos: [],
+  },
 ];
