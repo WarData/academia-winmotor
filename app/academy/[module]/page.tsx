@@ -4,9 +4,9 @@ import { ModuleContentPage } from "@/components/module-content-page";
 const moduleTitles = {
   sales: "Ventas",
   stock: "Stock",
+  administracion: "Administración y Contabilidad",
   workshop: "Taller",
   vehicles: "Vehículos",
-  finance: "Finanzas",
   support: "Soporte"
 };
 
@@ -32,8 +32,8 @@ export default async function AcademyModulePage({ params }: AcademyModulePagePro
 
   return (
     <ModuleContentPage
-      module={module as keyof typeof moduleTitles}
       title={title}
+      module={module}
     />
   );
 }
