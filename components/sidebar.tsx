@@ -20,7 +20,7 @@ const icons = {
   Stock: PackageSearch,
   Taller: Wrench,
   Vehículos: Car,
-  Finanzas: Banknote,
+    "Administración y Contabilidad": Banknote,
   Soporte: Headphones
 };
 
