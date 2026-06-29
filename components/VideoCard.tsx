@@ -14,8 +14,7 @@ const moduleLabels: Record<string, string> = {
   stock: "Stock",
   workshop: "Taller",
   vehicles: "Vehículos",
-  finance: "Finanzas",
-  support: "Soporte",
+  administracion: "Administración y Contabilidad",  support: "Soporte",
 };
 
 export function VideoCard({
