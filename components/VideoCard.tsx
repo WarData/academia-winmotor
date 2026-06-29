@@ -6,7 +6,7 @@ type VideoCardProps = {
   title: string;
   module: string;
   process: string;
-  url: string; // NUEVO: URL directa del vídeo en YouTube
+  url?: string; // URL directa del vídeo en YouTube (opcional)
 };
 
 const moduleLabels: Record<string, string> = {
@@ -43,19 +43,24 @@ export function VideoCard({
           {moduleLabels[module] ?? module}
         </span>
       </div>
-
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4">
         <code className="rounded-md bg-surface px-2.5 py-1 text-xs font-semibold text-ink/72">
           {process}
         </code>
-        <Link
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex h-9 items-center rounded-md bg-accent px-3 text-sm font-semibold text-white"
-        >
-          Abrir en YouTube
-        </Link>
+        {url ? (
+          <Link
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-9 items-center rounded-md bg-accent px-3 text-sm font-semibold text-white"
+          >
+            Abrir en YouTube
+          </Link>
+        ) : (
+          <span className="inline-flex h-9 items-center rounded-md bg-surface px-3 text-sm font-semibold text-ink/40">
+            Sin enlace
+          </span>
+        )}
       </div>
     </article>
   );
