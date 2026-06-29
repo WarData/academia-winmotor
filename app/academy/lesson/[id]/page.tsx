@@ -18,15 +18,15 @@ const moduleLabels: Record<string, string> = {
   sales: "Ventas",
   stock: "Stock",
   workshop: "Taller",
-  vehicles: "Vehículos",
+  vehicles: "Vehiculos",
   finance: "Finanzas",
   support: "Soporte"
 };
 
 type AcademyLessonPageProps = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 export function generateStaticParams() {
@@ -35,13 +35,12 @@ export function generateStaticParams() {
   }));
 }
 
-export default function AcademyLessonPage({ params }: AcademyLessonPageProps) {
-  const item = getContentById(params.id);
-
+export default async function AcademyLessonPage({ params }: AcademyLessonPageProps) {
+  const { id } = await params;
+  const item = getContentById(id);
   if (!item) {
     notFound();
   }
-
   const nextItem = getNextContentItem(item.id);
   const flowItems = getFlowItems(item.module);
   const stepNumber = getFlowStepNumber(item.id);
@@ -61,7 +60,6 @@ export default function AcademyLessonPage({ params }: AcademyLessonPageProps) {
             {item.source === "youtube" ? "Lista de YouTube" : "Ayuda de GitBook"}
           </p>
         </div>
-
         <Link
           href={`/academy/${item.module}`}
           className="inline-flex h-10 items-center rounded-md border border-line bg-white px-4 text-sm font-semibold text-ink transition hover:border-accent hover:text-accent"
@@ -97,7 +95,6 @@ export default function AcademyLessonPage({ params }: AcademyLessonPageProps) {
             nextId={nextItem?.id}
           />
         </div>
-
         <ol className="mt-6 space-y-3">
           {steps.map((step, index) => (
             <li key={step} className="flex gap-3 text-sm leading-6 text-ink/72">
