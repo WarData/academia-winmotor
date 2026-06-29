@@ -9,7 +9,7 @@ export const navigationItems: NavigationItem[] = [
   { name: "Stock", href: "/academy/stock" },
   { name: "Taller", href: "/academy/workshop" },
   { name: "Vehículos", href: "/academy/vehicles" },
-  { name: "Finanzas", href: "/academy/finance" },
+  { name: "Administración y Contabilidad", href: "/academy/administracion" },
   { name: "Soporte", href: "/support" }
 ];
 
