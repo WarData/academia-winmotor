@@ -127,34 +127,34 @@ export const learningContent = [
     keywords: ["taller", "factura", "trabajo", "mano de obra"]
   },
   {
-    id: "finance-cash-register",
+    id: "administracion-cash-register",
     title: "Caja",
-    module: "finance",
+    module: "administracion",
     process: "cash_register",
     type: "help",
     source: "gitbook",
-    url: getGitBookUrl("finance"),
-    keywords: ["finanzas", "caja", "arqueo", "cierre"]
+    url: getGitBookUrl("administracion"),
+    keywords: ["administracion", "caja", "arqueo", "cierre"]
   },
   {
-    id: "finance-payments",
+    id: "administracion-payments",
     title: "Pagos",
-    module: "finance",
+    module: "administracion",
     process: "payments",
     type: "help",
     source: "gitbook",
-    url: getGitBookUrl("finance"),
-    keywords: ["finanzas", "pagos", "cobros", "banco"]
+    url: getGitBookUrl("administracion"),
+    keywords: ["administracion", "pagos", "cobros", "banco"]
   },
   {
-    id: "finance-accounting-entries",
+    id: "administracion-accounting-entries",
     title: "Apuntes contables",
-    module: "finance",
+    module: "administracion",
     process: "accounting_entries",
     type: "help",
     source: "gitbook",
-    url: getGitBookUrl("finance"),
-    keywords: ["finanzas", "contabilidad", "apuntes", "asientos"]
+    url: getGitBookUrl("administracion"),
+    keywords: ["administracion", "contabilidad", "apuntes", "asientos"]
   },
   {
     id: "vehicles-vehicle-creation",
@@ -203,7 +203,7 @@ const moduleLabels = {
   stock: "Stock",
   workshop: "Taller",
   vehicles: "Vehículos",
-  finance: "Finanzas",
+  administracion: "Administración y Contabilidad",
   support: "Soporte"
 };
 
@@ -225,7 +225,7 @@ const processSteps = {
   create_appointment: ["Abrir Taller", "Crear cita", "Seleccionar cliente y vehículo", "Asignar fecha"],
   create_work_order: ["Abrir la cita", "Crear orden de reparación", "Añadir servicios", "Asignar técnico"],
   workshop_invoice: ["Revisar trabajo finalizado", "Validar recambios y mano de obra", "Generar factura", "Cerrar orden"],
-  cash_register: ["Abrir Finanzas", "Revisar sesión de caja", "Conciliar totales", "Cerrar caja"],
+  cash_register: ["Abrir Administración y Contabilidad", "Revisar sesión de caja", "Conciliar totales", "Cerrar caja"],
   payments: ["Abrir lista de pagos", "Seleccionar pago", "Validar método", "Confirmar estado"],
   accounting_entries: ["Abrir área contable", "Revisar apuntes pendientes", "Validar cuentas", "Contabilizar apuntes"],
   vehicle_creation: ["Abrir Vehículos", "Crear vehículo", "Añadir modelo y bastidor", "Guardar vehículo"],
@@ -257,10 +257,10 @@ export const moduleLearningFlows = {
     "vehicles-vehicle-stock",
     "vehicles-vehicle-transfer"
   ],
-  finance: [
-    "finance-cash-register",
-    "finance-payments",
-    "finance-accounting-entries"
+  administracion: [
+    "administracion-cash-register",
+    "administracion-payments",
+    "administracion-accounting-entries"
   ],
   support: ["support-common-errors"]
 };
