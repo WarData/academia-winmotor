@@ -5,7 +5,7 @@ export const sources = {
       sales: "/tutoriales/ventas",
       stock: "/tutoriales/almacen",
       workshop: "/tutoriales/servicios",
-      finance: "/manuales",
+      administracion: "/manuales/administracion-y-contabilidad",
       vehicles: "/tutoriales",
       support: "/manuales"
     }
