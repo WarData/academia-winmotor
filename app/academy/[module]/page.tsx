@@ -11,9 +11,9 @@ const moduleTitles = {
 };
 
 type AcademyModulePageProps = {
-  params: {
+  params: Promise<{
     module: string;
-  };
+  }>;
 };
 
 export function generateStaticParams() {
@@ -22,8 +22,9 @@ export function generateStaticParams() {
   }));
 }
 
-export default function AcademyModulePage({ params }: AcademyModulePageProps) {
-  const title = moduleTitles[params.module as keyof typeof moduleTitles];
+export default async function AcademyModulePage({ params }: AcademyModulePageProps) {
+  const { module } = await params;
+  const title = moduleTitles[module as keyof typeof moduleTitles];
 
   if (!title) {
     notFound();
@@ -31,7 +32,7 @@ export default function AcademyModulePage({ params }: AcademyModulePageProps) {
 
   return (
     <ModuleContentPage
-      module={params.module as keyof typeof moduleTitles}
+      module={module as keyof typeof moduleTitles}
       title={title}
     />
   );
