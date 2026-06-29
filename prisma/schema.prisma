@@ -7,11 +7,105 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// --- Modulos y videos ---
+
+model Module {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  description String
+  order       Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  videos      Video[]
+  quizzes     Quiz[]
+}
+
+model Video {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  description String
+  youtubeId   String
+  duration    String?
+  order       Int
+  moduleId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  module      Module              @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  progress    UserVideoProgress[]
+}
+
+// --- Progreso del usuario ---
+
+model UserVideoProgress {
+  id        String    @id @default(cuid())
+  userId    String
+  videoId   String
+  watched   Boolean   @default(false)
+  watchedAt DateTime?
+  createdAt DateTime  @default(now())
+
+  video     Video     @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, videoId])
+  @@index([userId])
+}
+
+// --- Quiz ---
+
+model Quiz {
+  id        String   @id @default(cuid())
+  title     String
+  moduleId  String
+  passMark  Int      @default(70)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  module    Module         @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  questions QuizQuestion[]
+  attempts  QuizAttempt[]
+}
+
+model QuizQuestion {
+  id           String   @id @default(cuid())
+  quizId       String
+  question     String
+  options      String[]
+  correctIndex Int
+  explanation  String?
+  order        Int
+  createdAt    DateTime @default(now())
+
+  quiz         Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+}
+
+model QuizAttempt {
+  id          String   @id @default(cuid())
+  userId      String
+  quizId      String
+  score       Int
+  passed      Boolean
+  answers     Json
+  completedAt DateTime @default(now())
+
+  quiz        Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([quizId])
+}
+
+// --- Base de conocimiento ---
+
 model KnowledgeItem {
   id        String   @id @default(cuid())
   title     String
   content   String
   type      String
+  tags      String[]
+  sourceUrl String?
   createdAt DateTime @default(now())
-// test
+  updatedAt DateTime @updatedAt
 }
