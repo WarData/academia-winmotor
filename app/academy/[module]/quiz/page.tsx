@@ -1,20 +1,22 @@
 import QuizCard from '@/components/QuizCard';
 
 interface QuizPageProps {
-  params: { module: string };
+  params: Promise<{ module: string }>;
 }
 
-export default function QuizPage({ params }: QuizPageProps) {
+export default async function QuizPage({ params }: QuizPageProps) {
+  const { module } = await params;
   return (
     <main className="quiz-page">
-      <QuizCard moduleSlug={params.module} />
+      <QuizCard moduleSlug={module} />
     </main>
   );
 }
 
-export function generateMetadata({ params }: QuizPageProps) {
+export async function generateMetadata({ params }: QuizPageProps) {
+  const { module } = await params;
   return {
-    title: `Quiz - ${params.module} | Academia Winmotor`,
-    description: `Pon a prueba tus conocimientos sobre el modulo ${params.module}`,
+    title: `Quiz - ${module} | Academia Winmotor`,
+    description: `Pon a prueba tus conocimientos sobre el modulo ${module}`,
   };
 }
