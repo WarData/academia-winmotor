@@ -13,4 +13,5 @@ model KnowledgeItem {
   content   String
   type      String
   createdAt DateTime @default(now())
+// test
 }
