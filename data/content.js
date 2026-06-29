@@ -271,15 +271,17 @@ export const supportCases = [
     title: "No se puede crear factura",
     keywords: ["factura", "ventas", "facturación"],
     resourceId: "sales-create-invoice",
-    type: "video"
-  },
+    type: "help",
+    source: "gitbook",
+    url: "https://winmotor.gitbook.io/winmotor-automocion/manuales/ventas/facturas"  },
   {
     id: "support-stock-not-visible",
     title: "El stock no aparece",
     keywords: ["stock", "visible", "inventario", "no aparece"],
     resourceId: "stock-stock-check",
-    type: "video"
-  },
+    type: "help",
+    source: "gitbook",
+    url: "https://winmotor.gitbook.io/winmotor-automocion/manuales/almacenes"  },
   {
     id: "support-error-saving-document",
     title: "Error al guardar documento",
