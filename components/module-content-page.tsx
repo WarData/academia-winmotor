@@ -50,6 +50,7 @@ export function ModuleContentPage({ module, title }: ModuleContentPageProps) {
               title={item.title}
               module={item.module}
               process={item.process}
+                                url={item.url}
             />
           ) : (
             <HelpCard
