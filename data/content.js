@@ -762,20 +762,6 @@ export function resolveKnowledgeResource(contentId) {
   if (!item) return null;
   return { type: item.type, url: item.url };
 }
-
-// Helper functions
-export function getContentByModule(module) {
-  return learningContent.filter(item => item.module === module);
-}
-
-export function getContentById(id) {
-  return learningContent.find(item => item.id === id);
-}
-
-export function getFlowItems(module) {
-  return learningContent.filter(item => item.module === module);
-}
-
 export function getFirstFlowItem(module) {
   // Prioriza los flujos definidos explícitamente
   const flow = moduleLearningFlows[module];
@@ -788,15 +774,6 @@ export function getFirstFlowItem(module) {
   return items.length > 0 ? items[0] : null;
 }
 
-export function getStepInstructions(processId) {
-  return processSteps[processId] || [];
-}
-
-export function resolveKnowledgeResource(contentId) {
-  const item = getContentById(contentId);
-  if (!item) return null;
-  return { type: item.type, url: item.url };
-}
 
 // Process steps mapping
 export const processSteps = {
