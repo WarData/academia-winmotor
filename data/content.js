@@ -2,7 +2,9 @@ import { sources } from "./sources";
 
 function getGitbookUrl(module) {
   const modulePath = sources.gitbook.modules[module] ?? "";
+  // Si quieres eliminar solo una barra inicial:
   return new URL(modulePath.replace(/^\//, ""), sources.gitbook.base).toString();
+}
 
 export const learningContent = [
   // ============= VENTAS (27 videos) =============
