@@ -1135,7 +1135,7 @@ export const moduleQuizzes = {
           "Duplicar automáticamente la factura"
         ],
         correctAnswer: 0,
-        explanation: "El historial ayuda a tomar decisiones con mejor información."
+        explanation: "El historial ayuda con mejor información."
       },
       {
         id: "ordenes-5",
