@@ -860,3 +860,101 @@ export const supportCases = [
     href: getGitbookUrl("support")
   }
 ];
+export function getContentByModule(module) {
+  return learningContent.filter((item) => item.module === module);
+}
+
+export function getContentById(id) {
+  return learningContent.find((item) => item.id === id);
+}
+
+export function getFlowItems(module) {
+  return moduleLearningFlows[module] || getContentByModule(module);
+}
+
+export function getFlowStepNumber(module, itemId) {
+  const flow = getFlowItems(module);
+  const index = flow.findIndex((item) => item.id === itemId);
+  return index >= 0 ? index + 1 : null;
+}
+
+export function getNextContentItem(module, itemId) {
+  const flow = getFlowItems(module);
+  const index = flow.findIndex((item) => item.id === itemId);
+  if (index === -1 || index === flow.length - 1) return null;
+  return flow[index + 1];
+}
+
+export function getPreviousContentItem(module, itemId) {
+  const flow = getFlowItems(module);
+  const index = flow.findIndex((item) => item.id === itemId);
+  if (index <= 0) return null;
+  return flow[index - 1];
+}
+
+export function getHelpText(contentId) {
+  const item = getContentById(contentId);
+  if (!item) return "Consulta la ayuda contextual de este módulo para ampliar información.";
+  return item.helpText || item.description || "Consulta la ayuda contextual de este módulo para ampliar información.";
+}
+
+export function getStepInstructions(processId) {
+  return processSteps[processId] || [];
+}
+
+export function resolveKnowledgeResource(contentId) {
+  const item = getContentById(contentId);
+  if (!item) return null;
+  return {
+    type: item.type || "article",
+    title: item.title,
+    url: item.url || item.href || null,
+    module: item.module || null
+  };
+}
+
+export function getFirstFlowItem(module) {
+  const flow = getFlowItems(module);
+  return flow.length > 0 ? flow[0] : null;
+}
+
+export function getLastFlowItem(module) {
+  const flow = getFlowItems(module);
+  return flow.length > 0 ? flow[flow.length - 1] : null;
+}
+
+function buildQuestionFromItem(item, index) {
+  const baseTitle = item?.title || `Lección ${index + 1}`;
+  const baseDescription = item?.description || item?.summary || "Revisa el contenido del vídeo y la explicación asociada.";
+  return {
+    id: `${item.id}-quiz`,
+    question: `¿Cuál es el objetivo principal de "${baseTitle}"?`,
+    options: [
+      `Aprender el proceso explicado en ${baseTitle}`,
+      "Configurar permisos del sistema operativo",
+      "Sustituir por completo el flujo del módulo",
+      "Eliminar la necesidad de validación del proceso"
+    ],
+    correctAnswer: 0,
+    explanation: baseDescription
+  };
+}
+
+export const moduleQuizzes = Object.fromEntries(
+  Object.entries(moduleLearningFlows).map(([module, items]) => {
+    const questions = items.map((item, index) => buildQuestionFromItem(item, index));
+    return [
+      module,
+      {
+        module,
+        title: `Quiz de ${module}`,
+        description: `Preguntas de repaso basadas en los contenidos del módulo ${module}.`,
+        questions
+      }
+    ];
+  })
+);
+
+export function getModuleQuiz(module) {
+  return moduleQuizzes[module] || null;
+}
