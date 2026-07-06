@@ -872,15 +872,19 @@ export function getFlowItems(module) {
   return moduleLearningFlows[module] || getContentByModule(module);
 }
 
-export function getFlowStepNumber(module, itemId) {
-  const flow = getFlowItems(module);
-  const index = flow.findIndex((item) => item.id === itemId);
+export function getFlowStepNumber(itemId) {
+  const item = getContentById(itemId);
+  if (!item) return null;
+  const flow = getFlowItems(item.module);
+  const index = flow.findIndex((f) => f.id === itemId);
   return index >= 0 ? index + 1 : null;
 }
 
-export function getNextContentItem(module, itemId) {
-  const flow = getFlowItems(module);
-  const index = flow.findIndex((item) => item.id === itemId);
+export function getNextContentItem(itemId) {
+  const item = getContentById(itemId);
+  if (!item) return null;
+  const flow = getFlowItems(item.module);
+  const index = flow.findIndex((f) => f.id === itemId);
   if (index === -1 || index === flow.length - 1) return null;
   return flow[index + 1];
 }
@@ -898,18 +902,19 @@ export function getHelpText(contentId) {
   return item.helpText || item.description || "Consulta la ayuda contextual de este módulo para ampliar información.";
 }
 
-export function getStepInstructions(processId) {
+export function getStepInstructions(item) {
+  const processId = typeof item === 'string' ? item : item?.process;
   return processSteps[processId] || [];
 }
-
-export function resolveKnowledgeResource(contentId) {
-  const item = getContentById(contentId);
-  if (!item) return null;
+export function resolveKnowledgeResource(item) {
+  if (!item) return { kind: null, href: null };
+  const resolved = typeof item === 'string' ? getContentById(item) : item;
+  if (!resolved) return { kind: null, href: null };
   return {
-    type: item.type || "article",
-    title: item.title,
-    url: item.url || item.href || null,
-    module: item.module || null
+    kind: resolved.type === 'help' ? 'help' : 'video',
+    href: resolved.url || null,
+    title: resolved.title,
+    module: resolved.module || null
   };
 }
 
@@ -923,38 +928,192 @@ export function getLastFlowItem(module) {
   return flow.length > 0 ? flow[flow.length - 1] : null;
 }
 
-function buildQuestionFromItem(item, index) {
-  const baseTitle = item?.title || `Lección ${index + 1}`;
-  const baseDescription = item?.description || item?.summary || "Revisa el contenido del vídeo y la explicación asociada.";
-  return {
-    id: `${item.id}-quiz`,
-    question: `¿Cuál es el objetivo principal de "${baseTitle}"?`,
-    options: [
-      `Aprender el proceso explicado en ${baseTitle}`,
-      "Configurar permisos del sistema operativo",
-      "Sustituir por completo el flujo del módulo",
-      "Eliminar la necesidad de validación del proceso"
-    ],
-    correctAnswer: 0,
-    explanation: baseDescription
-  };
-}
-
-export const moduleQuizzes = Object.fromEntries(
-  Object.entries(moduleLearningFlows).map(([module, items]) => {
-    const questions = items.map((item, index) => buildQuestionFromItem(item, index));
-    return [
-      module,
+export const moduleQuizzes = {
+  recepcion: {
+    module: "recepcion",
+    title: "Quiz de Recepción",
+    description: "Repaso del flujo de atención inicial, apertura y gestión operativa en recepción.",
+    questions: [
       {
-        module,
-        title: `Quiz de ${module}`,
-        description: `Preguntas de repaso basadas en los contenidos del módulo ${module}.`,
-        questions
+        id: "recepcion-1",
+        question: "¿Cuál es el objetivo principal del proceso de recepción en el taller?",
+        options: [
+          "Registrar al cliente y su vehículo correctamente antes de iniciar el trabajo",
+          "Emitir la factura final automáticamente",
+          "Cerrar la orden sin validaciones",
+          "Asignar piezas sin diagnóstico"
+        ],
+        correctAnswer: 0,
+        explanation: "La recepción sirve para recoger bien los datos, detectar la necesidad del cliente y dejar trazabilidad desde el inicio."
+      },
+      {
+        id: "recepcion-2",
+        question: "¿Qué dato debe verificarse siempre antes de continuar con la apertura?",
+        options: [
+          "La matrícula o identificación correcta del vehículo",
+          "El color favorito del cliente",
+          "La campaña comercial activa",
+          "El usuario de redes sociales del asesor"
+        ],
+        correctAnswer: 0,
+        explanation: "La correcta identificación del vehículo evita errores posteriores en presupuesto, historial y facturación."
+      },
+      {
+        id: "recepcion-3",
+        question: "¿Por qué es importante anotar con precisión la incidencia descrita por el cliente?",
+        options: [
+          "Porque ayuda al diagnóstico y evita malentendidos",
+          "Porque reemplaza la orden de reparación",
+          "Porque elimina la necesidad de revisar el vehículo",
+          "Porque impide usar recambios"
+        ],
+        correctAnswer: 0,
+        explanation: "Una descripción clara de la incidencia mejora el trabajo del taller y la comunicación con el cliente."
+      },
+      {
+        id: "recepcion-4",
+        question: "¿Qué ventaja aporta seguir un flujo de recepción estructurado en Winmotor?",
+        options: [
+          "Mejora el control del proceso y la trazabilidad",
+          "Evita registrar al cliente",
+          "Impide consultar el historial",
+          "Sustituye el trabajo del técnico"
+        ],
+        correctAnswer: 0,
+        explanation: "El sistema permite ordenar pasos, consultar información previa y dejar el expediente correctamente preparado."
+      },
+      {
+        id: "recepcion-5",
+        question: "¿Qué debe quedar claro al finalizar la recepción?",
+        options: [
+          "Qué se solicita, qué vehículo entra y en qué estado se registra",
+          "Solo el nombre del asesor",
+          "Solo el precio final de la factura",
+          "Únicamente el stock del almacén"
+        ],
+        correctAnswer: 0,
+        explanation: "El cierre correcto de la recepción deja claro el punto de partida del trabajo del taller."
       }
-    ];
-  })
-);
+    ]
+  },
 
-export function getModuleQuiz(module) {
-  return moduleQuizzes[module] || null;
-}
+  presupuestos: {
+    module: "presupuestos",
+    title: "Quiz de Presupuestos",
+    description: "Repaso del proceso de elaboración, revisión y aprobación de presupuestos.",
+    questions: [
+      {
+        id: "presupuestos-1",
+        question: "¿Cuál es la finalidad de un presupuesto en Winmotor?",
+        options: [
+          "Presentar al cliente una propuesta económica antes de ejecutar trabajos",
+          "Cerrar automáticamente la reparación",
+          "Eliminar la orden de trabajo",
+          "Crear un albarán de compra"
+        ],
+        correctAnswer: 0,
+        explanation: "El presupuesto formaliza costes previstos de mano de obra, piezas y operaciones."
+      },
+      {
+        id: "presupuestos-2",
+        question: "¿Qué debe revisarse antes de enviar un presupuesto al cliente?",
+        options: [
+          "Conceptos, importes y coherencia de las operaciones incluidas",
+          "Solo el logotipo del documento",
+          "La contraseña del usuario",
+          "El fondo del escritorio del PC"
+        ],
+        correctAnswer: 0,
+        explanation: "Validar líneas, importes y desglose evita errores económicos y reclamaciones."
+      },
+      {
+        id: "presupuestos-3",
+        question: "¿Qué beneficio tiene separar correctamente piezas y mano de obra?",
+        options: [
+          "Aporta claridad al cliente y mejor control interno",
+          "Impide imprimir el documento",
+          "Hace innecesaria la aprobación",
+          "Borra el historial del vehículo"
+        ],
+        correctAnswer: 0,
+        explanation: "Un presupuesto bien desglosado facilita comprensión, aprobación y seguimiento."
+      },
+      {
+        id: "presupuestos-4",
+        question: "¿Qué debe ocurrir antes de ejecutar trabajos adicionales no contemplados?",
+        options: [
+          "Actualizar o ampliar el presupuesto y obtener conformidad",
+          "Facturarlos sin avisar",
+          "Cerrar el expediente",
+          "Eliminar las líneas antiguas sin registro"
+        ],
+        correctAnswer: 0,
+        explanation: "Las ampliaciones deben quedar documentadas y aceptadas por el cliente."
+      },
+      {
+        id: "presupuestos-5",
+        question: "¿Qué aporta tener presupuestos bien registrados en el sistema?",
+        options: [
+          "Trazabilidad comercial y control del proceso de aprobación",
+          "Menos información para el cliente",
+          "Imposibilidad de modificar importes",
+          "Sustitución total de la facturación"
+        ],
+        correctAnswer: 0,
+        explanation: "El registro permite consultar versiones, aprobaciones y evolución del trabajo."
+      }
+    ]
+  },
+
+  ordenes: {
+    module: "ordenes",
+    title: "Quiz de Órdenes de reparación",
+    description: "Repaso de creación, seguimiento y cierre operativo de órdenes.",
+    questions: [
+      {
+        id: "ordenes-1",
+        question: "¿Qué representa una orden de reparación en el sistema?",
+        options: [
+          "El documento operativo que organiza y sigue los trabajos del vehículo",
+          "Una factura ya cobrada",
+          "Un vale de descuento",
+          "Una consulta de almacén"
+        ],
+        correctAnswer: 0,
+        explanation: "La orden centraliza operaciones, tiempos, piezas y estado del trabajo."
+      },
+      {
+        id: "ordenes-2",
+        question: "¿Por qué es importante asignar correctamente los trabajos en una orden?",
+        options: [
+          "Porque mejora el control técnico y administrativo",
+          "Porque elimina la necesidad de diagnóstico",
+          "Porque impide añadir piezas",
+          "Porque evita usar el historial"
+        ],
+        correctAnswer: 0,
+        explanation: "Una orden bien estructurada facilita ejecución, seguimiento y facturación posterior."
+      },
+      {
+        id: "ordenes-3",
+        question: "¿Qué debe reflejar el estado de una orden?",
+        options: [
+          "La situación real del trabajo dentro del taller",
+          "Solo la opinión del cliente",
+          "Únicamente el coste de recambios",
+          "El color del vehículo"
+        ],
+        correctAnswer: 0,
+        explanation: "El estado debe servir para saber si está abierta, en proceso, pendiente o finalizada."
+      },
+      {
+        id: "ordenes-4",
+        question: "¿Qué ventaja aporta consultar el historial desde una orden?",
+        options: [
+          "Contexto técnico y administrativo sobre intervenciones anteriores",
+          "Bloquear el presupuesto",
+          "Borrar las observaciones",
+          "Duplicar automáticamente la factura"
+        ],
+        correctAnswer: 0,
+        explanation: "El historial ayuda a tomar 
