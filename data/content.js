@@ -873,45 +873,64 @@ export function getFlowItems(module) {
 }
 
 export function getFlowStepNumber(itemId) {
-  const item = getContentById(itemId);
-  if (!item) return null;
-  const flow = getFlowItems(item.module);
-  const index = flow.findIndex((f) => f.id === itemId);
+  const contentItem = getContentById(itemId);
+  if (!contentItem?.module) return null;
+
+  const flow = getFlowItems(contentItem.module);
+  const index = flow.findIndex((item) => item.id === itemId);
+
   return index >= 0 ? index + 1 : null;
 }
 
 export function getNextContentItem(itemId) {
-  const item = getContentById(itemId);
-  if (!item) return null;
-  const flow = getFlowItems(item.module);
-  const index = flow.findIndex((f) => f.id === itemId);
+  const contentItem = getContentById(itemId);
+  if (!contentItem?.module) return null;
+
+  const flow = getFlowItems(contentItem.module);
+  const index = flow.findIndex((item) => item.id === itemId);
+
   if (index === -1 || index === flow.length - 1) return null;
   return flow[index + 1];
 }
 
-export function getPreviousContentItem(module, itemId) {
-  const flow = getFlowItems(module);
+export function getPreviousContentItem(itemId) {
+  const contentItem = getContentById(itemId);
+  if (!contentItem?.module) return null;
+
+  const flow = getFlowItems(contentItem.module);
   const index = flow.findIndex((item) => item.id === itemId);
+
   if (index <= 0) return null;
   return flow[index - 1];
 }
 
-export function getHelpText(contentId) {
-  const item = getContentById(contentId);
-  if (!item) return "Consulta la ayuda contextual de este módulo para ampliar información.";
-  return item.helpText || item.description || "Consulta la ayuda contextual de este módulo para ampliar información.";
+export function getHelpText(itemId) {
+  const item = getContentById(itemId);
+  if (!item) {
+    return "Consulta la ayuda contextual de este módulo para ampliar información.";
+  }
+
+  return (
+    item.helpText ||
+    item.description ||
+    "Consulta la ayuda contextual de este módulo para ampliar información."
+  );
 }
 
 export function getStepInstructions(item) {
-  const processId = typeof item === 'string' ? item : item?.process;
+  if (!item) return [];
+  const processId = typeof item === "string" ? item : item?.process;
   return processSteps[processId] || [];
 }
+
 export function resolveKnowledgeResource(item) {
   if (!item) return { kind: null, href: null };
-  const resolved = typeof item === 'string' ? getContentById(item) : item;
+
+  const resolved = typeof item === "string" ? getContentById(item) : item;
   if (!resolved) return { kind: null, href: null };
+
   return {
-    kind: resolved.type === 'help' ? 'help' : 'video',
+    kind: resolved.type === "help" ? "help" : "video",
     href: resolved.url || null,
     title: resolved.title,
     module: resolved.module || null
@@ -1116,4 +1135,228 @@ export const moduleQuizzes = {
           "Duplicar automáticamente la factura"
         ],
         correctAnswer: 0,
-        explanation: "El historial ayuda a tomar 
+        explanation: "El historial ayuda a tomar decisiones con mejor información."
+      },
+      {
+        id: "ordenes-5",
+        question: "¿Qué debe hacerse antes de dar por terminada una orden?",
+        options: [
+          "Verificar que los trabajos y cargos estén correctamente registrados",
+          "Eliminar la información del cliente",
+          "Cerrar caja",
+          "Crear otra orden vacía"
+        ],
+        correctAnswer: 0,
+        explanation: "El control final evita omisiones y asegura consistencia antes del cierre."
+      }
+    ]
+  },
+
+  facturacion: {
+    module: "facturacion",
+    title: "Quiz de Facturación",
+    description: "Repaso del proceso de generación y validación de facturas.",
+    questions: [
+      {
+        id: "facturacion-1",
+        question: "¿Cuál es el objetivo de la facturación en Winmotor?",
+        options: [
+          "Convertir los trabajos y materiales registrados en un documento de cobro correcto",
+          "Abrir recepciones nuevas",
+          "Sustituir el presupuesto",
+          "Eliminar la orden original"
+        ],
+        correctAnswer: 0,
+        explanation: "La factura recoge y formaliza económicamente lo realizado al cliente."
+      },
+      {
+        id: "facturacion-2",
+        question: "¿Qué debe comprobarse antes de emitir una factura?",
+        options: [
+          "Que los conceptos, importes e impuestos sean correctos",
+          "Solo el tamaño de la fuente",
+          "La velocidad de internet",
+          "El nombre del técnico en mayúsculas"
+        ],
+        correctAnswer: 0,
+        explanation: "La revisión previa evita errores fiscales y operativos."
+      },
+      {
+        id: "facturacion-3",
+        question: "¿Por qué es importante que la factura esté vinculada al expediente correcto?",
+        options: [
+          "Porque asegura trazabilidad con la orden y el cliente",
+          "Porque impide imprimirla",
+          "Porque elimina el IVA",
+          "Porque evita registrar pagos"
+        ],
+        correctAnswer: 0,
+        explanation: "La vinculación correcta permite auditoría y consulta posterior."
+      },
+      {
+        id: "facturacion-4",
+        question: "¿Qué ventaja tiene que piezas y mano de obra lleguen bien desde la orden?",
+        options: [
+          "Reduce errores y agiliza la emisión de la factura",
+          "Impide aplicar impuestos",
+          "Obliga a rehacer la recepción",
+          "Bloquea el cierre del día"
+        ],
+        correctAnswer: 0,
+        explanation: "Cuando la información de origen está bien, la facturación es más rápida y fiable."
+      },
+      {
+        id: "facturacion-5",
+        question: "¿Qué se consigue con una facturación bien gestionada?",
+        options: [
+          "Cobro correcto, control documental y mejor seguimiento administrativo",
+          "Ocultar operaciones al cliente",
+          "Anular el historial del vehículo",
+          "Evitar registrar datos fiscales"
+        ],
+        correctAnswer: 0,
+        explanation: "Una buena facturación mejora control interno y atención al cliente."
+      }
+    ]
+  },
+
+  recambios: {
+    module: "recambios",
+    title: "Quiz de Recambios",
+    description: "Repaso sobre consulta, asignación y control de piezas y materiales.",
+    questions: [
+      {
+        id: "recambios-1",
+        question: "¿Qué objetivo tiene la gestión de recambios en el proceso del taller?",
+        options: [
+          "Controlar piezas necesarias, disponibilidad y asignación correcta",
+          "Cerrar facturas sin revisión",
+          "Sustituir la recepción del vehículo",
+          "Evitar el uso del almacén"
+        ],
+        correctAnswer: 0,
+        explanation: "La gestión de recambios garantiza que el trabajo disponga del material adecuado."
+      },
+      {
+        id: "recambios-2",
+        question: "¿Por qué es importante seleccionar correctamente la referencia de una pieza?",
+        options: [
+          "Para evitar errores de suministro o montaje",
+          "Para cambiar el cliente asignado",
+          "Para cancelar la orden",
+          "Para ocultar el stock"
+        ],
+        correctAnswer: 0,
+        explanation: "Una referencia incorrecta puede provocar retrasos, devoluciones y fallos en la reparación."
+      },
+      {
+        id: "recambios-3",
+        question: "¿Qué aporta consultar disponibilidad o stock antes de comprometer una intervención?",
+        options: [
+          "Permite planificar mejor los tiempos del taller",
+          "Hace innecesario el presupuesto",
+          "Sustituye la diagnosis",
+          "Bloquea la orden de trabajo"
+        ],
+        correctAnswer: 0,
+        explanation: "Conocer la disponibilidad ayuda a coordinar promesas de entrega y carga de trabajo."
+      },
+      {
+        id: "recambios-4",
+        question: "¿Qué relación tienen los recambios con la rentabilidad del expediente?",
+        options: [
+          "Influyen directamente en el coste y margen del trabajo",
+          "No tienen impacto económico",
+          "Solo afectan al diseño del documento",
+          "Solo sirven para imprimir etiquetas"
+        ],
+        correctAnswer: 0,
+        explanation: "El control de piezas y precios es clave para la rentabilidad."
+      },
+      {
+        id: "recambios-5",
+        question: "¿Qué debe evitarse al cargar recambios en una orden?",
+        options: [
+          "Duplicidades o piezas incorrectas",
+          "Registrar la descripción",
+          "Consultar el stock",
+          "Relacionar la pieza con el trabajo"
+        ],
+        correctAnswer: 0,
+        explanation: "Evitar duplicidades mantiene limpio el expediente y previene errores de cobro."
+      }
+    ]
+  },
+
+  support: {
+    module: "support",
+    title: "Quiz de Soporte",
+    description: "Repaso de consultas, incidencias y resolución de casos de soporte.",
+    questions: [
+      {
+        id: "support-1",
+        question: "¿Qué finalidad tiene el módulo de soporte dentro de la academia?",
+        options: [
+          "Ayudar a resolver incidencias y dudas frecuentes del uso del sistema",
+          "Facturar automáticamente todos los expedientes",
+          "Abrir recepciones sin cliente",
+          "Crear órdenes sin validación"
+        ],
+        correctAnswer: 0,
+        explanation: "El soporte sirve para orientar al usuario ante problemas reales y consultas operativas."
+      },
+      {
+        id: "support-2",
+        question: "¿Qué valor tiene documentar bien una incidencia?",
+        options: [
+          "Facilita su análisis, seguimiento y resolución",
+          "Evita que otros usuarios la entiendan",
+          "Impide usar ayuda contextual",
+          "Elimina el historial del caso"
+        ],
+        correctAnswer: 0,
+        explanation: "Una buena descripción permite resolver antes y con menos errores."
+      },
+      {
+        id: "support-3",
+        question: "¿Qué se busca al consultar artículos o recursos de ayuda?",
+        options: [
+          "Encontrar una guía aplicable al problema detectado",
+          "Cerrar la sesión del sistema",
+          "Modificar el módulo de facturación",
+          "Borrar el expediente del cliente"
+        ],
+        correctAnswer: 0,
+        explanation: "Los recursos de ayuda deben orientar al usuario hacia una solución concreta."
+      },
+      {
+        id: "support-4",
+        question: "¿Por qué es útil clasificar las incidencias por tipo o síntoma?",
+        options: [
+          "Porque mejora la localización de soluciones y patrones repetidos",
+          "Porque reemplaza todos los procesos del taller",
+          "Porque evita usar búsquedas",
+          "Porque desactiva el soporte"
+        ],
+        correctAnswer: 0,
+        explanation: "Clasificar bien mejora la reutilización del conocimiento."
+      },
+      {
+        id: "support-5",
+        question: "¿Qué mejora aporta una base de soporte bien organizada?",
+        options: [
+          "Reduce tiempos de respuesta y dependencia de ayuda externa",
+          "Elimina la necesidad de formación",
+          "Impide abrir órdenes",
+          "Sustituye al almacén"
+        ],
+        correctAnswer: 0,
+        explanation: "Una base de conocimiento útil acelera la resolución de dudas e incidencias."
+      }
+    ]
+  }
+};
+
+export function getModuleQuiz(module) {
+  return moduleQuizzes[module] || null;
+}
