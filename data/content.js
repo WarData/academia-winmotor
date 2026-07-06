@@ -860,18 +860,6 @@ export const supportCases = [
     href: getGitbookUrl("support")
   }
 ];
-export function getContentByModule(module) {
-  return learningContent.filter((item) => item.module === module);
-}
-
-export function getContentById(id) {
-  return learningContent.find((item) => item.id === id);
-}
-
-export function getFlowItems(module) {
-  return moduleLearningFlows[module] || getContentByModule(module);
-}
-
 export function getFlowStepNumber(itemId) {
   const contentItem = getContentById(itemId);
   if (!contentItem?.module) return null;
@@ -915,31 +903,6 @@ export function getHelpText(itemId) {
     item.description ||
     "Consulta la ayuda contextual de este módulo para ampliar información."
   );
-}
-
-export function getStepInstructions(item) {
-  if (!item) return [];
-  const processId = typeof item === "string" ? item : item?.process;
-  return processSteps[processId] || [];
-}
-
-export function resolveKnowledgeResource(item) {
-  if (!item) return { kind: null, href: null };
-
-  const resolved = typeof item === "string" ? getContentById(item) : item;
-  if (!resolved) return { kind: null, href: null };
-
-  return {
-    kind: resolved.type === "help" ? "help" : "video",
-    href: resolved.url || null,
-    title: resolved.title,
-    module: resolved.module || null
-  };
-}
-
-export function getFirstFlowItem(module) {
-  const flow = getFlowItems(module);
-  return flow.length > 0 ? flow[0] : null;
 }
 
 export function getLastFlowItem(module) {
