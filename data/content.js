@@ -911,415 +911,262 @@ export function getLastFlowItem(module) {
 }
 
 export const moduleQuizzes = {
-  recepcion: {
-    module: "recepcion",
-    title: "Quiz de Recepción",
-    description: "Repaso del flujo de atención inicial, apertura y gestión operativa en recepción.",
+  sales: {
+    module: "sales",
+    title: "Quiz de Ventas",
+    description: "Repaso del proceso comercial, presupuestos, pedidos y facturación de ventas.",
     questions: [
       {
-        id: "recepcion-1",
-        question: "¿Cuál es el objetivo principal del proceso de recepción en el taller?",
+        id: "sales-1",
+        question: "¿Cuál es la finalidad principal de un presupuesto de ventas en Winmotor?",
         options: [
-          "Registrar al cliente y su vehículo correctamente antes de iniciar el trabajo",
-          "Emitir la factura final automáticamente",
-          "Cerrar la orden sin validaciones",
-          "Asignar piezas sin diagnóstico"
+          "Presentar al cliente una propuesta económica antes de cerrar la operación",
+          "Cerrar automáticamente la factura",
+          "Eliminar el pedido de ventas",
+          "Generar un asiento contable sin validación"
         ],
         correctAnswer: 0,
-        explanation: "La recepción sirve para recoger bien los datos, detectar la necesidad del cliente y dejar trazabilidad desde el inicio."
+        explanation: "El presupuesto permite plantear al cliente la propuesta económica antes de ejecutar o confirmar la venta."
       },
       {
-        id: "recepcion-2",
-        question: "¿Qué dato debe verificarse siempre antes de continuar con la apertura?",
+        id: "sales-2",
+        question: "¿Qué ventaja tiene registrar correctamente un pedido de ventas?",
         options: [
-          "La matrícula o identificación correcta del vehículo",
-          "El color favorito del cliente",
-          "La campaña comercial activa",
-          "El usuario de redes sociales del asesor"
+          "Permite dar seguimiento comercial y documental a la operación",
+          "Evita identificar al cliente",
+          "Sustituye la ficha del vehículo",
+          "Impide emitir albaranes"
         ],
         correctAnswer: 0,
-        explanation: "La correcta identificación del vehículo evita errores posteriores en presupuesto, historial y facturación."
+        explanation: "El pedido estructura la operación y facilita su seguimiento posterior."
       },
       {
-        id: "recepcion-3",
-        question: "¿Por qué es importante anotar con precisión la incidencia descrita por el cliente?",
+        id: "sales-3",
+        question: "¿Por qué es importante revisar precios y tarifas antes de facturar?",
         options: [
-          "Porque ayuda al diagnóstico y evita malentendidos",
-          "Porque reemplaza la orden de reparación",
-          "Porque elimina la necesidad de revisar el vehículo",
-          "Porque impide usar recambios"
+          "Porque evita errores de importes y mejora la fiabilidad del documento",
+          "Porque bloquea el historial del cliente",
+          "Porque sustituye el proceso de cobro",
+          "Porque elimina el stock"
         ],
         correctAnswer: 0,
-        explanation: "Una descripción clara de la incidencia mejora el trabajo del taller y la comunicación con el cliente."
+        explanation: "Revisar tarifas y precios ayuda a emitir documentos correctos y coherentes."
       },
       {
-        id: "recepcion-4",
-        question: "¿Qué ventaja aporta seguir un flujo de recepción estructurado en Winmotor?",
+        id: "sales-4",
+        question: "¿Qué aporta una correcta gestión de anticipos o cobros en ventas?",
         options: [
-          "Mejora el control del proceso y la trazabilidad",
-          "Evita registrar al cliente",
-          "Impide consultar el historial",
-          "Sustituye el trabajo del técnico"
+          "Mayor control financiero y trazabilidad de la operación",
+          "Eliminar la necesidad de factura",
+          "Cerrar automáticamente todas las órdenes",
+          "Evitar usar cuentas bancarias"
         ],
         correctAnswer: 0,
-        explanation: "El sistema permite ordenar pasos, consultar información previa y dejar el expediente correctamente preparado."
+        explanation: "Los cobros y anticipos bien registrados mejoran el control administrativo y financiero."
       },
       {
-        id: "recepcion-5",
-        question: "¿Qué debe quedar claro al finalizar la recepción?",
+        id: "sales-5",
+        question: "¿Qué debe asegurarse antes de emitir una factura de ventas?",
         options: [
-          "Qué se solicita, qué vehículo entra y en qué estado se registra",
-          "Solo el nombre del asesor",
-          "Solo el precio final de la factura",
+          "Que conceptos, importes y datos de la operación sean correctos",
+          "Solo que exista conexión a internet",
+          "Solo que el comercial esté asignado",
+          "Que el color del vehículo coincida"
+        ],
+        correctAnswer: 0,
+        explanation: "La revisión final evita errores y garantiza consistencia documental."
+      }
+    ]
+  },
+
+  workshop: {
+    module: "workshop",
+    title: "Quiz de Taller",
+    description: "Repaso de citas, apertura de OR y gestión operativa del taller.",
+    questions: [
+      {
+        id: "workshop-1",
+        question: "¿Qué representa una OR en el módulo de taller?",
+        options: [
+          "El documento operativo que organiza la intervención sobre el vehículo",
+          "Una factura ya cobrada",
+          "Un pedido a proveedor",
+          "Una remesa bancaria"
+        ],
+        correctAnswer: 0,
+        explanation: "La OR centraliza trabajos, tiempos, piezas y seguimiento del expediente."
+      },
+      {
+        id: "workshop-2",
+        question: "¿Qué ventaja tiene crear una OR desde una cita previa?",
+        options: [
+          "Aprovecha la información ya registrada y agiliza la recepción",
+          "Elimina la necesidad de cliente",
+          "Impide usar historial",
+          "Bloquea la agenda"
+        ],
+        correctAnswer: 0,
+        explanation: "Partir de una cita permite ahorrar tiempo y mantener coherencia en el flujo."
+      },
+      {
+        id: "workshop-3",
+        question: "¿Por qué es importante reflejar correctamente el estado de la OR?",
+        options: [
+          "Porque muestra la situación real del trabajo dentro del taller",
+          "Porque sustituye la diagnosis",
+          "Porque elimina las piezas cargadas",
+          "Porque evita facturar"
+        ],
+        correctAnswer: 0,
+        explanation: "El estado de la OR sirve para conocer el avance real del expediente."
+      },
+      {
+        id: "workshop-4",
+        question: "¿Qué aporta una agenda de taller bien gestionada?",
+        options: [
+          "Mejor planificación de carga de trabajo y recursos",
+          "Eliminar el historial del vehículo",
+          "Sustituir las OR",
+          "Impedir asignaciones"
+        ],
+        correctAnswer: 0,
+        explanation: "La agenda ayuda a organizar tiempos, entradas y recursos del taller."
+      },
+      {
+        id: "workshop-5",
+        question: "¿Qué debe verificarse antes de cerrar una OR?",
+        options: [
+          "Que los trabajos, materiales y datos estén correctamente registrados",
+          "Solo el nombre del cliente",
+          "Solo la marca del vehículo",
           "Únicamente el stock del almacén"
         ],
         correctAnswer: 0,
-        explanation: "El cierre correcto de la recepción deja claro el punto de partida del trabajo del taller."
+        explanation: "La revisión final evita errores antes del cierre administrativo y económico."
       }
     ]
   },
 
-  presupuestos: {
-    module: "presupuestos",
-    title: "Quiz de Presupuestos",
-    description: "Repaso del proceso de elaboración, revisión y aprobación de presupuestos.",
+  administracion: {
+    module: "administracion",
+    title: "Quiz de Administración",
+    description: "Repaso de tesorería, facturas, remesas y procesos administrativos.",
     questions: [
       {
-        id: "presupuestos-1",
-        question: "¿Cuál es la finalidad de un presupuesto en Winmotor?",
+        id: "administracion-1",
+        question: "¿Qué objetivo tiene registrar correctamente una factura de gastos?",
         options: [
-          "Presentar al cliente una propuesta económica antes de ejecutar trabajos",
-          "Cerrar automáticamente la reparación",
-          "Eliminar la orden de trabajo",
-          "Crear un albarán de compra"
+          "Controlar documental y económicamente un gasto de la empresa",
+          "Abrir una OR de taller",
+          "Cerrar automáticamente una venta",
+          "Eliminar los impuestos"
         ],
         correctAnswer: 0,
-        explanation: "El presupuesto formaliza costes previstos de mano de obra, piezas y operaciones."
+        explanation: "La factura de gastos permite mantener control contable y administrativo."
       },
       {
-        id: "presupuestos-2",
-        question: "¿Qué debe revisarse antes de enviar un presupuesto al cliente?",
+        id: "administracion-2",
+        question: "¿Qué ventaja tiene una correcta gestión de tesorería?",
         options: [
-          "Conceptos, importes y coherencia de las operaciones incluidas",
-          "Solo el logotipo del documento",
-          "La contraseña del usuario",
-          "El fondo del escritorio del PC"
+          "Mejora el control de cobros, pagos y saldos",
+          "Impide emitir remesas",
+          "Sustituye la contabilidad",
+          "Evita registrar servicios"
         ],
         correctAnswer: 0,
-        explanation: "Validar líneas, importes y desglose evita errores económicos y reclamaciones."
+        explanation: "La tesorería bien organizada ayuda al control financiero diario."
       },
       {
-        id: "presupuestos-3",
-        question: "¿Qué beneficio tiene separar correctamente piezas y mano de obra?",
+        id: "administracion-3",
+        question: "¿Para qué sirve una remesa de cobros o pagos?",
         options: [
-          "Aporta claridad al cliente y mejor control interno",
-          "Impide imprimir el documento",
-          "Hace innecesaria la aprobación",
-          "Borra el historial del vehículo"
+          "Para agrupar operaciones financieras y gestionarlas de forma ordenada",
+          "Para abrir clientes nuevos",
+          "Para generar citas de taller",
+          "Para sustituir el presupuesto"
         ],
         correctAnswer: 0,
-        explanation: "Un presupuesto bien desglosado facilita comprensión, aprobación y seguimiento."
+        explanation: "Las remesas ayudan a tramitar varios movimientos de forma estructurada."
       },
       {
-        id: "presupuestos-4",
-        question: "¿Qué debe ocurrir antes de ejecutar trabajos adicionales no contemplados?",
+        id: "administracion-4",
+        question: "¿Por qué es importante revisar importes e impuestos antes de confirmar documentos?",
         options: [
-          "Actualizar o ampliar el presupuesto y obtener conformidad",
-          "Facturarlos sin avisar",
-          "Cerrar el expediente",
-          "Eliminar las líneas antiguas sin registro"
+          "Porque evita errores fiscales y operativos",
+          "Porque elimina la contabilidad",
+          "Porque impide registrar proveedores",
+          "Porque sustituye la aprobación"
         ],
         correctAnswer: 0,
-        explanation: "Las ampliaciones deben quedar documentadas y aceptadas por el cliente."
+        explanation: "La validación previa evita incidencias posteriores en gestión y fiscalidad."
       },
       {
-        id: "presupuestos-5",
-        question: "¿Qué aporta tener presupuestos bien registrados en el sistema?",
+        id: "administracion-5",
+        question: "¿Qué aporta una administración bien registrada en el sistema?",
         options: [
-          "Trazabilidad comercial y control del proceso de aprobación",
-          "Menos información para el cliente",
-          "Imposibilidad de modificar importes",
-          "Sustitución total de la facturación"
+          "Mayor trazabilidad, control y consulta posterior",
+          "Menos información para el usuario",
+          "Imposibilidad de auditoría",
+          "Desvincular operaciones del expediente"
         ],
         correctAnswer: 0,
-        explanation: "El registro permite consultar versiones, aprobaciones y evolución del trabajo."
+        explanation: "El registro correcto permite control documental, financiero y seguimiento."
       }
     ]
   },
 
-  ordenes: {
-    module: "ordenes",
-    title: "Quiz de Órdenes de reparación",
-    description: "Repaso de creación, seguimiento y cierre operativo de órdenes.",
+  stock: {
+    module: "stock",
+    title: "Quiz de Stock",
+    description: "Repaso de consulta de stock, movimientos y traspasos entre almacenes.",
     questions: [
       {
-        id: "ordenes-1",
-        question: "¿Qué representa una orden de reparación en el sistema?",
+        id: "stock-1",
+        question: "¿Qué permite una consulta de stock bien realizada?",
         options: [
-          "El documento operativo que organiza y sigue los trabajos del vehículo",
-          "Una factura ya cobrada",
-          "Un vale de descuento",
-          "Una consulta de almacén"
+          "Conocer disponibilidad real de artículos o materiales",
+          "Cerrar facturas pendientes",
+          "Emitir remesas bancarias",
+          "Eliminar referencias"
         ],
         correctAnswer: 0,
-        explanation: "La orden centraliza operaciones, tiempos, piezas y estado del trabajo."
+        explanation: "Consultar stock correctamente ayuda a planificar operaciones y evitar errores."
       },
       {
-        id: "ordenes-2",
-        question: "¿Por qué es importante asignar correctamente los trabajos en una orden?",
+        id: "stock-2",
+        question: "¿Por qué es importante registrar un movimiento de stock?",
         options: [
-          "Porque mejora el control técnico y administrativo",
-          "Porque elimina la necesidad de diagnóstico",
-          "Porque impide añadir piezas",
-          "Porque evita usar el historial"
+          "Porque mantiene actualizado el inventario",
+          "Porque sustituye al cliente",
+          "Porque elimina el pedido",
+          "Porque bloquea el almacén"
         ],
         correctAnswer: 0,
-        explanation: "Una orden bien estructurada facilita ejecución, seguimiento y facturación posterior."
+        explanation: "Los movimientos reflejan entradas, salidas o ajustes reales del almacén."
       },
       {
-        id: "ordenes-3",
-        question: "¿Qué debe reflejar el estado de una orden?",
+        id: "stock-3",
+        question: "¿Qué aporta un traspaso entre almacenes bien documentado?",
         options: [
-          "La situación real del trabajo dentro del taller",
-          "Solo la opinión del cliente",
-          "Únicamente el coste de recambios",
-          "El color del vehículo"
+          "Trazabilidad y control de ubicación del material",
+          "Eliminar la referencia del artículo",
+          "Sustituir el proceso de compra",
+          "Evitar la consulta de disponibilidad"
         ],
         correctAnswer: 0,
-        explanation: "El estado debe servir para saber si está abierta, en proceso, pendiente o finalizada."
-      },
-      {
-        id: "ordenes-4",
-        question: "¿Qué ventaja aporta consultar el historial desde una orden?",
-        options: [
-          "Contexto técnico y administrativo sobre intervenciones anteriores",
-          "Bloquear el presupuesto",
-          "Borrar las observaciones",
-          "Duplicar automáticamente la factura"
-        ],
-        correctAnswer: 0,
-        explanation: "El historial ayuda con mejor información."
-      },
-      {
-        id: "ordenes-5",
-        question: "¿Qué debe hacerse antes de dar por terminada una orden?",
-        options: [
-          "Verificar que los trabajos y cargos estén correctamente registrados",
-          "Eliminar la información del cliente",
-          "Cerrar caja",
-          "Crear otra orden vacía"
-        ],
-        correctAnswer: 0,
-        explanation: "El control final evita omisiones y asegura consistencia antes del cierre."
+        explanation: "Un traspaso correcto permite saber dónde está el material y mantener coherencia de stock."
       }
     ]
   },
 
-  facturacion: {
-    module: "facturacion",
-    title: "Quiz de Facturación",
-    description: "Repaso del proceso de generación y validación de facturas.",
+  vehicles: {
+    module: "vehicles",
+    title: "Quiz de Vehículos",
+    description: "Repaso básico de operaciones relacionadas con vehículos.",
     questions: [
       {
-        id: "facturacion-1",
-        question: "¿Cuál es el objetivo de la facturación en Winmotor?",
+        id: "vehicles-1",
+        question: "¿Qué debe garantizar un traspaso de vehículo bien registrado?",
         options: [
-          "Convertir los trabajos y materiales registrados en un documento de cobro correcto",
-          "Abrir recepciones nuevas",
-          "Sustituir el presupuesto",
-          "Eliminar la orden original"
-        ],
-        correctAnswer: 0,
-        explanation: "La factura recoge y formaliza económicamente lo realizado al cliente."
-      },
-      {
-        id: "facturacion-2",
-        question: "¿Qué debe comprobarse antes de emitir una factura?",
-        options: [
-          "Que los conceptos, importes e impuestos sean correctos",
-          "Solo el tamaño de la fuente",
-          "La velocidad de internet",
-          "El nombre del técnico en mayúsculas"
-        ],
-        correctAnswer: 0,
-        explanation: "La revisión previa evita errores fiscales y operativos."
-      },
-      {
-        id: "facturacion-3",
-        question: "¿Por qué es importante que la factura esté vinculada al expediente correcto?",
-        options: [
-          "Porque asegura trazabilidad con la orden y el cliente",
-          "Porque impide imprimirla",
-          "Porque elimina el IVA",
-          "Porque evita registrar pagos"
-        ],
-        correctAnswer: 0,
-        explanation: "La vinculación correcta permite auditoría y consulta posterior."
-      },
-      {
-        id: "facturacion-4",
-        question: "¿Qué ventaja tiene que piezas y mano de obra lleguen bien desde la orden?",
-        options: [
-          "Reduce errores y agiliza la emisión de la factura",
-          "Impide aplicar impuestos",
-          "Obliga a rehacer la recepción",
-          "Bloquea el cierre del día"
-        ],
-        correctAnswer: 0,
-        explanation: "Cuando la información de origen está bien, la facturación es más rápida y fiable."
-      },
-      {
-        id: "facturacion-5",
-        question: "¿Qué se consigue con una facturación bien gestionada?",
-        options: [
-          "Cobro correcto, control documental y mejor seguimiento administrativo",
-          "Ocultar operaciones al cliente",
-          "Anular el historial del vehículo",
-          "Evitar registrar datos fiscales"
-        ],
-        correctAnswer: 0,
-        explanation: "Una buena facturación mejora control interno y atención al cliente."
-      }
-    ]
-  },
-
-  recambios: {
-    module: "recambios",
-    title: "Quiz de Recambios",
-    description: "Repaso sobre consulta, asignación y control de piezas y materiales.",
-    questions: [
-      {
-        id: "recambios-1",
-        question: "¿Qué objetivo tiene la gestión de recambios en el proceso del taller?",
-        options: [
-          "Controlar piezas necesarias, disponibilidad y asignación correcta",
-          "Cerrar facturas sin revisión",
-          "Sustituir la recepción del vehículo",
-          "Evitar el uso del almacén"
-        ],
-        correctAnswer: 0,
-        explanation: "La gestión de recambios garantiza que el trabajo disponga del material adecuado."
-      },
-      {
-        id: "recambios-2",
-        question: "¿Por qué es importante seleccionar correctamente la referencia de una pieza?",
-        options: [
-          "Para evitar errores de suministro o montaje",
-          "Para cambiar el cliente asignado",
-          "Para cancelar la orden",
-          "Para ocultar el stock"
-        ],
-        correctAnswer: 0,
-        explanation: "Una referencia incorrecta puede provocar retrasos, devoluciones y fallos en la reparación."
-      },
-      {
-        id: "recambios-3",
-        question: "¿Qué aporta consultar disponibilidad o stock antes de comprometer una intervención?",
-        options: [
-          "Permite planificar mejor los tiempos del taller",
-          "Hace innecesario el presupuesto",
-          "Sustituye la diagnosis",
-          "Bloquea la orden de trabajo"
-        ],
-        correctAnswer: 0,
-        explanation: "Conocer la disponibilidad ayuda a coordinar promesas de entrega y carga de trabajo."
-      },
-      {
-        id: "recambios-4",
-        question: "¿Qué relación tienen los recambios con la rentabilidad del expediente?",
-        options: [
-          "Influyen directamente en el coste y margen del trabajo",
-          "No tienen impacto económico",
-          "Solo afectan al diseño del documento",
-          "Solo sirven para imprimir etiquetas"
-        ],
-        correctAnswer: 0,
-        explanation: "El control de piezas y precios es clave para la rentabilidad."
-      },
-      {
-        id: "recambios-5",
-        question: "¿Qué debe evitarse al cargar recambios en una orden?",
-        options: [
-          "Duplicidades o piezas incorrectas",
-          "Registrar la descripción",
-          "Consultar el stock",
-          "Relacionar la pieza con el trabajo"
-        ],
-        correctAnswer: 0,
-        explanation: "Evitar duplicidades mantiene limpio el expediente y previene errores de cobro."
-      }
-    ]
-  },
-
-  support: {
-    module: "support",
-    title: "Quiz de Soporte",
-    description: "Repaso de consultas, incidencias y resolución de casos de soporte.",
-    questions: [
-      {
-        id: "support-1",
-        question: "¿Qué finalidad tiene el módulo de soporte dentro de la academia?",
-        options: [
-          "Ayudar a resolver incidencias y dudas frecuentes del uso del sistema",
-          "Facturar automáticamente todos los expedientes",
-          "Abrir recepciones sin cliente",
-          "Crear órdenes sin validación"
-        ],
-        correctAnswer: 0,
-        explanation: "El soporte sirve para orientar al usuario ante problemas reales y consultas operativas."
-      },
-      {
-        id: "support-2",
-        question: "¿Qué valor tiene documentar bien una incidencia?",
-        options: [
-          "Facilita su análisis, seguimiento y resolución",
-          "Evita que otros usuarios la entiendan",
-          "Impide usar ayuda contextual",
-          "Elimina el historial del caso"
-        ],
-        correctAnswer: 0,
-        explanation: "Una buena descripción permite resolver antes y con menos errores."
-      },
-      {
-        id: "support-3",
-        question: "¿Qué se busca al consultar artículos o recursos de ayuda?",
-        options: [
-          "Encontrar una guía aplicable al problema detectado",
-          "Cerrar la sesión del sistema",
-          "Modificar el módulo de facturación",
-          "Borrar el expediente del cliente"
-        ],
-        correctAnswer: 0,
-        explanation: "Los recursos de ayuda deben orientar al usuario hacia una solución concreta."
-      },
-      {
-        id: "support-4",
-        question: "¿Por qué es útil clasificar las incidencias por tipo o síntoma?",
-        options: [
-          "Porque mejora la localización de soluciones y patrones repetidos",
-          "Porque reemplaza todos los procesos del taller",
-          "Porque evita usar búsquedas",
-          "Porque desactiva el soporte"
-        ],
-        correctAnswer: 0,
-        explanation: "Clasificar bien mejora la reutilización del conocimiento."
-      },
-      {
-        id: "support-5",
-        question: "¿Qué mejora aporta una base de soporte bien organizada?",
-        options: [
-          "Reduce tiempos de respuesta y dependencia de ayuda externa",
-          "Elimina la necesidad de formación",
-          "Impide abrir órdenes",
-          "Sustituye al almacén"
-        ],
-        correctAnswer: 0,
-        explanation: "Una base de conocimiento útil acelera la resolución de dudas e incidencias."
-      }
-    ]
-  }
-};
-
-export function getModuleQuiz(module) {
-  return moduleQuizzes[module] || null;
-}
+          "La correcta trazabilidad documental y operativa del vehículo",
+          
