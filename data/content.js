@@ -742,19 +742,29 @@ export const learningContent = [
 
 // Helper functions
 export function getContentByModule(module) {
-  return learningContent.filter(item => item.module === module);
+  return learningContent.filter((item) => item.module === module);
 }
 
 export function getContentById(id) {
-  return learningContent.find(item => item.id === id);
+  return learningContent.find((item) => item.id === id) || null;
 }
 
 export function getFlowItems(module) {
-  return learningContent.filter(item => item.module === module);
+  return learningContent.filter((item) => item.module === module);
 }
 
-export function getStepInstructions(processId) {
-  return processSteps[processId] || [];
+export function getStepInstructions(contentOrId) {
+  const item =
+    typeof contentOrId === "string"
+      ? getContentById(contentOrId)
+      : contentOrId;
+
+  if (!item) return [];
+
+  const processId = item.process;
+  if (!processId || !supportCases[processId]) return [];
+
+  return supportCases[processId].instructions || [];
 }
 
 export function resolveKnowledgeResource(contentOrId) {
@@ -763,20 +773,16 @@ export function resolveKnowledgeResource(contentOrId) {
       ? getContentById(contentOrId)
       : contentOrId;
 
-  if (!item) {
-    return null;
-  }
+  if (!item) return null;
 
   const kind = item.type || "help";
   const href =
     item.url ||
-    (item.module && sources.gitbook.modules[item.module]
+    (item.module && sources?.gitbook?.modules?.[item.module]
       ? getGitbookUrl(item.module)
       : null);
 
-  if (!href) {
-    return null;
-  }
+  if (!href) return null;
 
   return {
     id: item.id,
@@ -791,154 +797,74 @@ export function resolveKnowledgeResource(contentOrId) {
     isExternal: /^https?:\/\//.test(href),
   };
 }
-export function getFirstFlowItem(module) {
-  // Prioriza los flujos definidos explícitamente
-  const flow = moduleLearningFlows[module];
-  if (flow && flow.length > 0) {
-    return flow[0];
-  }
 
-  // Si no hay flujo definido, usa el primer contenido del módulo
+export function getFirstFlowItem(module) {
   const items = getFlowItems(module);
   return items.length > 0 ? items[0] : null;
 }
 
+export function getFlowStepNumber(contentOrId) {
+  const item =
+    typeof contentOrId === "string"
+      ? getContentById(contentOrId)
+      : contentOrId;
 
-// Process steps mapping
-export const processSteps = {
-  "create_customer": [
-    "Accede al Centro de ayuda desde el menú principal",
-    "Navega a la sección 'Crear cliente'",
-    "Revisa el tema que necesitas",
-    "Revisa la documentación disponible",
-    "Contacta con soporte si necesitas ayuda adicional"
-  ],
-  "create_quote": [
-    "Accede al Centro de ayuda desde el menú principal"
-  ],
-  "create_order": [
-    "Accede al Centro de ayuda desde el menú principal"
-  ],
-  "create_invoice": [
-    "Accede al Centro de ayuda desde el menú principal"
-  ],
-  "create_payment": [
-    "Accede al Centro de ayuda desde el menú principal"
-  ],
-  "create_or": [
-    "Accede al Centro de ayuda desde el menú principal"
-  ],
-  "create_treasury": [
-    "Accede al Centro de ayuda desde el menú principal"
-  ],
-  "create_cash_close": [
-    "Accede al Centro de ayuda desde el menú principal"
-  ],
-  "create_expense_invoice": [
-    "Accede al Centro de ayuda desde el menú principal"
-  ],
-  "create_accounting": [
-    "Accede al Centro de ayuda desde el menú principal"
-  ],
-  "create_invoice_payment": [
-    "Accede al Centro de ayuda desde el menú principal"
-  ]
-};
+  if (!item) return 0;
 
-export const moduleLearningFlows = {
-  sales: [
-    learningContent[0],
-    learningContent[1],
-    learningContent[2]
-  ],
-  stock: [
-    learningContent[67],
-    learningContent[68],
-    learningContent[69]
-  ],
-  administracion: [
-    learningContent[41],
-    learningContent[42],
-    learningContent[43],
-    learningContent[44],
-    learningContent[45]
-  ],
-  workshop: [
-    learningContent[27],
-    learningContent[28]
-  ],
-  vehicles: [
-    learningContent[70]
-  ],
-  support: [
-    learningContent[71]
-  ]
-};
+  const items = getFlowItems(item.module);
+  const index = items.findIndex((entry) => entry.id === item.id);
 
-export const supportCases = [
-  {
-    id: "login-issue",
-    title: "Problema de acceso",
-    keywords: ["login", "contraseña", "acceso", "usuario"],
-    href: getGitbookUrl("support")
-  },
-  {
-    id: "performance-issue",
-    title: "Problema de rendimiento",
-    keywords: ["lento", "rendimiento", "velocidad"],
-    href: getGitbookUrl("support")
-  }
-];
-export function getFlowStepNumber(itemId) {
-  const contentItem = getContentById(itemId);
-  if (!contentItem?.module) return null;
-
-  const flow = getFlowItems(contentItem.module);
-  const index = flow.findIndex((item) => item.id === itemId);
-
-  return index >= 0 ? index + 1 : null;
+  return index >= 0 ? index + 1 : 0;
 }
 
-export function getNextContentItem(itemId) {
-  const contentItem = getContentById(itemId);
-  if (!contentItem?.module) return null;
+export function getNextContentItem(contentOrId) {
+  const item =
+    typeof contentOrId === "string"
+      ? getContentById(contentOrId)
+      : contentOrId;
 
-  const flow = getFlowItems(contentItem.module);
-  const index = flow.findIndex((item) => item.id === itemId);
+  if (!item) return null;
 
-  if (index === -1 || index === flow.length - 1) return null;
-  return flow[index + 1];
+  const items = getFlowItems(item.module);
+  const index = items.findIndex((entry) => entry.id === item.id);
+
+  if (index === -1 || index === items.length - 1) return null;
+
+  return items[index + 1];
 }
 
-export function getPreviousContentItem(itemId) {
-  const contentItem = getContentById(itemId);
-  if (!contentItem?.module) return null;
+export function getPreviousContentItem(contentOrId) {
+  const item =
+    typeof contentOrId === "string"
+      ? getContentById(contentOrId)
+      : contentOrId;
 
-  const flow = getFlowItems(contentItem.module);
-  const index = flow.findIndex((item) => item.id === itemId);
+  if (!item) return null;
+
+  const items = getFlowItems(item.module);
+  const index = items.findIndex((entry) => entry.id === item.id);
 
   if (index <= 0) return null;
-  return flow[index - 1];
+
+  return items[index - 1];
 }
 
-export function getHelpText(itemId) {
-  const item = getContentById(itemId);
-  if (!item) {
-    return "Consulta la ayuda contextual de este módulo para ampliar información.";
+export function getHelpText(contentOrId) {
+  const item =
+    typeof contentOrId === "string"
+      ? getContentById(contentOrId)
+      : contentOrId;
+
+  if (!item) return "";
+
+  const instructions = getStepInstructions(item);
+
+  if (instructions.length > 0) {
+    return instructions.join("\n");
   }
 
-  return (
-    item.helpText ||
-    item.description ||
-    "Consulta la ayuda contextual de este módulo para ampliar información."
-  );
+  return item.description || item.summary || "";
 }
-
-export function getLastFlowItem(module) {
-  const flow = getFlowItems(module);
-  return flow.length > 0 ? flow[flow.length - 1] : null;
-}
-
 export const moduleQuizzes = {
   sales: {
     module: "sales",
