@@ -865,6 +865,7 @@ export function getHelpText(contentOrId) {
 
   return item.description || item.summary || "";
 }
+
 export const moduleQuizzes = {
   sales: {
     module: "sales",
@@ -1124,4 +1125,109 @@ export const moduleQuizzes = {
         question: "¿Qué debe garantizar un traspaso de vehículo bien registrado?",
         options: [
           "La correcta trazabilidad documental y operativa del vehículo",
-          
+          "La eliminación del historial",
+          "La anulación automática del cliente",
+          "La desactivación del módulo comercial"
+        ],
+        correctAnswer: 0,
+        explanation: "El traspaso debe mantener coherencia de datos y seguimiento del vehículo."
+      },
+      {
+        id: "vehicles-2",
+        question: "¿Por qué es importante identificar correctamente el vehículo en el sistema?",
+        options: [
+          "Para evitar errores en operaciones, historial y documentación",
+          "Para cerrar facturas automáticamente",
+          "Para sustituir el stock",
+          "Para desactivar soporte"
+        ],
+        correctAnswer: 0,
+        explanation: "La identificación correcta evita fallos en todo el circuito administrativo y operativo."
+      },
+      {
+        id: "vehicles-3",
+        question: "¿Qué aporta mantener actualizado el historial del vehículo?",
+        options: [
+          "Mejor seguimiento técnico y administrativo",
+          "Menos trazabilidad",
+          "Imposibilidad de consulta",
+          "Eliminar operaciones anteriores"
+        ],
+        correctAnswer: 0,
+        explanation: "El historial actualizado facilita contexto y continuidad en la gestión."
+      }
+    ]
+  },
+
+  support: {
+    module: "support",
+    title: "Quiz de Soporte",
+    description: "Repaso de consultas, incidencias y resolución de casos de soporte.",
+    questions: [
+      {
+        id: "support-1",
+        question: "¿Qué finalidad tiene el módulo de soporte dentro de la academia?",
+        options: [
+          "Ayudar a resolver incidencias y dudas frecuentes del uso del sistema",
+          "Facturar automáticamente todos los expedientes",
+          "Abrir recepciones sin cliente",
+          "Crear órdenes sin validación"
+        ],
+        correctAnswer: 0,
+        explanation: "El soporte sirve para orientar al usuario ante problemas reales y consultas operativas."
+      },
+      {
+        id: "support-2",
+        question: "¿Qué valor tiene documentar bien una incidencia?",
+        options: [
+          "Facilita su análisis, seguimiento y resolución",
+          "Evita que otros usuarios la entiendan",
+          "Impide usar ayuda contextual",
+          "Elimina el historial del caso"
+        ],
+        correctAnswer: 0,
+        explanation: "Una buena descripción permite resolver antes y con menos errores."
+      },
+      {
+        id: "support-3",
+        question: "¿Qué se busca al consultar artículos o recursos de ayuda?",
+        options: [
+          "Encontrar una guía aplicable al problema detectado",
+          "Cerrar la sesión del sistema",
+          "Modificar el módulo de facturación",
+          "Borrar el expediente del cliente"
+        ],
+        correctAnswer: 0,
+        explanation: "Los recursos de ayuda deben orientar al usuario hacia una solución concreta."
+      },
+      {
+        id: "support-4",
+        question: "¿Por qué es útil clasificar las incidencias por tipo o síntoma?",
+        options: [
+          "Porque mejora la localización de soluciones y patrones repetidos",
+          "Porque reemplaza todos los procesos del taller",
+          "Porque evita usar búsquedas",
+          "Porque desactiva el soporte"
+        ],
+        correctAnswer: 0,
+        explanation: "Clasificar bien mejora la reutilización del conocimiento."
+      },
+      {
+        id: "support-5",
+        question: "¿Qué mejora aporta una base de soporte bien organizada?",
+        options: [
+          "Reduce tiempos de respuesta y dependencia de ayuda externa",
+          "Elimina la necesidad de formación",
+          "Impide abrir órdenes",
+          "Sustituye al almacén"
+        ],
+        correctAnswer: 0,
+        explanation: "Una base de conocimiento útil acelera la resolución de dudas e incidencias."
+      }
+    ]
+  }
+};
+
+export function getModuleQuiz(module) {
+  return moduleQuizzes[module] || null;
+}
