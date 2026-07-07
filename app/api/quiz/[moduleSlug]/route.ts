@@ -30,67 +30,6 @@ function buildFallbackQuiz(moduleSlug: string) {
   };
 }
 
-export async function GET(_req: NextRequest, { params }: RouteContext) {
-  const { moduleSlug } = await params;
-
-  try {
-    const quiz = await prisma.quiz.findFirst({
-      where: {
-        module: { slug: moduleSlug },
-        isActive: true,
-      },
-      include: {
-        module: {
-          select: {
-            name: true,
-            slug: true,
-          },
-        },
-        questions: {
-          where: { isActive: true },
-          orderBy: { order: "asc" },
-          select: {
-            id: true,
-            question: true,
-            options: true,
-            explanation: true,
-            order: true,
-            correctAnswer: true,
-          },
-        },
-      },
-    });
-
-    if (quiz) {
-      return NextResponse.json({ quiz });
-    }
-
-    const fallbackQuiz = buildFallbackQuiz(moduleSlug);
-
-    if (!fallbackQuiz) {
-      return NextResponse.json(
-        { error: "No se ha encontrado el quiz para este módulo." },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json({ quiz: fallbackQuiz });
-  } catch (error) {
-    console.error("Error loading quiz:", error);
-
-    const fallbackQuiz = buildFallbackQuiz(moduleSlug);
-
-    if (!fallbackQuiz) {
-      return NextResponse.json(
-        { error: "No se ha podido cargar el quiz." },
-        { status: 500 }
-      );
-    }
-
-    return NextResponse.json({ quiz: fallbackQuiz });
-  }
-}
-
 export async function POST(req: NextRequest, { params }: RouteContext) {
   const { moduleSlug } = await params;
 
@@ -99,23 +38,29 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
     const answers = Array.isArray(body?.answers) ? body.answers : [];
     const userId = body?.userId ?? null;
 
-    const dbQuiz = await prisma.quiz.findFirst({
-      where: {
-        module: { slug: moduleSlug },
-        isActive: true,
-      },
-      include: {
-        questions: {
-          where: { isActive: true },
-          orderBy: { order: "asc" },
-          select: {
-            id: true,
-            correctAnswer: true,
-            explanation: true,
+    let dbQuiz = null;
+
+    try {
+      dbQuiz = await prisma.quiz.findFirst({
+        where: {
+          module: { slug: moduleSlug },
+          isActive: true,
+        },
+        include: {
+          questions: {
+            where: { isActive: true },
+            orderBy: { order: "asc" },
+            select: {
+              id: true,
+              correctAnswer: true,
+              explanation: true,
+            },
           },
         },
-      },
-    });
+      });
+    } catch (error) {
+      console.error("Database unavailable in quiz submit, using fallback:", error);
+    }
 
     const quiz = dbQuiz ?? buildFallbackQuiz(moduleSlug);
 
@@ -151,15 +96,19 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
     const passed = percentage >= passingScore;
 
     if (dbQuiz && userId) {
-      await prisma.quizAttempt.create({
-        data: {
-          userId,
-          quizId: dbQuiz.id,
-          score: percentage,
-          passed,
-          answers: JSON.stringify(answers),
-        },
-      });
+      try {
+        await prisma.quizAttempt.create({
+          data: {
+            userId,
+            quizId: dbQuiz.id,
+            score: percentage,
+            passed,
+            answers: JSON.stringify(answers),
+          },
+        });
+      } catch (error) {
+        console.error("Quiz attempt could not be saved:", error);
+      }
     }
 
     return NextResponse.json({
