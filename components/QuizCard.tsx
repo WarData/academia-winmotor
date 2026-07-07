@@ -1,240 +1,230 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 
-type QuizQuestion = {
+interface Question {
   id: string;
   question: string;
   options: string[];
   explanation?: string;
-  correctAnswer?: number | string;
   order?: number;
-};
+}
 
-type QuizData = {
+interface Quiz {
   id: string;
-  title?: string;
-  module?: {
-    name?: string;
-    slug?: string;
-  };
-  questions: QuizQuestion[];
+  title: string;
+  questions: Question[];
+  module?: { name?: string; slug?: string };
   passingScore?: number;
-};
+}
+
+interface QuizResult {
+  score: number;
+  total: number;
+  percentage: number;
+  passed: boolean;
+  passingScore: number;
+  results: Array<{
+    questionId: string;
+    isCorrect: boolean;
+    correctAnswer: number | string | null;
+    explanation?: string;
+  }>;
+}
 
 interface QuizCardProps {
   moduleSlug: string;
 }
 
 export default function QuizCard({ moduleSlug }: QuizCardProps) {
-  const [quiz, setQuiz] = useState<QuizData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [quiz, setQuiz] = useState<Quiz | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, number>>({});
-  const [submitted, setSubmitted] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [selectedAnswers, setSelectedAnswers] = useState<Record<string, number>>({});
+  const [showResults, setShowResults] = useState(false);
+  const [result, setResult] = useState<QuizResult | null>(null);
+  const [started, setStarted] = useState(false);
 
-  useEffect(() => {
-    let cancelled = false;
+  const loadQuiz = async () => {
+    setLoading(true);
+    setError(null);
 
-    async function loadQuiz() {
-      try {
-        setLoading(true);
-        setError("");
-        setQuiz(null);
+    try {
+      const res = await fetch(`/api/quiz/${moduleSlug}`, { cache: "no-store" });
+      const data = await res.json();
 
-        const res = await fetch(`/api/quiz/${moduleSlug}`, {
-          method: "GET",
-          cache: "no-store",
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-          throw new Error(data?.error || "No se ha podido cargar el quiz.");
-        }
-
-        const loadedQuiz = data?.quiz ?? null;
-
-        if (
-          !loadedQuiz ||
-          !Array.isArray(loadedQuiz.questions) ||
-          loadedQuiz.questions.length === 0
-        ) {
-          throw new Error("El quiz no contiene preguntas.");
-        }
-
-        if (!cancelled) {
-          setQuiz(loadedQuiz);
-          setCurrentQuestion(0);
-          setAnswers({});
-          setSubmitted(false);
-          setResult(null);
-        }
-      } catch (err) {
-        if (!cancelled) {
-          setError(err instanceof Error ? err.message : "No se ha podido cargar el quiz.");
-        }
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
+      if (!res.ok) {
+        throw new Error(data?.error || "Quiz no encontrado");
       }
+
+      const loadedQuiz = data?.quiz;
+
+      if (!loadedQuiz || !Array.isArray(loadedQuiz.questions) || loadedQuiz.questions.length === 0) {
+        throw new Error("El quiz no contiene preguntas.");
+      }
+
+      setQuiz(loadedQuiz);
+      setStarted(true);
+      setCurrentQuestion(0);
+      setSelectedAnswers({});
+      setShowResults(false);
+      setResult(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No se pudo cargar el quiz.");
+    } finally {
+      setLoading(false);
     }
+  };
 
-    loadQuiz();
+  const handleAnswer = (questionId: string, index: number) => {
+    setSelectedAnswers((prev) => ({ ...prev, [questionId]: index }));
+  };
 
-    return () => {
-      cancelled = true;
-    };
-  }, [moduleSlug]);
-
-  const questions = useMemo(() => {
-    return Array.isArray(quiz?.questions) ? quiz!.questions : [];
-  }, [quiz]);
-
-  const question = questions[currentQuestion];
-
-  function handleAnswerSelect(optionIndex: number) {
-    if (!question || submitted) return;
-
-    setAnswers((prev) => ({
-      ...prev,
-      [question.id]: optionIndex,
-    }));
-  }
-
-  function goNext() {
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion((prev) => prev + 1);
-    }
-  }
-
-  function goPrev() {
-    if (currentQuestion > 0) {
-      setCurrentQuestion((prev) => prev - 1);
-    }
-  }
-
-  async function handleSubmit() {
+  const handleSubmit = async () => {
     if (!quiz) return;
 
-    const payloadAnswers = questions.map((q) => ({
+    const answers = quiz.questions.map((q) => ({
       questionId: q.id,
-      answer: answers[q.id],
+      answer: selectedAnswers[q.id] ?? -1,
     }));
 
     try {
       const res = await fetch(`/api/quiz/${moduleSlug}`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userId: "local-user",
-          answers: payloadAnswers,
+          userId: "anonymous",
+          answers,
         }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data?.error || "No se ha podido corregir el quiz.");
+        throw new Error(data?.error || "Error al enviar respuestas.");
       }
 
       setResult(data);
-      setSubmitted(true);
+      setShowResults(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "No se ha podido corregir el quiz.");
+      setError(err instanceof Error ? err.message : "Error al enviar respuestas.");
     }
+  };
+
+  if (!started) {
+    return (
+      <div className="quiz-card">
+        <h2>Quiz del módulo</h2>
+        <p>Pon a prueba tus conocimientos.</p>
+        <button onClick={loadQuiz} disabled={loading} className="quiz-btn-start">
+          {loading ? "Cargando..." : "Iniciar Quiz"}
+        </button>
+        {error && <p className="quiz-error">{error}</p>}
+      </div>
+    );
   }
 
-  if (loading) {
-    return <div className="quiz-card">Cargando quiz…</div>;
+  if (!quiz) return null;
+
+  if (showResults && result) {
+    return (
+      <div className="quiz-card">
+        <h2>Resultados</h2>
+        <p>
+          Has acertado <strong>{result.score}</strong> de <strong>{result.total}</strong> preguntas.
+        </p>
+        <p>Puntuación: {result.percentage}%</p>
+        <p>{result.passed ? "Aprobado" : "No aprobado"}</p>
+
+        <h3>Revisión:</h3>
+        {quiz.questions.map((q, idx) => {
+          const review = result.results.find((r) => r.questionId === q.id);
+          const userAnswer = selectedAnswers[q.id];
+          const correctIndex =
+            typeof review?.correctAnswer === "number"
+              ? review.correctAnswer
+              : Number(review?.correctAnswer);
+
+          return (
+            <div key={q.id} className="mb-4">
+              <p>
+                <strong>
+                  {idx + 1}. {q.question}
+                </strong>
+              </p>
+              <p>Tu respuesta: {typeof userAnswer === "number" ? q.options[userAnswer] : "Sin responder"}</p>
+              <p>Respuesta correcta: {Number.isFinite(correctIndex) ? q.options[correctIndex] : "No disponible"}</p>
+              <p>{review?.isCorrect ? "Correcta" : "Incorrecta"}</p>
+              <p>Explicación: {review?.explanation || q.explanation || "Sin explicación."}</p>
+            </div>
+          );
+        })}
+
+        <button
+          onClick={() => {
+            setStarted(false);
+            setQuiz(null);
+            setResult(null);
+            setSelectedAnswers({});
+            setCurrentQuestion(0);
+            setShowResults(false);
+            setError(null);
+          }}
+          className="quiz-btn-start"
+        >
+          Reintentar
+        </button>
+      </div>
+    );
   }
 
-  if (error) {
-    return <div className="quiz-card text-red-600">{error}</div>;
-  }
-
-  if (!quiz || questions.length === 0 || !question) {
-    return <div className="quiz-card">No hay preguntas disponibles para este quiz.</div>;
-  }
-
-  const selectedAnswer = answers[question.id];
-  const isLastQuestion = currentQuestion === questions.length - 1;
+  const question = quiz.questions[currentQuestion];
 
   return (
     <div className="quiz-card">
-      <div className="mb-4">
-        <h2 className="text-xl font-semibold">
-          {quiz.title || quiz.module?.name || "Quiz"}
-        </h2>
-        <p>
-          Pregunta {currentQuestion + 1} de {questions.length}
-        </p>
+      <div>
+        Pregunta {currentQuestion + 1} de {quiz.questions.length}
       </div>
 
-      <div className="mb-6">
-        <h3 className="mb-4 text-lg font-medium">{question.question}</h3>
+      <h3>{question.question}</h3>
 
-        <div className="space-y-3">
-          {question.options.map((option, index) => (
+      <ul>
+        {question.options.map((opt, idx) => (
+          <li key={idx}>
             <button
-              key={`${question.id}-${index}`}
-              type="button"
-              onClick={() => handleAnswerSelect(index)}
-              className={`block w-full rounded border px-4 py-3 text-left ${
-                selectedAnswer === index
-                  ? "border-blue-600 bg-blue-50"
-                  : "border-gray-300 bg-white"
-              }`}
-              disabled={submitted}
+              className={`quiz-option ${selectedAnswers[question.id] === idx ? "selected" : ""}`}
+              onClick={() => handleAnswer(question.id, idx)}
             >
-              {option}
+              {opt}
             </button>
-          ))}
-        </div>
-      </div>
+          </li>
+        ))}
+      </ul>
 
-      <div className="flex gap-3">
-        <button
-          type="button"
-          onClick={goPrev}
-          disabled={currentQuestion === 0}
-          className="rounded border px-4 py-2 disabled:opacity-50"
-        >
-          Anterior
-        </button>
+      <div>
+        {currentQuestion > 0 && (
+          <button onClick={() => setCurrentQuestion((c) => c - 1)}>Anterior</button>
+        )}
 
-        {!isLastQuestion ? (
+        {currentQuestion < quiz.questions.length - 1 ? (
           <button
-            type="button"
-            onClick={goNext}
-            className="rounded bg-black px-4 py-2 text-white"
+            onClick={() => setCurrentQuestion((c) => c + 1)}
+            disabled={selectedAnswers[question.id] === undefined}
           >
             Siguiente
           </button>
         ) : (
           <button
-            type="button"
             onClick={handleSubmit}
-            className="rounded bg-green-600 px-4 py-2 text-white"
+            disabled={Object.keys(selectedAnswers).length < quiz.questions.length}
           >
-            Enviar quiz
+            Enviar Quiz
           </button>
         )}
       </div>
 
-      {submitted && result ? (
-        <div className="mt-6 rounded border p-4">
-          <p>
-            Resultado: {result.score}/{result.total} ({result.percentage}%)
-          </p>
-          <p>{result.passed ? "Aprobado" : "No aprobado"}</p>
-        </div>
-      ) : null}
+      {error && <p className="quiz-error">{error}</p>}
     </div>
   );
 }
