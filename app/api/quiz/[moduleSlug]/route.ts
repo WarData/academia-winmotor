@@ -6,10 +6,49 @@ type RouteContext = {
   params: Promise<{ moduleSlug: string }>;
 };
 
+type FallbackQuestion = {
+  id: string;
+  question: string;
+  options: string[];
+  explanation?: string;
+  correctAnswer: number;
+  order: number;
+};
+
+function shuffleArray<T>(items: T[]) {
+  const array = [...items];
+
+  for (let i = array.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+
+  return array;
+}
+
 function buildFallbackQuiz(moduleSlug: string) {
   const fallbackQuiz = moduleQuizzes[moduleSlug as keyof typeof moduleQuizzes];
 
   if (!fallbackQuiz) return null;
+
+  const questions: FallbackQuestion[] = fallbackQuiz.questions.map((q, index) => {
+    const optionEntries = q.options.map((option, optionIndex) => ({
+      option,
+      isCorrect: optionIndex === q.correctAnswer,
+    }));
+
+    const shuffledOptions = shuffleArray(optionEntries);
+    const correctAnswer = shuffledOptions.findIndex((entry) => entry.isCorrect);
+
+    return {
+      id: q.id,
+      question: q.question,
+      options: shuffledOptions.map((entry) => entry.option),
+      explanation: q.explanation,
+      order: index + 1,
+      correctAnswer,
+    };
+  });
 
   return {
     id: `fallback-${moduleSlug}`,
@@ -19,15 +58,69 @@ function buildFallbackQuiz(moduleSlug: string) {
       slug: moduleSlug,
     },
     passingScore: 70,
-    questions: fallbackQuiz.questions.map((q, index) => ({
-      id: q.id,
-      question: q.question,
-      options: q.options,
-      explanation: q.explanation,
-      order: index + 1,
-      correctAnswer: q.correctAnswer,
-    })),
+    questions,
   };
+}
+
+export async function GET(_req: NextRequest, { params }: RouteContext) {
+  const { moduleSlug } = await params;
+
+  try {
+    const quiz = await prisma.quiz.findFirst({
+      where: {
+        module: { slug: moduleSlug },
+        isActive: true,
+      },
+      include: {
+        module: {
+          select: {
+            name: true,
+            slug: true,
+          },
+        },
+        questions: {
+          where: { isActive: true },
+          orderBy: { order: "asc" },
+          select: {
+            id: true,
+            question: true,
+            options: true,
+            explanation: true,
+            order: true,
+            correctAnswer: true,
+          },
+        },
+      },
+    });
+
+    if (quiz) {
+      return NextResponse.json({ quiz });
+    }
+
+    const fallbackQuiz = buildFallbackQuiz(moduleSlug);
+
+    if (!fallbackQuiz) {
+      return NextResponse.json(
+        { error: "No se ha encontrado el quiz para este módulo." },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ quiz: fallbackQuiz });
+  } catch (error) {
+    console.error("Database unavailable in quiz load, using fallback:", error);
+
+    const fallbackQuiz = buildFallbackQuiz(moduleSlug);
+
+    if (!fallbackQuiz) {
+      return NextResponse.json(
+        { error: "No se ha podido cargar el quiz." },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({ quiz: fallbackQuiz });
+  }
 }
 
 export async function POST(req: NextRequest, { params }: RouteContext) {
@@ -123,8 +216,4 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
     console.error("Error submitting quiz:", error);
 
     return NextResponse.json(
-      { error: "No se ha podido procesar el cuestionario." },
-      { status: 500 }
-    );
-  }
-}
+      { error: "No se ha podido procesar el 
