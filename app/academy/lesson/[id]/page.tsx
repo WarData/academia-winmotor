@@ -45,8 +45,8 @@ export default async function AcademyLessonPage({ params }: AcademyLessonPagePro
   const flowItems = getFlowItems(item.module);
   const stepNumber = getFlowStepNumber(item.id);
   const steps = getStepInstructions(item) as string[];
-  const resource = resolveKnowledgeResource(item) ?? { kind: null, href: null };
-  const helpHref = resource.kind === "help" ? String(resource.href ?? "") : "";
+  const resource = resolveKnowledgeResource(item);
+  const helpHref = resource?.kind === "help" ? String(resource.href ?? "") : "";
 
   return (
     <section className="space-y-6">
