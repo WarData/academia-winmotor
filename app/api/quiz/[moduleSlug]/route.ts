@@ -6,13 +6,46 @@ type RouteContext = {
   params: Promise<{ moduleSlug: string }>;
 };
 
+function buildFallbackQuiz(moduleSlug: string) {
+  const fallbackQuiz = moduleQuizzes[moduleSlug as keyof typeof moduleQuizzes];
+
+  if (!fallbackQuiz) return null;
+
+  return {
+    id: `fallback-${moduleSlug}`,
+    title: fallbackQuiz.title,
+    module: {
+      name: fallbackQuiz.title,
+      slug: moduleSlug,
+    },
+    passingScore: 70,
+    questions: fallbackQuiz.questions.map((q, index) => ({
+      id: q.id,
+      question: q.question,
+      options: q.options,
+      explanation: q.explanation,
+      order: index + 1,
+      correctAnswer: q.correctAnswer,
+    })),
+  };
+}
+
 export async function GET(_req: NextRequest, { params }: RouteContext) {
   const { moduleSlug } = await params;
 
   try {
     const quiz = await prisma.quiz.findFirst({
-      where: { module: { slug: moduleSlug }, isActive: true },
+      where: {
+        module: { slug: moduleSlug },
+        isActive: true,
+      },
       include: {
+        module: {
+          select: {
+            name: true,
+            slug: true,
+          },
+        },
         questions: {
           where: { isActive: true },
           orderBy: { order: "asc" },
@@ -22,53 +55,39 @@ export async function GET(_req: NextRequest, { params }: RouteContext) {
             options: true,
             explanation: true,
             order: true,
+            correctAnswer: true,
           },
         },
-        module: { select: { name: true, slug: true } },
       },
     });
 
-    if (!quiz) {
-      const fallbackQuiz = moduleQuizzes[moduleSlug as keyof typeof moduleQuizzes];
-      if (!fallbackQuiz) {
-        return NextResponse.json({ error: "Quiz no encontrado" }, { status: 404 });
-      }
-
-      return NextResponse.json({
-        quiz: {
-          id: `fallback-${moduleSlug}`,
-          module: { name: fallbackQuiz.title, slug: moduleSlug },
-          questions: fallbackQuiz.questions.map((q, index) => ({
-            id: q.id,
-            question: q.question,
-            options: q.options,
-            explanation: q.explanation,
-            order: index + 1,
-          })),
-        },
-      });
+    if (quiz) {
+      return NextResponse.json({ quiz });
     }
 
-    return NextResponse.json({ quiz });
-  } catch {
-    const fallbackQuiz = moduleQuizzes[moduleSlug as keyof typeof moduleQuizzes];
+    const fallbackQuiz = buildFallbackQuiz(moduleSlug);
+
     if (!fallbackQuiz) {
-      return NextResponse.json({ error: "Error interno" }, { status: 500 });
+      return NextResponse.json(
+        { error: "No se ha encontrado el quiz para este módulo." },
+        { status: 404 }
+      );
     }
 
-    return NextResponse.json({
-      quiz: {
-        id: `fallback-${moduleSlug}`,
-        module: { name: fallbackQuiz.title, slug: moduleSlug },
-        questions: fallbackQuiz.questions.map((q, index) => ({
-          id: q.id,
-          question: q.question,
-          options: q.options,
-          explanation: q.explanation,
-          order: index + 1,
-        })),
-      },
-    });
+    return NextResponse.json({ quiz: fallbackQuiz });
+  } catch (error) {
+    console.error("Error loading quiz:", error);
+
+    const fallbackQuiz = buildFallbackQuiz(moduleSlug);
+
+    if (!fallbackQuiz) {
+      return NextResponse.json(
+        { error: "No se ha podido cargar el quiz." },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({ quiz: fallbackQuiz });
   }
 }
 
@@ -76,65 +95,86 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
   const { moduleSlug } = await params;
 
   try {
-    const { userId, answers } = await req.json();
+    const body = await req.json();
+    const answers = Array.isArray(body?.answers) ? body.answers : [];
+    const userId = body?.userId ?? null;
 
-    if (!userId || !Array.isArray(answers)) {
-      return NextResponse.json({ error: "Parametros invalidos" }, { status: 400 });
-    }
-
-    const quiz = await prisma.quiz.findFirst({
-      where: { module: { slug: moduleSlug }, isActive: true },
+    const dbQuiz = await prisma.quiz.findFirst({
+      where: {
+        module: { slug: moduleSlug },
+        isActive: true,
+      },
       include: {
         questions: {
           where: { isActive: true },
           orderBy: { order: "asc" },
+          select: {
+            id: true,
+            correctAnswer: true,
+            explanation: true,
+          },
         },
       },
     });
 
+    const quiz = dbQuiz ?? buildFallbackQuiz(moduleSlug);
+
     if (!quiz) {
-      return NextResponse.json({ error: "Quiz no encontrado" }, { status: 404 });
+      return NextResponse.json(
+        { error: "No se ha encontrado el quiz para corregirlo." },
+        { status: 404 }
+      );
     }
 
-    let score = 0;
+    const questions = quiz.questions ?? [];
 
-    const results = answers.map((a: { questionId: string; answer: string }) => {
-      const q = quiz.questions.find((x) => x.id === a.questionId);
-      const ok = q?.correctAnswer === a.answer;
-      if (ok) score++;
-      return {
-        questionId: a.questionId,
-        isCorrect: ok,
-        correctAnswer: q?.correctAnswer,
-        explanation: q?.explanation,
-      };
-    });
+    const results = answers.map(
+      (answer: { questionId: string; answer: number | string }) => {
+        const matchedQuestion = questions.find((q) => q.id === answer.questionId);
+        const isCorrect =
+          matchedQuestion != null &&
+          String(matchedQuestion.correctAnswer) === String(answer.answer);
 
-    const pct = Math.round((score / quiz.questions.length) * 100);
-    const passed = pct >= (quiz.passingScore ?? 70);
+        return {
+          questionId: answer.questionId,
+          isCorrect,
+          correctAnswer: matchedQuestion?.correctAnswer ?? null,
+          explanation: matchedQuestion?.explanation ?? "",
+        };
+      }
+    );
 
-    const attempt = await prisma.quizAttempt.create({
-      data: {
-        userId,
-        quizId: quiz.id,
-        score: pct,
-        passed,
-        answers: JSON.stringify(answers),
-      },
-    });
+    const correctCount = results.filter((r) => r.isCorrect).length;
+    const total = questions.length;
+    const percentage = total > 0 ? Math.round((correctCount / total) * 100) : 0;
+    const passingScore = "passingScore" in quiz ? (quiz.passingScore ?? 70) : 70;
+    const passed = percentage >= passingScore;
+
+    if (dbQuiz && userId) {
+      await prisma.quizAttempt.create({
+        data: {
+          userId,
+          quizId: dbQuiz.id,
+          score: percentage,
+          passed,
+          answers: JSON.stringify(answers),
+        },
+      });
+    }
 
     return NextResponse.json({
-      attemptId: attempt.id,
-      score,
-      total: quiz.questions.length,
-      percentage: pct,
+      score: correctCount,
+      total,
+      percentage,
       passed,
-      passingScore: quiz.passingScore ?? 70,
+      passingScore,
       results,
     });
-  } catch {
+  } catch (error) {
+    console.error("Error submitting quiz:", error);
+
     return NextResponse.json(
-      { error: "No se ha podido registrar el resultado del quiz" },
+      { error: "No se ha podido procesar el cuestionario." },
       { status: 500 }
     );
   }
