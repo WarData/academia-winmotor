@@ -757,10 +757,39 @@ export function getStepInstructions(processId) {
   return processSteps[processId] || [];
 }
 
-export function resolveKnowledgeResource(contentId) {
-  const item = getContentById(contentId);
-  if (!item) return null;
-  return { type: item.type, url: item.url };
+export function resolveKnowledgeResource(contentOrId) {
+  const item =
+    typeof contentOrId === "string"
+      ? getContentById(contentOrId)
+      : contentOrId;
+
+  if (!item) {
+    return null;
+  }
+
+  const kind = item.type || "help";
+  const href =
+    item.url ||
+    (item.module && sources.gitbook.modules[item.module]
+      ? getGitbookUrl(item.module)
+      : null);
+
+  if (!href) {
+    return null;
+  }
+
+  return {
+    id: item.id,
+    title: item.title,
+    module: item.module,
+    process: item.process ?? null,
+    source: item.source ?? null,
+    type: kind,
+    kind,
+    url: href,
+    href,
+    isExternal: /^https?:\/\//.test(href),
+  };
 }
 export function getFirstFlowItem(module) {
   // Prioriza los flujos definidos explícitamente
