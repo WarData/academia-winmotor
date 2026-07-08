@@ -78,7 +78,23 @@ export default function QuizCard({ moduleSlug }: QuizCardProps) {
   };
 
   const handleAnswer = (questionId: string, index: number) => {
-    setSelectedAnswers((prev) => ({ ...prev, [questionId]: index }));
+    setSelectedAnswers((prev) => ({
+      ...prev,
+      [questionId]: index,
+    }));
+  };
+
+  const goNext = () => {
+    if (!quiz) return;
+    if (currentQuestion < quiz.questions.length - 1) {
+      setCurrentQuestion((prev) => prev + 1);
+    }
+  };
+
+  const goPrev = () => {
+    if (currentQuestion > 0) {
+      setCurrentQuestion((prev) => prev - 1);
+    }
   };
 
   const handleSubmit = async () => {
@@ -114,117 +130,20 @@ export default function QuizCard({ moduleSlug }: QuizCardProps) {
 
   if (!started) {
     return (
-      <div className="quiz-card">
-        <h2>Quiz del módulo</h2>
-        <p>Pon a prueba tus conocimientos.</p>
-        <button onClick={loadQuiz} disabled={loading} className="quiz-btn-start">
-          {loading ? "Cargando..." : "Iniciar Quiz"}
-        </button>
-        {error && <p className="quiz-error">{error}</p>}
-      </div>
-    );
-  }
-
-  if (!quiz) return null;
-
-  if (showResults && result) {
-    return (
-      <div className="quiz-card">
-        <h2>Resultados</h2>
-        <p>
-          Has acertado <strong>{result.score}</strong> de <strong>{result.total}</strong> preguntas.
-        </p>
-        <p>Puntuación: {result.percentage}%</p>
-        <p>{result.passed ? "Aprobado" : "No aprobado"}</p>
-
-        <h3>Revisión:</h3>
-        {quiz.questions.map((q, idx) => {
-          const review = result.results.find((r) => r.questionId === q.id);
-          const userAnswer = selectedAnswers[q.id];
-          const correctIndex =
-            typeof review?.correctAnswer === "number"
-              ? review.correctAnswer
-              : Number(review?.correctAnswer);
-
-          return (
-            <div key={q.id} className="mb-4">
-              <p>
-                <strong>
-                  {idx + 1}. {q.question}
-                </strong>
-              </p>
-              <p>Tu respuesta: {typeof userAnswer === "number" ? q.options[userAnswer] : "Sin responder"}</p>
-              <p>Respuesta correcta: {Number.isFinite(correctIndex) ? q.options[correctIndex] : "No disponible"}</p>
-              <p>{review?.isCorrect ? "Correcta" : "Incorrecta"}</p>
-              <p>Explicación: {review?.explanation || q.explanation || "Sin explicación."}</p>
-            </div>
-          );
-        })}
+      <div className="mx-auto max-w-3xl rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+        <h2 className="text-2xl font-bold text-slate-900">Quiz del módulo</h2>
+        <p className="mt-2 text-slate-600">Pon a prueba tus conocimientos.</p>
 
         <button
-          onClick={() => {
-            setStarted(false);
-            setQuiz(null);
-            setResult(null);
-            setSelectedAnswers({});
-            setCurrentQuestion(0);
-            setShowResults(false);
-            setError(null);
-          }}
-          className="quiz-btn-start"
+          onClick={loadQuiz}
+          disabled={loading}
+          className="mt-6 inline-flex rounded-xl bg-blue-600 px-5 py-3 font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          Reintentar
+          {loading ? "Cargando..." : "Iniciar Quiz"}
         </button>
+
+        {error && <p className="mt-4 text-sm font-medium text-red-600">{error}</p>}
       </div>
     );
   }
 
-  const question = quiz.questions[currentQuestion];
-
-  return (
-    <div className="quiz-card">
-      <div>
-        Pregunta {currentQuestion + 1} de {quiz.questions.length}
-      </div>
-
-      <h3>{question.question}</h3>
-
-      <ul>
-        {question.options.map((opt, idx) => (
-          <li key={idx}>
-            <button
-              className={`quiz-option ${selectedAnswers[question.id] === idx ? "selected" : ""}`}
-              onClick={() => handleAnswer(question.id, idx)}
-            >
-              {opt}
-            </button>
-          </li>
-        ))}
-      </ul>
-
-      <div>
-        {currentQuestion > 0 && (
-          <button onClick={() => setCurrentQuestion((c) => c - 1)}>Anterior</button>
-        )}
-
-        {currentQuestion < quiz.questions.length - 1 ? (
-          <button
-            onClick={() => setCurrentQuestion((c) => c + 1)}
-            disabled={selectedAnswers[question.id] === undefined}
-          >
-            Siguiente
-          </button>
-        ) : (
-          <button
-            onClick={handleSubmit}
-            disabled={Object.keys(selectedAnswers).length < quiz.questions.length}
-          >
-            Enviar Quiz
-          </button>
-        )}
-      </div>
-
-      {error && <p className="quiz-error">{error}</p>}
-    </div>
-  );
-}
