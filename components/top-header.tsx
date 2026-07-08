@@ -7,7 +7,7 @@ export default function TopHeader() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6">
         <Link href="/" className="wm-brand">
           <Image
-  src="/Winmotor-Y-MS.jpg"
+  src="/Winmotor-Y-MS.jpg?v=2"
   alt="Winmotor Y-MS"
   width={340}
   height={80}
