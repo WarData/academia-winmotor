@@ -396,9 +396,10 @@ main .prose a:hover {
 }
 
 @media (max-width: 768px) {
-  .wm-brand-logo {
-    height: 48px;
-  }
+.wm-brand-logo {
+  width: 260px !important;
+  height: auto !important;
+}
 
   .wm-brand-title {
     font-size: 1.05rem;
