@@ -765,6 +765,16 @@ export function getStepInstructions(contentOrId) {
     return item.instructions;
   }
 
+  const processId = item.process;
+
+  if (
+    processId &&
+    typeof supportCases !== "undefined" &&
+    supportCases?.[processId]?.instructions
+  ) {
+    return supportCases[processId].instructions;
+  }
+
   return [];
 }
 
