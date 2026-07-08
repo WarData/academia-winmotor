@@ -91,20 +91,20 @@ textarea::placeholder {
 .wm-brand {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 1rem;
 }
 
 .wm-brand-logo {
-  height: 64px;
-  width: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 10px 24px rgba(225, 6, 0, 0.22));
+  width: 340px !important;
+  height: auto !important;
+  max-width: none !important;
+  flex-shrink: 0;
 }
 
 .wm-brand-text {
   display: flex;
   flex-direction: column;
-  line-height: 1;
+  justify-content: center;
 }
 
 .wm-brand-title {
