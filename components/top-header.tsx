@@ -20,7 +20,7 @@ export default function TopHeader() {
           </div>
         </Link>
 
-        <div className="ml-auto wm-logo-badge">Formación oficial</div>
+        <div className="ml-auto wm-logo-badge">Formación oficial Winmotor Y-MS</div>
       </div>
     </header>
   );
