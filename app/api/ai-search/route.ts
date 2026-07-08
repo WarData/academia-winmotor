@@ -106,6 +106,7 @@ export async function POST(req: NextRequest) {
   }
 
   const apiKey = process.env.OPENAI_API_KEY;
+  console.log("OPENAI_API_KEY loaded:", !!apiKey);
 
   if (!apiKey) {
     const results = keywordFallback(query, moduleFilter);
@@ -147,7 +148,8 @@ ${catalogSummary}`;
     });
 
     if (!openaiRes.ok) {
-      throw new Error(`OpenAI error: ${openaiRes.status}`);
+      const errorText = await openaiRes.text();
+      throw new Error(`OpenAI error ${openaiRes.status}: ${errorText}`);
     }
 
     const data = await openaiRes.json();
@@ -174,7 +176,9 @@ ${catalogSummary}`;
       results: filteredResults,
       aiEnabled: true,
     });
-  } catch {
+  } catch (error) {
+    console.error("AI search error:", error);
+
     const results = keywordFallback(query, moduleFilter);
 
     return NextResponse.json({
