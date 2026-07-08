@@ -535,3 +535,23 @@ main .chip {
   color: #ffffff !important;
   border: 1px solid rgba(225, 6, 0, 0.3) !important;
 }
+main button,
+main a[role="button"],
+main .inline-flex.items-center.justify-center {
+  color: #ffffff;
+}
+
+main .bg-teal-600,
+main .bg-teal-700,
+main .bg-emerald-600,
+main .bg-emerald-700 {
+  background: linear-gradient(180deg, #ff2a1f 0%, #e10600 55%, #b30000 100%) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+main .text-teal-700,
+main .text-teal-600,
+main .text-emerald-700,
+main .text-emerald-600 {
+  color: #e10600 !important;
+}
