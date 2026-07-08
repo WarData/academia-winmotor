@@ -408,3 +408,130 @@ main .prose a:hover {
     font-size: 1.65rem;
   }
 }
+/* Forzado de color corporativo rojo sobre restos verdes/teal */
+main .bg-emerald-50,
+main .bg-emerald-100,
+main .bg-emerald-500,
+main .bg-emerald-600,
+main .bg-emerald-700,
+main .bg-green-50,
+main .bg-green-100,
+main .bg-green-500,
+main .bg-green-600,
+main .bg-green-700,
+main .bg-teal-50,
+main .bg-teal-100,
+main .bg-teal-500,
+main .bg-teal-600,
+main .bg-teal-700,
+main .bg-cyan-50,
+main .bg-cyan-100,
+main .bg-cyan-500,
+main .bg-cyan-600,
+main .bg-cyan-700 {
+  background: linear-gradient(180deg, #ff2a1f 0%, #e10600 55%, #b30000 100%) !important;
+  color: #ffffff !important;
+}
+
+main .text-emerald-500,
+main .text-emerald-600,
+main .text-emerald-700,
+main .text-green-500,
+main .text-green-600,
+main .text-green-700,
+main .text-teal-500,
+main .text-teal-600,
+main .text-teal-700,
+main .text-cyan-500,
+main .text-cyan-600,
+main .text-cyan-700 {
+  color: #e10600 !important;
+}
+
+main .border-emerald-200,
+main .border-emerald-300,
+main .border-emerald-500,
+main .border-green-200,
+main .border-green-300,
+main .border-green-500,
+main .border-teal-200,
+main .border-teal-300,
+main .border-teal-500,
+main .border-cyan-200,
+main .border-cyan-300,
+main .border-cyan-500 {
+  border-color: rgba(225, 6, 0, 0.38) !important;
+}
+
+main .ring-emerald-200,
+main .ring-emerald-300,
+main .ring-green-200,
+main .ring-green-300,
+main .ring-teal-200,
+main .ring-teal-300,
+main .ring-cyan-200,
+main .ring-cyan-300 {
+  --tw-ring-color: rgba(225, 6, 0, 0.28) !important;
+}
+
+main .fill-emerald-500,
+main .fill-green-500,
+main .fill-teal-500,
+main .fill-cyan-500,
+main .stroke-emerald-500,
+main .stroke-green-500,
+main .stroke-teal-500,
+main .stroke-cyan-500 {
+  fill: #e10600 !important;
+  stroke: #e10600 !important;
+}
+
+/* Botones típicos de acciones dentro de módulos */
+main a[href*="youtube"],
+main a[href*="youtu.be"],
+main a[href*="video"],
+main button[class*="emerald"],
+main button[class*="green"],
+main button[class*="teal"],
+main button[class*="cyan"] {
+  background: linear-gradient(180deg, #ff2a1f 0%, #e10600 55%, #b30000 100%) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 10px 24px rgba(225, 6, 0, 0.2) !important;
+}
+
+main a[href*="youtube"]:hover,
+main a[href*="youtu.be"]:hover,
+main a[href*="video"]:hover,
+main button[class*="emerald"]:hover,
+main button[class*="green"]:hover,
+main button[class*="teal"]:hover,
+main button[class*="cyan"]:hover {
+  background: linear-gradient(180deg, #ff4a40 0%, #e10600 60%, #b30000 100%) !important;
+  color: #ffffff !important;
+}
+
+/* Iconos suaves de tarjetas */
+main svg.text-emerald-600,
+main svg.text-green-600,
+main svg.text-teal-600,
+main svg.text-cyan-600,
+main .text-emerald-600 svg,
+main .text-green-600 svg,
+main .text-teal-600 svg,
+main .text-cyan-600 svg {
+  color: #e10600 !important;
+  stroke: #e10600 !important;
+}
+
+/* Etiquetas y chips */
+main .rounded-full.text-emerald-700,
+main .rounded-full.text-green-700,
+main .rounded-full.text-teal-700,
+main .rounded-full.text-cyan-700,
+main .badge,
+main .chip {
+  background: rgba(225, 6, 0, 0.1) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(225, 6, 0, 0.3) !important;
+}
