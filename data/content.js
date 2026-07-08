@@ -4,6 +4,7 @@ function getGitbookUrl(module) {
   const modulePath = sources.gitbook.modules[module] ?? "";
   return new URL(modulePath.replace(/^\//, ""), sources.gitbook.base).toString();
 }
+
 export const learningContent = [];
 
 export function getContentByModule(module) {
