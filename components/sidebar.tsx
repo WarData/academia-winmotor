@@ -20,7 +20,7 @@ const icons = {
   Stock: PackageSearch,
   Taller: Wrench,
   Vehículos: Car,
-    "Administración y Contabilidad": Banknote,
+  "Administración y Contabilidad": Banknote,
   Soporte: Headphones
 };
 
@@ -47,8 +47,8 @@ export function Sidebar() {
                 className={cn(
                   "flex h-11 items-center gap-3 rounded-md px-3 text-sm font-medium transition",
                   isActive
-                    ? "bg-white text-ink shadow-sm"
-                    : "text-white/72 hover:bg-white/10 hover:text-white"
+                    ? "bg-white text-red-700 shadow-sm border border-red-100"
+                    : "text-white/80 hover:bg-white/10 hover:text-white"
                 )}
               >
                 <Icon className="h-5 w-5" aria-hidden="true" />
