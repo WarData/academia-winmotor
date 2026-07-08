@@ -770,7 +770,6 @@ main button:hover,
 main button:focus,
 main button:focus-visible {
   --tw-ring-color: rgba(225, 6, 0, 0.42) !important;
-  outline-color: rgba(225, 6, 0, 0.55) !important;
 }
 
 /* Tarjetas de módulos: borde/ring/outline */
@@ -783,11 +782,7 @@ main a[href]:focus-visible > article,
 main a[href]:hover > section,
 main a[href]:focus > section,
 main a[href]:focus-visible > section {
-  border-color: rgba(225, 6, 0, 0.55) !important;
-  outline-color: rgba(225, 6, 0, 0.55) !important;
-  box-shadow:
-    0 0 0 1px rgba(225, 6, 0, 0.42),
-    0 10px 24px rgba(225, 6, 0, 0.12) !important;
+  border-color: rgba(225, 6, 0, 0.65) !important;
 }
 
 /* Tailwind rings típicos */
