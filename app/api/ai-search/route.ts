@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { learningContent, supportCases } from '@/data/content';
+import { learningContent } from "@/data/content";
 
 // Catalog of all searchable content
 const ALL_CONTENT = [
