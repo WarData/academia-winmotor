@@ -4,7 +4,15 @@ import Link from "next/link";
 export default function TopHeader() {
   return (
     <header className="wm-header">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6">
+      <div className="mx-auto flex max-w-7xl items-center px-4 py-4 md:px-6">
+  <Link href="/" className="wm-brand">
+    ...
+  </Link>
+
+  <div className="ml-auto">
+    <Badge>Formación oficial</Badge>
+  </div>
+</div>
         <Link href="/" className="wm-brand">
           <Image
   src="/Winmotor-Y-MS-v2.jpg"
