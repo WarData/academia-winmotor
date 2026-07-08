@@ -37,19 +37,19 @@ export function ModuleCard({ item }: ModuleCardProps) {
   return (
     <Link
       href={item.href}
-      className="group flex min-h-40 flex-col justify-between rounded-lg border border-line bg-panel p-5 shadow-soft transition hover:-translate-y-0.5 hover:border-accent"
+      className="group flex min-h-40 flex-col justify-between wm-card p-5 transition hover:-translate-y-0.5 hover:border-red-700"
     >
       <div className="flex items-center justify-between">
-        <span className="inline-flex h-12 w-12 items-center justify-center rounded-md bg-teal-50 text-accent">
+        <span className="inline-flex h-12 w-12 items-center justify-center rounded-md bg-[#1c1c1c] text-red-500">
           <Icon className="h-6 w-6" aria-hidden="true" />
         </span>
-        <span className="text-sm font-semibold text-accent transition group-hover:translate-x-1">
+        <span className="text-sm font-semibold text-red-500 transition group-hover:translate-x-1">
           Abrir
         </span>
       </div>
       <div>
-        <h2 className="text-2xl font-semibold text-ink">{item.name}</h2>
-        <p className="mt-2 text-sm leading-6 text-ink/62">
+        <h2 className="text-2xl font-semibold text-white">{item.name}</h2>
+        <p className="mt-2 text-sm leading-6 text-zinc-400">
           {descriptions[item.name as keyof typeof descriptions]}
         </p>
       </div>
