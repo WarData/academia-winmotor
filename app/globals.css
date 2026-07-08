@@ -824,3 +824,35 @@ main .focus\:outline-sky-500:focus,
 main .focus\:outline-emerald-500:focus {
   outline-color: rgba(225, 6, 0, 0.55) !important;
 }
+/* Pega esto al FINAL de app/globals.css */
+
+/* Re-definición de utilidades de tema a Winmotor */
+.border-line {
+  border-color: rgba(255, 255, 255, 0.10) !important;
+}
+
+.bg-panel {
+  background: linear-gradient(180deg, #171717 0%, #111111 100%) !important;
+}
+
+.text-ink {
+  color: #ffffff !important;
+}
+
+.text-ink\/62,
+.text-ink\/66 {
+  color: #cfcfcf !important;
+}
+
+.text-accent {
+  color: #e10600 !important;
+}
+
+.border-accent {
+  border-color: #e10600 !important;
+}
+
+/* Hover de módulos y botones usando accent */
+.hover\:border-accent:hover {
+  border-color: #e10600 !important;
+}
