@@ -127,7 +127,93 @@ export async function GET(_req: NextRequest, { params }: RouteContext) {
     });
 
     if (quiz) {
-          const normalizedDbQuiz = dbQuiz
+      const normalizedQuiz = normalizeQuizForClient({
+        id: quiz.id,
+        title: (quiz as any).title ?? quiz.module?.name ?? "Quiz",
+        passingScore: (quiz as any).passingScore ?? 70,
+        module: quiz.module,
+        questions: quiz.questions.map((q) => ({
+          id: q.id,
+          question: q.question,
+          options: Array.isArray(q.options) ? q.options : [],
+          explanation: q.explanation,
+          order: q.order,
+          correctAnswer: Number(q.correctAnswer),
+        })),
+      });
+
+      return NextResponse.json({ quiz: normalizedQuiz });
+    }
+
+    const fallbackQuiz = buildFallbackQuiz(moduleSlug);
+
+    if (!fallbackQuiz) {
+      return NextResponse.json(
+        { error: "No se ha encontrado el quiz para este módulo." },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ quiz: fallbackQuiz });
+  } catch (error) {
+    console.error("Database unavailable in quiz load, using fallback:", error);
+
+    const fallbackQuiz = buildFallbackQuiz(moduleSlug);
+
+    if (!fallbackQuiz) {
+      return NextResponse.json(
+        { error: "No se ha podido cargar el quiz." },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({ quiz: fallbackQuiz });
+  }
+}
+
+export async function POST(req: NextRequest, { params }: RouteContext) {
+  const { moduleSlug } = await params;
+
+  try {
+    const body = await req.json();
+    const answers = Array.isArray(body?.answers) ? body.answers : [];
+    const userId = body?.userId ?? null;
+    const quizPayload = body?.quiz ?? null;
+
+    let dbQuiz = null;
+
+    try {
+      dbQuiz = await prisma.quiz.findFirst({
+        where: {
+          module: { slug: moduleSlug },
+          isActive: true,
+        },
+        include: {
+          module: {
+            select: {
+              name: true,
+              slug: true,
+            },
+          },
+          questions: {
+            where: { isActive: true },
+            orderBy: { order: "asc" },
+            select: {
+              id: true,
+              question: true,
+              options: true,
+              explanation: true,
+              order: true,
+              correctAnswer: true,
+            },
+          },
+        },
+      });
+    } catch (error) {
+      console.error("Database unavailable in quiz submit, using payload/fallback:", error);
+    }
+
+    const normalizedDbQuiz = dbQuiz
       ? normalizeQuizForClient({
           id: dbQuiz.id,
           title: (dbQuiz as any).title ?? dbQuiz.module?.name ?? "Quiz",
