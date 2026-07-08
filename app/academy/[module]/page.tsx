@@ -7,7 +7,7 @@ const moduleTitles = {
   administracion: "Administración y Contabilidad",
   workshop: "Taller",
   vehicles: "Vehículos",
-  support: "Soporte"
+  support: "Soporte",
 };
 
 type AcademyModulePageProps = {
@@ -18,11 +18,13 @@ type AcademyModulePageProps = {
 
 export function generateStaticParams() {
   return Object.keys(moduleTitles).map((module) => ({
-    module
+    module,
   }));
 }
 
-export default async function AcademyModulePage({ params }: AcademyModulePageProps) {
+export default async function AcademyModulePage({
+  params,
+}: AcademyModulePageProps) {
   const { module } = await params;
   const title = moduleTitles[module as keyof typeof moduleTitles];
 
@@ -30,10 +32,5 @@ export default async function AcademyModulePage({ params }: AcademyModulePagePro
     notFound();
   }
 
-  return (
-    <ModuleContentPage
-      title={title}
-      module={module}
-    />
-  );
+  return <ModuleContentPage title={title} module={module} />;
 }
