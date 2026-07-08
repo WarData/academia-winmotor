@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { FileQuestion, LifeBuoy, PlayCircle, Search, Sparkles } from "lucide-react";
-import { getContentById, learningContent, supportCases } from "@/data/content";
+import { getContentById, learningContent } from "@/data/content";
 import { AiSearchBar } from "@/components/AiSearchBar";
 
 type SupportCase = {
