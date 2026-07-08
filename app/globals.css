@@ -762,3 +762,70 @@ main a:hover > div,
 main a:hover > article {
   border-color: rgba(225, 6, 0, 0.55);
 }
+/* Forzar hover/focus rojo en módulos enlazables */
+main a[href]:hover,
+main a[href]:focus,
+main a[href]:focus-visible,
+main button:hover,
+main button:focus,
+main button:focus-visible {
+  --tw-ring-color: rgba(225, 6, 0, 0.42) !important;
+  outline-color: rgba(225, 6, 0, 0.55) !important;
+}
+
+/* Tarjetas de módulos: borde/ring/outline */
+main a[href]:hover > div,
+main a[href]:focus > div,
+main a[href]:focus-visible > div,
+main a[href]:hover > article,
+main a[href]:focus > article,
+main a[href]:focus-visible > article,
+main a[href]:hover > section,
+main a[href]:focus > section,
+main a[href]:focus-visible > section {
+  border-color: rgba(225, 6, 0, 0.55) !important;
+  outline-color: rgba(225, 6, 0, 0.55) !important;
+  box-shadow:
+    0 0 0 1px rgba(225, 6, 0, 0.42),
+    0 10px 24px rgba(225, 6, 0, 0.12) !important;
+}
+
+/* Tailwind rings típicos */
+main .ring-teal-500,
+main .ring-cyan-500,
+main .ring-sky-500,
+main .ring-emerald-500,
+main .focus\:ring-teal-500:focus,
+main .focus\:ring-cyan-500:focus,
+main .focus\:ring-sky-500:focus,
+main .focus\:ring-emerald-500:focus,
+main .hover\:ring-teal-500:hover,
+main .hover\:ring-cyan-500:hover,
+main .hover\:ring-sky-500:hover,
+main .hover\:ring-emerald-500:hover {
+  --tw-ring-color: rgba(225, 6, 0, 0.42) !important;
+}
+
+/* Borders hover típicos */
+main .hover\:border-teal-500:hover,
+main .hover\:border-cyan-500:hover,
+main .hover\:border-sky-500:hover,
+main .hover\:border-emerald-500:hover,
+main .focus\:border-teal-500:focus,
+main .focus\:border-cyan-500:focus,
+main .focus\:border-sky-500:focus,
+main .focus\:border-emerald-500:focus {
+  border-color: rgba(225, 6, 0, 0.55) !important;
+}
+
+/* Si usan outline utility */
+main .hover\:outline-teal-500:hover,
+main .hover\:outline-cyan-500:hover,
+main .hover\:outline-sky-500:hover,
+main .hover\:outline-emerald-500:hover,
+main .focus\:outline-teal-500:focus,
+main .focus\:outline-cyan-500:focus,
+main .focus\:outline-sky-500:focus,
+main .focus\:outline-emerald-500:focus {
+  outline-color: rgba(225, 6, 0, 0.55) !important;
+}
