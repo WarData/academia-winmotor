@@ -555,3 +555,180 @@ main .text-emerald-700,
 main .text-emerald-600 {
   color: #e10600 !important;
 }
+/* Corrección global de módulos y dashboard */
+main,
+main > div,
+main section,
+main article {
+  color: #ffffff;
+}
+
+main {
+  background: linear-gradient(180deg, #0b0b0b 0%, #101010 100%) !important;
+}
+
+/* Fondos demasiado claros */
+main .bg-white,
+main .bg-neutral-50,
+main .bg-neutral-100,
+main .bg-zinc-50,
+main .bg-zinc-100,
+main .bg-stone-50,
+main .bg-stone-100,
+main .bg-slate-50,
+main .bg-slate-100,
+main .bg-gray-50,
+main .bg-gray-100 {
+  background: linear-gradient(180deg, #151515 0%, #101010 100%) !important;
+  color: #ffffff !important;
+}
+
+/* Tarjetas y paneles */
+main .shadow-sm,
+main .shadow,
+main .rounded-xl,
+main .rounded-2xl,
+main .rounded-3xl {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+main .card,
+main .panel,
+main [class*="card"],
+main [class*="panel"] {
+  background: linear-gradient(180deg, #171717 0%, #121212 100%) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Títulos, subtítulos y textos apagados */
+main h1,
+main h2,
+main h3,
+main h4,
+main h5,
+main h6,
+main .font-bold,
+main .font-semibold {
+  color: #ffffff !important;
+}
+
+main p,
+main li,
+main span,
+main label,
+main small {
+  color: #d2d2d2 !important;
+}
+
+main .text-white\/80,
+main .text-white\/70,
+main .text-white\/60,
+main .text-slate-400,
+main .text-slate-500,
+main .text-slate-600,
+main .text-gray-400,
+main .text-gray-500,
+main .text-gray-600,
+main .text-zinc-400,
+main .text-zinc-500,
+main .text-zinc-600,
+main .text-neutral-400,
+main .text-neutral-500,
+main .text-neutral-600,
+main .text-stone-400,
+main .text-stone-500,
+main .text-stone-600 {
+  color: #cfcfcf !important;
+}
+
+/* Acabado rojo para labels tipo PANEL o RUTA DE APRENDIZAJE */
+main .text-teal-500,
+main .text-teal-600,
+main .text-teal-700,
+main .text-emerald-500,
+main .text-emerald-600,
+main .text-emerald-700,
+main .text-cyan-500,
+main .text-cyan-600,
+main .text-cyan-700,
+main .text-sky-500,
+main .text-sky-600,
+main .text-sky-700 {
+  color: #e10600 !important;
+}
+
+/* Bordes verdes/azules heredados */
+main .border-teal-200,
+main .border-teal-300,
+main .border-teal-500,
+main .border-emerald-200,
+main .border-emerald-300,
+main .border-emerald-500,
+main .border-cyan-200,
+main .border-cyan-300,
+main .border-cyan-500,
+main .border-sky-200,
+main .border-sky-300,
+main .border-sky-500 {
+  border-color: rgba(225, 6, 0, 0.35) !important;
+}
+
+/* Fondos de acento que todavía salen verdosos */
+main .bg-teal-50,
+main .bg-teal-100,
+main .bg-emerald-50,
+main .bg-emerald-100,
+main .bg-cyan-50,
+main .bg-cyan-100,
+main .bg-sky-50,
+main .bg-sky-100 {
+  background: rgba(225, 6, 0, 0.08) !important;
+  color: #ffffff !important;
+}
+
+/* Botón hacer quiz y similares */
+main button,
+main a[role="button"],
+main .inline-flex,
+main a[class*="inline-flex"] {
+  border-radius: 14px;
+}
+
+main button[class*="teal"],
+main button[class*="emerald"],
+main button[class*="cyan"],
+main button[class*="sky"],
+main a[class*="teal"],
+main a[class*="emerald"],
+main a[class*="cyan"],
+main a[class*="sky"],
+main a[href*="quiz"] {
+  background: linear-gradient(180deg, #ff2a1f 0%, #e10600 55%, #b30000 100%) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 10px 24px rgba(225, 6, 0, 0.18) !important;
+}
+
+/* Botones con fondo claro y texto verde */
+main .bg-white.text-teal-700,
+main .bg-white.text-emerald-700,
+main .bg-white.text-cyan-700,
+main .bg-white.text-sky-700,
+main .border-teal-600,
+main .border-emerald-600,
+main .border-cyan-600,
+main .border-sky-600 {
+  background: rgba(255, 255, 255, 0.04) !important;
+  color: #ffffff !important;
+  border-color: rgba(225, 6, 0, 0.35) !important;
+}
+
+/* Inputs o chips deslavados */
+main .text-black,
+main .text-slate-900,
+main .text-gray-900,
+main .text-zinc-900,
+main .text-neutral-900 {
+  color: #ffffff !important;
+}
