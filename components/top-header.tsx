@@ -20,9 +20,7 @@ export default function TopHeader() {
           </div>
         </Link>
 
-        <div className="wm-logo-badge">
-          Formación oficial
-        </div>
+        <div className="wm-logo-badge">Formación oficial</div>
       </div>
     </header>
   );
