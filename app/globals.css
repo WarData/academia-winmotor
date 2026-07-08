@@ -732,3 +732,33 @@ main .text-zinc-900,
 main .text-neutral-900 {
   color: #ffffff !important;
 }
+/* Hover rojo en tarjetas de módulos */
+main .module-card:hover,
+main .wm-card:hover,
+main [class*="module"]:hover,
+main [class*="card"]:hover,
+main a:hover .wm-card,
+main a:hover [class*="card"] {
+  border-color: rgba(225, 6, 0, 0.55) !important;
+  box-shadow: 0 0 0 1px rgba(225, 6, 0, 0.38), 0 14px 32px rgba(225, 6, 0, 0.12) !important;
+}
+
+/* Si el hover viene por ring u outline de Tailwind */
+main .hover\:border-teal-500:hover,
+main .hover\:border-cyan-500:hover,
+main .hover\:border-sky-500:hover,
+main .hover\:border-emerald-500:hover,
+main .hover\:ring-teal-500:hover,
+main .hover\:ring-cyan-500:hover,
+main .hover\:ring-sky-500:hover,
+main .hover\:ring-emerald-500:hover {
+  border-color: rgba(225, 6, 0, 0.55) !important;
+  --tw-ring-color: rgba(225, 6, 0, 0.32) !important;
+}
+
+/* Si la tarjeta es un enlace completo */
+main a:hover,
+main a:hover > div,
+main a:hover > article {
+  border-color: rgba(225, 6, 0, 0.55);
+}
