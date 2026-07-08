@@ -761,10 +761,11 @@ export function getStepInstructions(contentOrId) {
 
   if (!item) return [];
 
-  const processId = item.process;
-  if (!processId || !supportCases[processId]) return [];
+  if (Array.isArray(item.instructions)) {
+    return item.instructions;
+  }
 
-  return supportCases[processId].instructions || [];
+  return [];
 }
 
 export function resolveKnowledgeResource(contentOrId) {
