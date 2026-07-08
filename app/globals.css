@@ -23,3 +23,274 @@ body {
 a {
   text-decoration: none;
 }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap');
+
+:root {
+  --wm-bg: #050505;
+  --wm-bg-soft: #101010;
+  --wm-surface: #151515;
+  --wm-surface-2: #1c1c1c;
+  --wm-border: #2c2c2c;
+  --wm-text: #ffffff;
+  --wm-text-soft: #d7d7d7;
+  --wm-text-muted: #9c9c9c;
+  --wm-red: #e10600;
+  --wm-red-hover: #ff2b21;
+  --wm-red-dark: #b30000;
+  --wm-white: #ffffff;
+  --wm-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+html,
+body {
+  background: linear-gradient(180deg, #050505 0%, #0c0c0c 100%);
+  color: var(--wm-text);
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+main {
+  color: var(--wm-text);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--wm-white);
+}
+
+button {
+  font-family: "Inter", sans-serif;
+}
+
+input,
+select,
+textarea {
+  background: var(--wm-surface);
+  color: var(--wm-text);
+  border: 1px solid var(--wm-border);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--wm-text-muted);
+}
+
+.wm-shell {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top right, rgba(225, 6, 0, 0.16), transparent 22%),
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.05), transparent 18%),
+    linear-gradient(180deg, #050505 0%, #0c0c0c 100%);
+}
+
+.wm-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(5, 5, 5, 0.86);
+  backdrop-filter: blur(12px);
+}
+
+.wm-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.wm-brand-logo {
+  height: 46px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 16px rgba(225, 6, 0, 0.18));
+}
+
+.wm-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.wm-brand-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--wm-white);
+  text-transform: uppercase;
+}
+
+.wm-brand-academy {
+  margin-top: 2px;
+  font-family: "Caveat", cursive;
+  font-size: 1.65rem;
+  line-height: 1;
+  color: var(--wm-red);
+}
+
+.wm-card,
+.quiz-card,
+.module-card,
+.lesson-card {
+  background: linear-gradient(180deg, #171717 0%, #121212 100%);
+  border: 1px solid var(--wm-border);
+  border-radius: 20px;
+  box-shadow: var(--wm-shadow);
+  color: var(--wm-text);
+}
+
+.wm-panel {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
+}
+
+.wm-button-primary {
+  background: linear-gradient(180deg, var(--wm-red) 0%, var(--wm-red-dark) 100%);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  transition: 0.2s ease;
+}
+
+.wm-button-primary:hover {
+  background: linear-gradient(180deg, var(--wm-red-hover) 0%, var(--wm-red) 100%);
+  transform: translateY(-1px);
+}
+
+.wm-button-secondary {
+  background: transparent;
+  color: var(--wm-white);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  transition: 0.2s ease;
+}
+
+.wm-button-secondary:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.wm-accent {
+  color: var(--wm-red);
+}
+
+.wm-muted {
+  color: var(--wm-text-muted);
+}
+
+.wm-page-title {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--wm-white);
+}
+
+.wm-subtitle {
+  color: var(--wm-text-soft);
+}
+
+.wm-option {
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: #111111;
+  color: var(--wm-text);
+  padding: 16px 18px;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.wm-option:hover {
+  border-color: rgba(225, 6, 0, 0.45);
+  background: #171717;
+}
+
+.wm-option.is-selected {
+  border-color: rgba(225, 6, 0, 0.9);
+  background: rgba(225, 6, 0, 0.14);
+  box-shadow: 0 0 0 2px rgba(225, 6, 0, 0.16);
+  color: #fff;
+}
+
+.wm-progress {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.wm-progress-bar {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ff2a1f 0%, #e10600 100%);
+}
+
+.wm-section {
+  padding: 24px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.02) 100%);
+  border: 1px solid rgba(255,255,255,0.07);
+}
+
+.wm-logo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 999px;
+  background: rgba(225, 6, 0, 0.10);
+  border: 1px solid rgba(225, 6, 0, 0.30);
+  color: #fff;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.wm-sidebar,
+aside {
+  background: linear-gradient(180deg, #0e0e0e 0%, #121212 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+nav a,
+aside a {
+  border-radius: 12px;
+  transition: 0.2s ease;
+}
+
+nav a:hover,
+aside a:hover {
+  background: rgba(225, 6, 0, 0.10);
+  color: #fff;
+}
+
+nav a[aria-current="page"],
+aside a[aria-current="page"] {
+  background: rgba(225, 6, 0, 0.18);
+  color: #fff;
+  border: 1px solid rgba(225, 6, 0, 0.35);
+}
+
+@media (max-width: 768px) {
+  .wm-brand-logo {
+    height: 38px;
+  }
+
+  .wm-brand-title {
+    font-size: 0.95rem;
+  }
+
+  .wm-brand-academy {
+    font-size: 1.4rem;
+  }
+}
