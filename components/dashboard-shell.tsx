@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { Sidebar } from "@/components/sidebar";
-import { TopHeader } from "@/components/top-header";
+import TopHeader from "@/components/top-header";
 
 type DashboardShellProps = {
   children: ReactNode;
