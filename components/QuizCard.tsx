@@ -132,19 +132,20 @@ export default function QuizCard({ moduleSlug }: QuizCardProps) {
 
   if (!started) {
     return (
-      <div className="mx-auto max-w-3xl rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-        <h2 className="text-2xl font-bold text-slate-900">Quiz del módulo</h2>
-        <p className="mt-2 text-slate-600">Pon a prueba tus conocimientos.</p>
+      <div className="wm-card mx-auto max-w-3xl p-8">
+        <div className="wm-logo-badge mb-4">Evaluación del módulo</div>
+        <h2 className="wm-page-title text-3xl">Quiz del módulo</h2>
+        <p className="wm-subtitle mt-2">Pon a prueba tus conocimientos con la identidad Winmotor Academy.</p>
 
         <button
           onClick={loadQuiz}
           disabled={loading}
-          className="mt-6 inline-flex rounded-xl bg-blue-600 px-5 py-3 font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+          className="wm-button-primary mt-6 inline-flex px-5 py-3 font-semibold disabled:cursor-not-allowed disabled:opacity-60"
         >
           {loading ? "Cargando..." : "Iniciar Quiz"}
         </button>
 
-        {error && <p className="mt-4 text-sm font-medium text-red-600">{error}</p>}
+        {error && <p className="mt-4 text-sm font-medium text-red-400">{error}</p>}
       </div>
     );
   }
@@ -153,13 +154,15 @@ export default function QuizCard({ moduleSlug }: QuizCardProps) {
 
   if (showResults && result) {
     return (
-      <div className="mx-auto max-w-3xl rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-        <h2 className="text-2xl font-bold text-slate-900">Resultados</h2>
-        <p className="mt-3 text-slate-700">
-          Has acertado <strong>{result.score}</strong> de <strong>{result.total}</strong> preguntas.
+      <div className="wm-card mx-auto max-w-3xl p-8">
+        <div className="wm-logo-badge mb-4">Resultado final</div>
+        <h2 className="wm-page-title text-3xl">Resultados</h2>
+        <p className="wm-subtitle mt-3">
+          Has acertado <strong className="text-white">{result.score}</strong> de{" "}
+          <strong className="text-white">{result.total}</strong> preguntas.
         </p>
-        <p className="mt-1 text-slate-700">Puntuación: {result.percentage}%</p>
-        <p className={`mt-2 font-semibold ${result.passed ? "text-green-600" : "text-red-600"}`}>
+        <p className="wm-subtitle mt-1">Puntuación: {result.percentage}%</p>
+        <p className={`mt-2 font-semibold ${result.passed ? "text-green-400" : "text-red-400"}`}>
           {result.passed ? "Aprobado" : "No aprobado"}
         </p>
 
@@ -173,20 +176,20 @@ export default function QuizCard({ moduleSlug }: QuizCardProps) {
                 : Number(review?.correctAnswer);
 
             return (
-              <div key={q.id} className="rounded-xl border border-slate-200 bg-slate-50 p-5">
-                <p className="font-semibold text-slate-900">
+              <div key={q.id} className="wm-section">
+                <p className="text-base font-semibold text-white">
                   {idx + 1}. {q.question}
                 </p>
-                <p className="mt-2 text-sm text-slate-700">
+                <p className="mt-2 text-sm text-zinc-300">
                   Tu respuesta: {typeof userAnswer === "number" ? q.options[userAnswer] : "Sin responder"}
                 </p>
-                <p className="mt-1 text-sm text-slate-700">
+                <p className="mt-1 text-sm text-zinc-300">
                   Respuesta correcta: {Number.isFinite(correctIndex) ? q.options[correctIndex] : "No disponible"}
                 </p>
-                <p className={`mt-2 text-sm font-semibold ${review?.isCorrect ? "text-green-600" : "text-red-600"}`}>
+                <p className={`mt-2 text-sm font-semibold ${review?.isCorrect ? "text-green-400" : "text-red-400"}`}>
                   {review?.isCorrect ? "Correcta" : "Incorrecta"}
                 </p>
-                <p className="mt-2 text-sm text-slate-600">
+                <p className="mt-2 text-sm text-zinc-400">
                   Explicación: {review?.explanation || q.explanation || "Sin explicación."}
                 </p>
               </div>
@@ -204,7 +207,7 @@ export default function QuizCard({ moduleSlug }: QuizCardProps) {
             setShowResults(false);
             setError(null);
           }}
-          className="mt-8 inline-flex rounded-xl bg-slate-900 px-5 py-3 font-medium text-white transition hover:bg-slate-700"
+          className="wm-button-primary mt-8 inline-flex px-5 py-3 font-semibold"
         >
           Reintentar
         </button>
@@ -218,30 +221,30 @@ export default function QuizCard({ moduleSlug }: QuizCardProps) {
   const canGoNext = selectedIndex !== undefined;
 
   return (
-    <div className="mx-auto max-w-3xl rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+    <div className="wm-card mx-auto max-w-3xl p-8">
       <div className="mb-6 flex items-center justify-between gap-4">
         <div>
-          <p className="text-sm font-medium uppercase tracking-wide text-blue-600">
+          <p className="wm-accent text-sm font-semibold uppercase tracking-[0.18em]">
             {quiz.title || "Quiz"}
           </p>
-          <h2 className="mt-1 text-2xl font-bold text-slate-900">
+          <h2 className="wm-page-title mt-1 text-3xl">
             Pregunta {currentQuestion + 1} de {quiz.questions.length}
           </h2>
         </div>
-        <div className="text-sm text-slate-500">
+        <div className="text-sm font-medium text-zinc-400">
           {Math.round(((currentQuestion + 1) / quiz.questions.length) * 100)}%
         </div>
       </div>
 
-      <div className="mb-8 h-2 overflow-hidden rounded-full bg-slate-100">
+      <div className="wm-progress mb-8">
         <div
-          className="h-full rounded-full bg-blue-600 transition-all duration-300"
+          className="wm-progress-bar transition-all duration-300"
           style={{ width: `${((currentQuestion + 1) / quiz.questions.length) * 100}%` }}
         />
       </div>
 
-      <div className="rounded-2xl bg-slate-50 p-6">
-        <h3 className="text-xl font-semibold leading-relaxed text-slate-900">
+      <div className="wm-section">
+        <h3 className="text-xl font-semibold leading-relaxed text-white">
           {question.question}
         </h3>
 
@@ -254,11 +257,7 @@ export default function QuizCard({ moduleSlug }: QuizCardProps) {
                 key={`${question.id}-${idx}`}
                 type="button"
                 onClick={() => handleAnswer(question.id, idx)}
-                className={`w-full rounded-xl border px-4 py-4 text-left transition ${
-                  isSelected
-                    ? "border-blue-600 bg-blue-50 text-blue-900 ring-2 ring-blue-200"
-                    : "border-slate-200 bg-white text-slate-800 hover:border-blue-300 hover:bg-slate-50"
-                }`}
+                className={`wm-option ${isSelected ? "is-selected" : ""}`}
               >
                 <span className="block text-sm font-medium">
                   {String.fromCharCode(65 + idx)}. {opt}
@@ -274,7 +273,7 @@ export default function QuizCard({ moduleSlug }: QuizCardProps) {
           type="button"
           onClick={goPrev}
           disabled={currentQuestion === 0}
-          className="inline-flex rounded-xl border border-slate-300 px-5 py-3 font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+          className="wm-button-secondary inline-flex px-5 py-3 font-semibold disabled:cursor-not-allowed disabled:opacity-50"
         >
           Anterior
         </button>
@@ -284,7 +283,7 @@ export default function QuizCard({ moduleSlug }: QuizCardProps) {
             type="button"
             onClick={goNext}
             disabled={!canGoNext}
-            className="inline-flex rounded-xl bg-blue-600 px-5 py-3 font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="wm-button-primary inline-flex px-5 py-3 font-semibold disabled:cursor-not-allowed disabled:opacity-50"
           >
             Siguiente
           </button>
@@ -293,14 +292,14 @@ export default function QuizCard({ moduleSlug }: QuizCardProps) {
             type="button"
             onClick={handleSubmit}
             disabled={Object.keys(selectedAnswers).length < quiz.questions.length}
-            className="inline-flex rounded-xl bg-green-600 px-5 py-3 font-medium text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="wm-button-primary inline-flex px-5 py-3 font-semibold disabled:cursor-not-allowed disabled:opacity-50"
           >
             Enviar Quiz
           </button>
         )}
       </div>
 
-      {error && <p className="mt-4 text-sm font-medium text-red-600">{error}</p>}
+      {error && <p className="mt-4 text-sm font-medium text-red-400">{error}</p>}
     </div>
   );
 }
