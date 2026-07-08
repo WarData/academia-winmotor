@@ -216,4 +216,4 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
     console.error("Error submitting quiz:", error);
 
     return NextResponse.json(
-      { error: "No se ha podido procesar el 
+      { error: 'No se ha podido procesar el cuestionario.' }
