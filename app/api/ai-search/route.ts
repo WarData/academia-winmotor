@@ -105,8 +105,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Query requerida" }, { status: 400 });
   }
 
-  const apiKey = process.env.OPENAI_API_KEY;
-  console.log("OPENAI_API_KEY loaded:", !!apiKey);
+  const apiKey = process.env.OPENROUTER_API_KEY;
+  console.log("OPENROUTER_API_KEY loaded:", !!apiKey);
 
   if (!apiKey) {
     const results = keywordFallback(query, moduleFilter);
@@ -130,29 +130,34 @@ Catálogo de recursos disponibles:
 ${catalogSummary}`;
 
   try {
-    const openaiRes = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: "gpt-4o-mini",
-        temperature: 0.2,
-        max_tokens: 600,
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: query },
-        ],
-      }),
-    });
+    const openrouterRes = await fetch(
+      `${process.env.OPENROUTER_BASE_URL || "https://openrouter.ai/api/v1"}/chat/completions`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
+          "HTTP-Referer": process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+          "X-Title": "academia-winmotor",
+        },
+        body: JSON.stringify({
+          model: process.env.OPENROUTER_MODEL || "openai/gpt-4o-mini",
+          temperature: 0.2,
+          max_tokens: 600,
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: query },
+          ],
+        }),
+      }
+    );
 
-    if (!openaiRes.ok) {
-      const errorText = await openaiRes.text();
-      throw new Error(`OpenAI error ${openaiRes.status}: ${errorText}`);
+    if (!openrouterRes.ok) {
+      const errorText = await openrouterRes.text();
+      throw new Error(`OpenRouter error ${openrouterRes.status}: ${errorText}`);
     }
 
-    const data = await openaiRes.json();
+    const data = await openrouterRes.json();
     const raw = data.choices?.[0]?.message?.content ?? "{}";
 
     let parsed: { answer: string; indices: number[] };
