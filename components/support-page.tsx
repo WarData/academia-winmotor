@@ -127,27 +127,27 @@ export function SupportPage() {
         </Link>
       </div>
 
-      <div className="flex w-fit items-center gap-1 rounded-lg border border-zinc-200 bg-white p-1">
-        <button
-          onClick={() => setMode("ai")}
-          className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold transition-colors ${
-            mode === "ai" ? "bg-red-700 text-white" : "text-zinc-600 hover:text-zinc-900"
-          }`}
-        >
-          <Sparkles className="h-3.5 w-3.5" />
-          Búsqueda con IA
-        </button>
+      <div className="wm-search-toggle" role="group" aria-label="Modo de búsqueda">
+  <button
+    type="button"
+    onClick={() => setMode("ai")}
+    aria-pressed={mode === "ai"}
+    className={mode === "ai" ? "active" : ""}
+  >
+    <Sparkles className="h-4 w-4" />
+    Búsqueda con IA
+  </button>
 
-        <button
-          onClick={() => setMode("classic")}
-          className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold transition-colors ${
-            mode === "classic" ? "bg-red-700 text-white" : "text-zinc-600 hover:text-zinc-900"
-          }`}
-        >
-          <Search className="h-3.5 w-3.5" />
-          Búsqueda clásica
-        </button>
-      </div>
+  <button
+    type="button"
+    onClick={() => setMode("classic")}
+    aria-pressed={mode === "classic"}
+    className={mode === "classic" ? "active" : ""}
+  >
+    <Search className="h-4 w-4" />
+    Búsqueda clásica
+  </button>
+</div>
 
       {mode === "ai" && (
         <AiSearchBar placeholder="Pregunta en lenguaje natural: cómo creo una factura, dónde está el stock mínimo..." />
