@@ -60,8 +60,8 @@ const supportCases: SearchableItem[] = [
     process: "help_center",
     type: "help",
     source: "support",
-    url: null,
-    keywords: ["ayuda", "soporte", "incidencias"],
+    url: "https://winmotor.gitbook.io/winmotor-automocion",
+    keywords: ["ayuda", "soporte", "incidencias", "gitbook"],
   },
 ];
 
@@ -98,6 +98,67 @@ function keywordFallback(query: string, moduleFilter?: string) {
   return results;
 }
 
+async function askGitBook(question: string, goal?: string) {
+  try {
+    const basePage =
+      "https://winmotor.gitbook.io/winmotor-automocion/faq/general.md";
+
+    const url = `${basePage}?ask=${encodeURIComponent(question)}${
+      goal ? `&goal=${encodeURIComponent(goal)}` : ""
+    }`;
+
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        Accept: "application/json,text/plain,*/*",
+      },
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      throw new Error(`GitBook error ${res.status}: ${errorText}`);
+    }
+
+    const text = await res.text();
+    return text;
+  } catch (error) {
+    console.error("GitBook ask error:", error);
+    return null;
+  }
+}
+
+function rankResults(query: string, moduleFilter?: string, gitbookContext?: string | null) {
+  const q = query.toLowerCase();
+  const ctx = (gitbookContext ?? "").toLowerCase();
+
+  const scored = ALL_CONTENT.map((item) => {
+    const text = `${item.title} ${item.process} ${item.keywords.join(" ")}`.toLowerCase();
+
+    let score = 0;
+
+    for (const term of q.split(/\s+/).filter(Boolean)) {
+      if (text.includes(term)) score += 3;
+      if (ctx.includes(term) && text.includes(term)) score += 2;
+    }
+
+    if (moduleFilter && item.module === moduleFilter) score += 4;
+    if (ctx.includes(item.process.toLowerCase())) score += 4;
+    if (ctx.includes(item.title.toLowerCase())) score += 5;
+
+    return { item, score };
+  })
+    .filter(({ item, score }) => {
+      const matchesModule = moduleFilter ? item.module === moduleFilter : true;
+      return matchesModule && score > 0;
+    })
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 8)
+    .map(({ item }) => item);
+
+  return scored;
+}
+
 export async function POST(req: NextRequest) {
   const { query, module: moduleFilter } = await req.json();
 
@@ -108,26 +169,42 @@ export async function POST(req: NextRequest) {
   const apiKey = process.env.OPENROUTER_API_KEY;
   console.log("OPENROUTER_API_KEY loaded:", !!apiKey);
 
+  const gitbookContext = await askGitBook(
+    query,
+    "Responder con pasos concretos en Winmotor V7 y recomendar el recurso más útil"
+  );
+
   if (!apiKey) {
-    const results = keywordFallback(query, moduleFilter);
+    const results = rankResults(query, moduleFilter, gitbookContext);
+
     return NextResponse.json({
-      answer: "Resultados basados en palabras clave (sin IA configurada).",
-      results,
+      answer:
+        gitbookContext ||
+        "Resultados basados en palabras clave y documentación disponible.",
+      results: results.length > 0 ? results : keywordFallback(query, moduleFilter),
       aiEnabled: false,
+      usedGitBook: !!gitbookContext,
     });
   }
 
   const catalogSummary = buildCatalogSummary();
 
   const systemPrompt = `Eres el asistente de Winmotor Academy, especialista en el ERP Winmotor V7.
-Tienes acceso a un catálogo de recursos de aprendizaje (vídeos de YouTube y artículos de ayuda de GitBook).
-Cuando el usuario hace una pregunta, debes:
-1. Dar una respuesta concisa y útil en español sobre cómo resolver su consulta en Winmotor.
-2. Indicar los índices del catálogo (campo "indices") de los recursos más relevantes (máximo 6), ordenados por relevancia.
+Debes responder SIEMPRE en español, de forma práctica, específica y útil.
+Tu prioridad es:
+1. Usar la información documental proporcionada de GitBook si existe.
+2. Recomendar recursos reales del catálogo local (vídeos y ayuda).
+3. No inventar rutas, menús ni procesos que no aparezcan en el contexto.
+4. Si la documentación no es suficiente, dilo de forma honesta.
+
 Responde SIEMPRE en JSON válido con este formato exacto:
 {"answer":"<respuesta explicativa>","indices":[0,3,7]}
-Catálogo de recursos disponibles:
-${catalogSummary}`;
+
+Catálogo local de recursos:
+${catalogSummary}
+
+Contexto documental de GitBook:
+${gitbookContext || "Sin contexto documental adicional."}`;
 
   try {
     const openrouterRes = await fetch(
@@ -143,7 +220,7 @@ ${catalogSummary}`;
         body: JSON.stringify({
           model: process.env.OPENROUTER_MODEL || "openai/gpt-4o-mini",
           temperature: 0.2,
-          max_tokens: 600,
+          max_tokens: 700,
           messages: [
             { role: "system", content: systemPrompt },
             { role: "user", content: query },
@@ -168,28 +245,41 @@ ${catalogSummary}`;
       parsed = { answer: raw, indices: [] };
     }
 
-    const results = (parsed.indices ?? [])
+    const indexedResults = (parsed.indices ?? [])
       .filter((i: number) => i >= 0 && i < ALL_CONTENT.length)
       .map((i: number) => ALL_CONTENT[i]);
 
+    const rankedResults = rankResults(query, moduleFilter, gitbookContext);
+
+    const mergedResults = [
+      ...indexedResults,
+      ...rankedResults.filter(
+        (r) => !indexedResults.some((existing) => existing.id === r.id)
+      ),
+    ];
+
     const filteredResults = moduleFilter
-      ? results.filter((r) => r.module === moduleFilter)
-      : results;
+      ? mergedResults.filter((r) => r.module === moduleFilter)
+      : mergedResults;
 
     return NextResponse.json({
       answer: parsed.answer,
-      results: filteredResults,
+      results: filteredResults.slice(0, 8),
       aiEnabled: true,
+      usedGitBook: !!gitbookContext,
     });
   } catch (error) {
     console.error("AI search error:", error);
 
-    const results = keywordFallback(query, moduleFilter);
+    const results = rankResults(query, moduleFilter, gitbookContext);
 
     return NextResponse.json({
-      answer: "No se pudo conectar con la IA. Resultados por palabras clave.",
-      results,
+      answer:
+        gitbookContext ||
+        "No se pudo conectar con la IA. Resultados por palabras clave.",
+      results: results.length > 0 ? results : keywordFallback(query, moduleFilter),
       aiEnabled: false,
+      usedGitBook: !!gitbookContext,
     });
   }
 }
