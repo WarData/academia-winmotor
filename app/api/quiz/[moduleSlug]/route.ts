@@ -117,7 +117,7 @@ async function getDbQuiz(moduleSlug: string) {
           options: true,
           explanation: true,
           order: true,
-          correctAnswer: true,
+          correctIndex: true,
         },
       },
     },
@@ -136,7 +136,7 @@ async function getDbQuiz(moduleSlug: string) {
       options: Array.isArray(q.options) ? (q.options as string[]) : [],
       explanation: q.explanation,
       order: q.order,
-      correctAnswer: Number(q.correctAnswer),
+      correctAnswer: Number((q as any).correctIndex),
     })),
   });
 }
