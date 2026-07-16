@@ -95,53 +95,60 @@ function buildFallbackQuiz(moduleSlug: string) {
   });
 }
 
+async function getDbQuiz(moduleSlug: string) {
+  const quiz = await prisma.quiz.findFirst({
+    where: {
+      module: { slug: moduleSlug },
+    },
+    include: {
+      module: {
+        select: {
+          name: true,
+          slug: true,
+        },
+      },
+      questions: {
+        orderBy: {
+          order: "asc",
+        },
+        select: {
+          id: true,
+          question: true,
+          options: true,
+          explanation: true,
+          order: true,
+          correctAnswer: true,
+        },
+      },
+    },
+  });
+
+  if (!quiz) return null;
+
+  return normalizeQuizForClient({
+    id: quiz.id,
+    title: (quiz as any).title ?? quiz.module?.name ?? "Quiz",
+    passingScore: (quiz as any).passingScore ?? 70,
+    module: quiz.module,
+    questions: quiz.questions.map((q) => ({
+      id: q.id,
+      question: q.question,
+      options: Array.isArray(q.options) ? (q.options as string[]) : [],
+      explanation: q.explanation,
+      order: q.order,
+      correctAnswer: Number(q.correctAnswer),
+    })),
+  });
+}
+
 export async function GET(_req: NextRequest, { params }: RouteContext) {
   const { moduleSlug } = await params;
 
   try {
-    const quiz = await prisma.quiz.findFirst({
-  where: {
-    module: { slug: moduleSlug },
-  },
-  include: {
-    module: {
-      select: {
-        name: true,
-        slug: true,
-      },
-    },
-    questions: {
-      orderBy: {
-        order: "asc",
-      },
-      select: {
-        id: true,
-        question: true,
-        options: true,
-        explanation: true,
-        order: true,
-        correctAnswer: true,
-      },
-    },
-  },
-});
-    if (quiz) {
-      const normalizedQuiz = normalizeQuizForClient({
-        id: quiz.id,
-        title: (quiz as any).title ?? quiz.module?.name ?? "Quiz",
-        passingScore: (quiz as any).passingScore ?? 70,
-        module: quiz.module,
-        questions: quiz.questions.map((q) => ({
-          id: q.id,
-          question: q.question,
-          options: Array.isArray(q.options) ? q.options : [],
-          explanation: q.explanation,
-          order: q.order,
-          correctAnswer: Number(q.correctAnswer),
-        })),
-      });
+    const quiz = await getDbQuiz(moduleSlug);
 
-      return NextResponse.json({ quiz: normalizedQuiz });
+    if (quiz) {
+      return NextResponse.json({ quiz });
     }
 
     const fallbackQuiz = buildFallbackQuiz(moduleSlug);
@@ -182,57 +189,15 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
     let dbQuiz = null;
 
     try {
-      dbQuiz = await prisma.quiz.findFirst({
-        where: {
-          module: { slug: moduleSlug },
-          isActive: true,
-        },
-        include: {
-          module: {
-            select: {
-              name: true,
-              slug: true,
-            },
-          },
-          questions: {
-            where: { isActive: true },
-            orderBy: { order: "asc" },
-            select: {
-              id: true,
-              question: true,
-              options: true,
-              explanation: true,
-              order: true,
-              correctAnswer: true,
-            },
-          },
-        },
-      });
+      dbQuiz = await getDbQuiz(moduleSlug);
     } catch (error) {
       console.error("Database unavailable in quiz submit, using payload/fallback:", error);
     }
 
-    const normalizedDbQuiz = dbQuiz
-      ? normalizeQuizForClient({
-          id: dbQuiz.id,
-          title: (dbQuiz as any).title ?? dbQuiz.module?.name ?? "Quiz",
-          passingScore: (dbQuiz as any).passingScore ?? 70,
-          module: dbQuiz.module,
-          questions: dbQuiz.questions.map((q) => ({
-            id: q.id,
-            question: q.question,
-            options: Array.isArray(q.options) ? q.options : [],
-            explanation: q.explanation,
-            order: q.order,
-            correctAnswer: Number(q.correctAnswer),
-          })),
-        })
-      : null;
-
     const quiz =
       quizPayload && Array.isArray(quizPayload.questions)
         ? quizPayload
-        : normalizedDbQuiz ?? buildFallbackQuiz(moduleSlug);
+        : dbQuiz ?? buildFallbackQuiz(moduleSlug);
 
     if (!quiz) {
       return NextResponse.json(
@@ -270,7 +235,7 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
         await prisma.quizAttempt.create({
           data: {
             userId,
-            quizId: dbQuiz.id,
+            quizId: quiz.id,
             score: percentage,
             passed,
             answers: JSON.stringify(answers),
