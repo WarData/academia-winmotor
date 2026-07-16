@@ -100,32 +100,31 @@ export async function GET(_req: NextRequest, { params }: RouteContext) {
 
   try {
     const quiz = await prisma.quiz.findFirst({
-      where: {
-        module: { slug: moduleSlug },
-        isActive: true,
+  where: {
+    module: { slug: moduleSlug },
+  },
+  include: {
+    module: {
+      select: {
+        name: true,
+        slug: true,
       },
-      include: {
-        module: {
-          select: {
-            name: true,
-            slug: true,
-          },
-        },
-        questions: {
-          where: { isActive: true },
-          orderBy: { order: "asc" },
-          select: {
-            id: true,
-            question: true,
-            options: true,
-            explanation: true,
-            order: true,
-            correctAnswer: true,
-          },
-        },
+    },
+    questions: {
+      orderBy: {
+        order: "asc",
       },
-    });
-
+      select: {
+        id: true,
+        question: true,
+        options: true,
+        explanation: true,
+        order: true,
+        correctAnswer: true,
+      },
+    },
+  },
+});
     if (quiz) {
       const normalizedQuiz = normalizeQuizForClient({
         id: quiz.id,
