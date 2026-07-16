@@ -878,7 +878,119 @@ export function getHelpText(contentOrId) {
 }
 
 export const moduleQuizzes = {
-  /* … aquí va exactamente el bloque de moduleQuizzes que ya tienes … */
+  sales: {
+    title: "Quiz de Ventas",
+    questions: [
+      {
+        id: "sales-q1",
+        question: "¿Qué documento se graba antes de un pedido de ventas?",
+        options: ["Factura", "Presupuesto", "Albarán", "Cobro"],
+        correctAnswer: 1,
+        explanation: "El presupuesto suele registrarse antes del pedido."
+      },
+      {
+        id: "sales-q2",
+        question: "¿Qué acción permite convertir un bastidor en unidad demo?",
+        options: ["Cambio de tarifa", "Cambio de propietario", "Conversión a demo", "Cierre de caja"],
+        correctAnswer: 2,
+        explanation: "Existe un vídeo específico sobre convertir un bastidor a unidad demo."
+      },
+      {
+        id: "sales-q3",
+        question: "¿Qué proceso está asociado al cobro de una factura?",
+        options: ["create_customer", "create_payment", "create_invoice", "create_order"],
+        correctAnswer: 1,
+        explanation: "El cobro de factura pertenece al flujo de pagos."
+      }
+    ]
+  },
+
+  workshop: {
+    title: "Quiz de Taller",
+    questions: [
+      {
+        id: "workshop-q1",
+        question: "¿Qué puede crearse a partir de una cita en taller?",
+        options: ["Un pedido de compras", "Una OR", "Una remesa", "Un asiento contable"],
+        correctAnswer: 1,
+        explanation: "Hay un contenido específico de alta de OR desde cita."
+      },
+      {
+        id: "workshop-q2",
+        question: "¿Qué elemento se menciona en la gestión diaria del taller?",
+        options: ["Calendarios y agenda", "Nóminas", "Tesorería", "Inmovilizado"],
+        correctAnswer: 0,
+        explanation: "Uno de los vídeos trata agenda de taller y calendarios."
+      },
+      {
+        id: "workshop-q3",
+        question: "¿Qué significa OR en este contexto?",
+        options: ["Orden de reparación", "Operación resumida", "Orden de reposición", "Oferta rápida"],
+        correctAnswer: 0,
+        explanation: "En el módulo de taller, OR se usa para orden de reparación."
+      }
+    ]
+  },
+
+  administracion: {
+    title: "Quiz de Administración",
+    questions: [
+      {
+        id: "administracion-q1",
+        question: "¿Qué acción pertenece al área de tesorería?",
+        options: ["Alta de cuentas de tesorería", "Alta de OR", "Traspaso de vehículo", "Agenda de taller"],
+        correctAnswer: 0,
+        explanation: "El módulo incluye alta de cuentas de tesorería."
+      },
+      {
+        id: "administracion-q2",
+        question: "¿Qué documento puede facturarse en tanda en administración?",
+        options: ["Albaranes de compras", "Citas de taller", "Vehículos demo", "Clientes"],
+        correctAnswer: 0,
+        explanation: "Existe un vídeo sobre facturación en tanda de albaranes de compras."
+      },
+      {
+        id: "administracion-q3",
+        question: "¿Qué operación está relacionada con contabilidad?",
+        options: ["Crear asientos contables", "Alta de cita", "Cambio de modelo", "Traspaso entre almacenes"],
+        correctAnswer: 0,
+        explanation: "Crear asientos contables pertenece al módulo de administración."
+      }
+    ]
+  },
+
+  stock: {
+    title: "Quiz de Stock",
+    questions: [
+      {
+        id: "stock-q1",
+        question: "¿Qué operación pertenece al módulo de stock?",
+        options: ["Movimiento de stock", "Alta de OR", "Alta de cliente", "Cierre de caja"],
+        correctAnswer: 0,
+        explanation: "Movimiento de stock es contenido del módulo stock."
+      },
+      {
+        id: "stock-q2",
+        question: "¿Qué acción permite mover mercancía entre ubicaciones?",
+        options: ["Traspaso entre almacenes", "Abonar factura", "Crear remesa", "Crear inmovilizado"],
+        correctAnswer: 0,
+        explanation: "El traspaso entre almacenes es uno de los vídeos del módulo."
+      }
+    ]
+  },
+
+  vehicles: {
+    title: "Quiz de Vehículos",
+    questions: [
+      {
+        id: "vehicles-q1",
+        question: "¿Qué acción aparece en el módulo de vehículos?",
+        options: ["Traspaso de vehículo", "Alta de tesorería", "Crear remesa", "Agenda de taller"],
+        correctAnswer: 0,
+        explanation: "El contenido del módulo vehicles incluye traspaso de vehículo."
+      }
+    ]
+  }
 };
 
 export function getModuleQuiz(module) {
