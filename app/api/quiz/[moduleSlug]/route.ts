@@ -20,7 +20,7 @@ type QuizShape = {
   title?: string | null;
   passingScore?: number | null;
   module?: {
-    name?: string | null;
+    title?: string | null;
     slug?: string | null;
   } | null;
   questions: QuestionShape[];
@@ -56,10 +56,10 @@ function shuffleQuestion(question: QuestionShape): QuestionShape {
 function normalizeQuizForClient(quiz: QuizShape) {
   return {
     id: quiz.id,
-    title: quiz.title ?? quiz.module?.name ?? "Quiz",
+    title: quiz.title ?? quiz.module?.title ?? "Quiz",
     passingScore: quiz.passingScore ?? 70,
     module: {
-      name: quiz.module?.name ?? quiz.title ?? "Quiz",
+      name: quiz.module?.title ?? quiz.title ?? "Quiz",
       slug: quiz.module?.slug ?? "",
     },
     questions: quiz.questions
@@ -81,7 +81,7 @@ function buildFallbackQuiz(moduleSlug: string) {
     title: fallbackQuiz.title,
     passingScore: 70,
     module: {
-      name: fallbackQuiz.title,
+      title: fallbackQuiz.title,
       slug: moduleSlug,
     },
     questions: fallbackQuiz.questions.map((q, index) => ({
@@ -103,7 +103,7 @@ async function getDbQuiz(moduleSlug: string) {
     include: {
       module: {
         select: {
-          name: true,
+          title: true,
           slug: true,
         },
       },
@@ -127,7 +127,7 @@ async function getDbQuiz(moduleSlug: string) {
 
   return normalizeQuizForClient({
     id: quiz.id,
-    title: (quiz as any).title ?? quiz.module?.name ?? "Quiz",
+    title: (quiz as any).title ?? quiz.module?.title ?? "Quiz",
     passingScore: (quiz as any).passingScore ?? 70,
     module: quiz.module,
     questions: quiz.questions.map((q) => ({
