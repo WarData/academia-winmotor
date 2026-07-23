@@ -563,7 +563,7 @@ export const learningContent = [
   },
   {
     id: "admin-facturacion-albaran-compra",
-    title: "Vídeo 1.9.21 Facturación de albarán de compras por selección + facturar + añadir albaranes a factura",
+    title: "Vídeo 1.9.21 Facturación de albarán de compras por selección + facturar + Añadir albaranes a factura",
     module: "administracion",
     process: "create_expense_invoice",
     type: "video",
@@ -609,7 +609,7 @@ export const learningContent = [
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=argxT0imYrI",
-    keywords: ["administración", "añadir", "albaranes", "factura"]
+    keywords: ["administración", "Añadir", "albaranes", "factura"]
   },
   {
     id: "admin-abonar-factura-ventas",
