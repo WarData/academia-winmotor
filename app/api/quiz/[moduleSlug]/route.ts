@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { moduleQuizzes } from "@/data/content";
+import { getModuleQuiz } from "@/data/content";
 
 type RouteContext = {
   params: Promise<{ moduleSlug: string }>;
