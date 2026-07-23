@@ -883,11 +883,15 @@ function normalizeText(value = "") {
 }
 
 function humanizeKeyword(value = "") {
-  return String(value)
+  const text = String(value)
     .replace(/[_-]+/g, " ")
     .replace(/\s+/g, " ")
     .trim()
-    .replace(/\b\w/g, (char) => char.toUpperCase());
+    .toLowerCase();
+
+  if (!text) return "";
+
+  return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
 function normalizeForCompare(value = "") {
@@ -1161,48 +1165,6 @@ function buildSequenceQuestions(module, moduleItems) {
   return questions;
 }
 
-function buildComparisonQuestions(module, moduleItems) {
-  const questions = [];
-
-  moduleItems.forEach((item, index) => {
-    const words = dedupeStrings(
-      item.cleanTitle
-        .split(/[\s,/()+-]+/)
-        .map((word) => word.trim())
-        .filter((word) => word.length >= 4)
-    );
-
-    words.slice(0, 2).forEach((chosenWord, wordIndex) => {
-      const wrongWords = buildWrongWords(chosenWord, moduleItems, 3);
-
-      const variants = [
-        `¿Qué término aparece en el contenido "${item.cleanTitle}"?`,
-        `¿Cuál de estas palabras forma parte del título "${item.cleanTitle}"?`,
-        `Selecciona un término incluido en "${item.cleanTitle}".`
-      ];
-
-      variants.forEach((questionText, variantIndex) => {
-        const question = createQuestion(
-          questionText,
-          chosenWord,
-          wrongWords,
-          `Ese término forma parte del título del contenido.`,
-          {
-            sourceId: item.id,
-            template: "word-in-title",
-            variant: `${index}-${wordIndex}-${variantIndex}`
-          }
-        );
-
-        if (question) {
-          questions.push(question);
-        }
-      });
-    });
-  });
-
-  return questions;
-}
 
 function dedupeQuestions(questions = [], module = "module") {
   const seen = new Set();
@@ -1238,22 +1200,21 @@ function buildQuestionBankForModule(module) {
     };
   }
 
-  const questions = dedupeQuestions(
-    [
-      ...buildTitleQuestions(module, moduleItems),
-      ...buildKeywordQuestions(module, moduleItems),
-      ...buildModuleQuestions(module, moduleItems, allModules),
-      ...buildSequenceQuestions(module, moduleItems),
-      ...buildComparisonQuestions(module, moduleItems)
-    ],
-    module
-  );
+const questions = dedupeQuestions(
+  [
+    ...buildTitleQuestions(module, moduleItems),
+    ...buildKeywordQuestions(module, moduleItems),
+    ...buildModuleQuestions(module, moduleItems, allModules),
+    ...buildSequenceQuestions(module, moduleItems)
+  ],
+  module
+);
 
-  return {
-    title: `Quiz de ${getModuleLabel(module)}`,
-    totalAvailableQuestions: questions.length,
-    questions
-  };
+return {
+  title: `Quiz de ${getModuleLabel(module)}`,
+  totalAvailableQuestions: questions.length,
+  questions
+};
 }
 
 export function getModuleQuiz(module, questionCount = 10) {
