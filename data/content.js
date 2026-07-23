@@ -1032,9 +1032,9 @@ function buildTitleQuestions(module, moduleItems) {
     const wrongTitles = buildWrongTitles(item, moduleItems, 3);
 
     const variants = [
-      `¿Qué contenido pertenece al módulo de ${getModuleLabel(module)}?`,
-      `¿Cuál de estos contenidos forma parte del área de ${getModuleLabel(module)}?`,
-      `Selecciona un contenido real del módulo ${getModuleLabel(module)}.`
+      `¿Cuál de estas palabras clave está asociada a "${item.cleanTitle}"?`,
+      `¿Qué proceso de trabajo cubre el contenido "${item.cleanTitle}"?`,
+      `¿Qué harías para gestionar "${item.cleanTitle.split(' ').slice(0,4).join(' ')}"?`
     ];
 
     variants.forEach((questionText, variantIndex) => {
@@ -1042,10 +1042,10 @@ function buildTitleQuestions(module, moduleItems) {
         questionText,
         item.cleanTitle,
         wrongTitles,
-        `Este contenido forma parte del módulo de ${getModuleLabel(module)}.`,
+        `La keyword "${item.cleanKeywords[0] || item.cleanTitle}" está asociada a ese contenido.`,
         {
           sourceId: item.id,
-          template: "title-in-module",
+          template: "keyword-identify-content",
           variant: `${index}-${variantIndex}`
         }
       );
@@ -1129,29 +1129,29 @@ function buildModuleQuestions(module, moduleItems, allModules) {
   return questions;
 }
 
-function buildSequenceQuestions(module, moduleItems) {
+function buildApplicationQuestions(module, moduleItems) {
   const questions = [];
 
   for (let index = 0; index < moduleItems.length - 1; index += 1) {
     const current = moduleItems[index];
-    const next = moduleItems[index + 1];
-    const wrongTitles = buildWrongTitles(next, moduleItems, 3);
+    // (variable next ya no necesaria)
+    const wrongTitles = buildWrongTitles(current, moduleItems, 3);
 
     const variants = [
-      `Dentro del orden actual del módulo ${getModuleLabel(module)}, ¿qué contenido aparece después de "${current.cleanTitle}"?`,
-      `Según la secuencia actual del módulo ${getModuleLabel(module)}, ¿qué va después de "${current.cleanTitle}"?`,
-      `En el listado actual de ${getModuleLabel(module)}, ¿qué contenido sigue a "${current.cleanTitle}"?`
+      `¿Qué vídeo del módulo ${getModuleLabel(module)} tratarías para aprender sobre "${current.cleanKeywords[0] || current.cleanTitle}"?`,
+      `¿Cuál de estos contenidos describe mejor lo que hace "${current.cleanTitle}"?`,
+      `Si un empleado necesita conocer "${current.cleanKeywords[0] || current.cleanTitle}", ¿qué vídeo debe consultar?`
     ];
 
     variants.forEach((questionText, variantIndex) => {
       const question = createQuestion(
         questionText,
-        next.cleanTitle,
+        current.cleanTitle,
         wrongTitles,
-        `En el orden actual del módulo, ese contenido aparece después del indicado.`,
+        `Ese vídeo cubre ese concepto dentro del módulo ${getModuleLabel(module)}.`,
         {
           sourceId: current.id,
-          template: "next-in-sequence",
+          template: "application-by-keyword",
           variant: `${index}-${variantIndex}`
         }
       );
@@ -1205,7 +1205,7 @@ const questions = dedupeQuestions(
     ...buildTitleQuestions(module, moduleItems),
     ...buildKeywordQuestions(module, moduleItems),
     ...buildModuleQuestions(module, moduleItems, allModules),
-    ...buildSequenceQuestions(module, moduleItems)
+    ...buildApplicationQuestions(module, moduleItems)
   ],
   module
 );
