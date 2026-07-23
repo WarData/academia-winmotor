@@ -875,388 +875,317 @@ export function getHelpText(contentOrId) {
   return item.description || item.summary || "";
 }
 
-export const moduleQuizzes = {
-  sales: {
-    title: "Quiz de Ventas",
-    questions: [
-      {
-        id: "sales-q1",
-        question: "¿Qué documento se suele registrar antes de un pedido de ventas?",
-        options: ["Factura", "Presupuesto", "Albarán", "Cobro"],
-        correctAnswer: 1,
-        explanation: "El presupuesto normalmente precede al pedido en el flujo comercial."
-      },
-      {
-        id: "sales-q2",
-        question: "¿Qué acción permite convertir un bastidor en unidad demo?",
-        options: ["Cambiar tarifa", "Cerrar operación", "Convertir a demo", "Crear remesa"],
-        correctAnswer: 2,
-        explanation: "Hay un contenido específico sobre convertir un bastidor en unidad demo."
-      },
-      {
-        id: "sales-q3",
-        question: "¿Qué proceso está relacionado con el cobro de una factura?",
-        options: ["create_customer", "create_quote", "create_payment", "create_order"],
-        correctAnswer: 2,
-        explanation: "El cobro de factura pertenece al flujo de pagos."
-      },
-      {
-        id: "sales-q4",
-        question: "¿Qué documento se graba después del presupuesto en un flujo comercial habitual?",
-        options: ["Pedido", "Arqueo", "Remesa", "Asiento contable"],
-        correctAnswer: 0,
-        explanation: "Después del presupuesto suele venir el pedido."
-      },
-      {
-        id: "sales-q5",
-        question: "¿Qué contenido trata sobre gestión de precios y tarifas?",
-        options: ["Alta de entidad", "Gestión de precios y tarifas de ventas", "Cobro de factura botón", "Panel de OR"],
-        correctAnswer: 1,
-        explanation: "Ese vídeo está centrado en precios y tarifas de ventas."
-      },
-      {
-        id: "sales-q6",
-        question: "¿Qué operación está más relacionada con datos de cliente y entidad?",
-        options: ["Facturación en tanda", "Añadir ORs a factura", "Alta de entidad", "Tarifas de ventas"],
-        correctAnswer: 2,
-        explanation: "El alta de entidad forma parte del trabajo sobre clientes."
-      },
-      {
-        id: "sales-q7",
-        question: "¿Qué acción pertenece al flujo de create_order?",
-        options: ["Grabación de un pedido de ventas", "Cobro de anticipo", "Cambio de color", "Alta de tesorería"],
-        correctAnswer: 0,
-        explanation: "El proceso create_order corresponde al pedido de ventas."
-      },
-      {
-        id: "sales-q8",
-        question: "¿Qué vídeo está relacionado con vehículos de ocasión?",
-        options: ["Tarifas de ventas", "Pasos de una operación comercial con VO", "Cobro de factura botón", "Artículos y tarifa"],
-        correctAnswer: 1,
-        explanation: "VO hace referencia a vehículo de ocasión."
-      },
-      {
-        id: "sales-q9",
-        question: "¿Qué proceso corresponde a la grabación de un presupuesto?",
-        options: ["create_invoice", "create_quote", "create_payment", "create_customer"],
-        correctAnswer: 1,
-        explanation: "El presupuesto está asociado al proceso create_quote."
-      },
-      {
-        id: "sales-q10",
-        question: "¿Qué operación pertenece al área de pagos en ventas?",
-        options: ["Asignar bastidores", "Gestión de accesorios", "Creación cobro de anticipo", "Alta de entidad"],
-        correctAnswer: 2,
-        explanation: "El cobro de anticipo forma parte del área de pagos."
-      }
-    ]
-  },
+function normalizeText(value = "") {
+  return String(value)
+    .replace(/^Vídeo\s+\d+(?:\.\d+)*\s*/i, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
-  workshop: {
-    title: "Quiz de Taller",
-    questions: [
-      {
-        id: "workshop-q1",
-        question: "¿Qué puede crearse a partir de una cita en taller?",
-        options: ["Una remesa", "Una OR", "Una factura de compras", "Una cuenta de tesorería"],
-        correctAnswer: 1,
-        explanation: "Existe un contenido específico de alta de OR desde cita."
-      },
-      {
-        id: "workshop-q2",
-        question: "¿Qué elemento aparece en la gestión diaria del taller?",
-        options: ["Asientos contables", "Agenda y calendarios", "Tesorería", "Nóminas"],
-        correctAnswer: 1,
-        explanation: "Uno de los vídeos trata sobre agenda de taller y calendarios."
-      },
-      {
-        id: "workshop-q3",
-        question: "¿Qué significa OR en el contexto del taller?",
-        options: ["Orden de reposición", "Oferta rápida", "Orden de reparación", "Operación resumida"],
-        correctAnswer: 2,
-        explanation: "En taller, OR se usa como orden de reparación."
-      },
-      {
-        id: "workshop-q4",
-        question: "¿Qué contenido está relacionado con siniestros?",
-        options: ["Gestión de siniestros", "Alta de entidad", "Cobro de factura", "Crear inmovilizado"],
-        correctAnswer: 0,
-        explanation: "Hay un vídeo específico de gestión de siniestros."
-      },
-      {
-        id: "workshop-q5",
-        question: "¿Qué contenido trata sobre el personal técnico del taller?",
-        options: ["Fichaje de los mecánicos", "Creación de remesa de nóminas", "Relaciones de entidades", "Riesgo de entidades"],
-        correctAnswer: 0,
-        explanation: "El fichaje de los mecánicos es un contenido propio del módulo taller."
-      },
-      {
-        id: "workshop-q6",
-        question: "¿Qué opción describe una cita con vehículo de cortesía?",
-        options: ["Alta de servicio", "Panel de Venta Directa", "Alta de cita con vehículo de cortesía", "Alta de remesa"],
-        correctAnswer: 2,
-        explanation: "Ese vídeo pertenece al flujo de citas de taller."
-      },
-      {
-        id: "workshop-q7",
-        question: "¿Qué contenido está relacionado con tiempos o baremos?",
-        options: ["Alta de OR Facturación", "Alta de OR Tempario y usos", "Renovación de una cita", "Agenda de taller"],
-        correctAnswer: 1,
-        explanation: "El tempario se trata en un vídeo específico del módulo."
-      },
-      {
-        id: "workshop-q8",
-        question: "¿Qué puede ocurrir antes de crear una OR desde cita?",
-        options: ["Registrar una cita", "Crear una remesa", "Cerrar caja", "Crear inmovilizado"],
-        correctAnswer: 0,
-        explanation: "Primero se trabaja la cita y luego puede derivarse en una OR."
-      },
-      {
-        id: "workshop-q9",
-        question: "¿Qué contenido corresponde a un vehículo cliente en OR?",
-        options: ["Facturación en tanda", "Alta de OR Vehículo Cliente", "Alta de cuentas de tesorería", "Traspaso de vehículo"],
-        correctAnswer: 1,
-        explanation: "Ese contenido forma parte del bloque de ORs."
-      },
-      {
-        id: "workshop-q10",
-        question: "¿Qué tema pertenece claramente al módulo taller?",
-        options: ["Balance de sumas y saldos", "Gestión de franquicias", "Alta de conceptos de tesorería", "Remesa de nóminas"],
-        correctAnswer: 1,
-        explanation: "La gestión de franquicias aparece en el módulo de taller."
-      }
-    ]
-  },
+function humanizeKeyword(value = "") {
+  return String(value)
+    .replace(/[_-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
 
-  administracion: {
-    title: "Quiz de Administración",
-    questions: [
-      {
-        id: "administracion-q1",
-        question: "¿Qué acción pertenece al área de tesorería?",
-        options: ["Alta de OR", "Alta de cuentas de tesorería", "Traspaso de vehículo", "Agenda de taller"],
-        correctAnswer: 1,
-        explanation: "El módulo incluye alta de cuentas de tesorería."
-      },
-      {
-        id: "administracion-q2",
-        question: "¿Qué documento puede facturarse en tanda en administración?",
-        options: ["Vehículos demo", "Citas de taller", "Albaranes de compras", "Clientes"],
-        correctAnswer: 2,
-        explanation: "Hay un vídeo sobre facturación en tanda de albaranes de compras."
-      },
-      {
-        id: "administracion-q3",
-        question: "¿Qué operación está relacionada con contabilidad?",
-        options: ["Crear asientos contables", "Alta de cita", "Cambio de modelo", "Traspaso entre almacenes"],
-        correctAnswer: 0,
-        explanation: "Crear asientos contables pertenece al área contable."
-      },
-      {
-        id: "administracion-q4",
-        question: "¿Qué acción está asociada al cierre diario de caja?",
-        options: ["Alta de OR", "Renovación de cita", "Arqueo y cierre de caja", "Cambio de propietario"],
-        correctAnswer: 2,
-        explanation: "El arqueo y cierre de cuentas de tesorería caja es parte del módulo."
-      },
-      {
-        id: "administracion-q5",
-        question: "¿Qué contenido trata sobre pagos periódicos de personal?",
-        options: ["Alta de bastidor demo", "Tarifas de ventas", "Creación de remesa de nóminas", "Agenda de taller"],
-        correctAnswer: 2,
-        explanation: "La remesa de nóminas pertenece a administración."
-      },
-      {
-        id: "administracion-q6",
-        question: "¿Qué opción está vinculada a facturas de compras y gastos?",
-        options: ["Alta de factura de gastos", "Alta de OR Facturación", "Cobro de factura botón", "Alta de entidad"],
-        correctAnswer: 0,
-        explanation: "Ese contenido es propio del área de administración."
-      },
-      {
-        id: "administracion-q7",
-        question: "¿Qué consulta contable aparece en el módulo?",
-        options: ["Agenda de taller", "Panel de Venta Directa", "Balance de sumas y saldos", "Cambio de modelo"],
-        correctAnswer: 2,
-        explanation: "El balance de sumas y saldos es una consulta contable."
-      },
-      {
-        id: "administracion-q8",
-        question: "¿Qué acción se relaciona con activos fijos?",
-        options: ["Crear inmovilizado", "Alta de cita", "Traspaso entre almacenes", "Gestión de accesorios"],
-        correctAnswer: 0,
-        explanation: "Crear inmovilizado pertenece a la parte contable/administrativa."
-      },
-      {
-        id: "administracion-q9",
-        question: "¿Qué operación está ligada a anticipos?",
-        options: ["Alta de OR Tempario", "Agenda y calendarios", "Aplicación de anticipos asociados a la entidad", "Tarifas de ventas"],
-        correctAnswer: 2,
-        explanation: "Ese vídeo trata directamente la gestión de anticipos."
-      },
-      {
-        id: "administracion-q10",
-        question: "¿Qué acción puede hacerse sobre una factura de venta?",
-        options: ["Alta de franquicia", "Abonar factura de ventas", "Cambiar bastidor", "Crear cita con cortesía"],
-        correctAnswer: 1,
-        explanation: "Abonar factura de ventas pertenece a administración."
-      }
-    ]
-  },
-
-  stock: {
-    title: "Quiz de Stock",
-    questions: [
-      {
-        id: "stock-q1",
-        question: "¿Qué operación pertenece al módulo de stock?",
-        options: ["Alta de OR", "Movimiento de stock", "Alta de cliente", "Cierre de caja"],
-        correctAnswer: 1,
-        explanation: "Movimiento de stock forma parte del módulo stock."
-      },
-      {
-        id: "stock-q2",
-        question: "¿Qué acción permite mover mercancía entre ubicaciones?",
-        options: ["Abonar factura", "Traspaso entre almacenes", "Crear remesa", "Crear inmovilizado"],
-        correctAnswer: 1,
-        explanation: "El traspaso entre almacenes es propio de stock."
-      },
-      {
-        id: "stock-q3",
-        question: "¿Qué contenido sirve para revisar existencias?",
-        options: ["Agenda de taller", "Alta de entidad", "Consultar stock", "Cobro de factura"],
-        correctAnswer: 2,
-        explanation: "Consultar stock es uno de los contenidos base del módulo."
-      },
-      {
-        id: "stock-q4",
-        question: "¿Cuál de estas acciones pertenece al control de inventario?",
-        options: ["Movimiento de stock", "Alta de cita", "Crear asientos contables", "Cobro de anticipo"],
-        correctAnswer: 0,
-        explanation: "Los movimientos de stock son operaciones de inventario."
-      },
-      {
-        id: "stock-q5",
-        question: "¿Qué operación está más relacionada con logística interna?",
-        options: ["Alta de servicio", "Facturación de compras", "Traspaso entre almacenes", "Fichaje de mecánicos"],
-        correctAnswer: 2,
-        explanation: "El traspaso entre almacenes mueve stock entre ubicaciones."
-      },
-      {
-        id: "stock-q6",
-        question: "¿Qué módulo usarías para revisar inventario disponible?",
-        options: ["Taller", "Administración", "Stock", "Support"],
-        correctAnswer: 2,
-        explanation: "La revisión de inventario corresponde al módulo stock."
-      },
-      {
-        id: "stock-q7",
-        question: "¿Qué contenido está orientado a una consulta y no a una creación?",
-        options: ["Consultar stock", "Alta de cuentas de tesorería", "Alta de OR", "Alta de entidad"],
-        correctAnswer: 0,
-        explanation: "Consultar stock es claramente una consulta."
-      },
-      {
-        id: "stock-q8",
-        question: "¿Qué acción afecta directamente a la ubicación de artículos?",
-        options: ["Crear remesa de nóminas", "Aplicación de anticipos", "Traspaso entre almacenes", "Cambio de propietario"],
-        correctAnswer: 2,
-        explanation: "El traspaso modifica la ubicación del stock."
-      },
-      {
-        id: "stock-q9",
-        question: "¿Qué vídeo del módulo stock está relacionado con entradas o salidas internas?",
-        options: ["Centro de ayuda", "Movimiento de stock", "Agenda de taller", "Alta de cita"],
-        correctAnswer: 1,
-        explanation: "El movimiento de stock cubre cambios internos de existencias."
-      },
-      {
-        id: "stock-q10",
-        question: "¿Cuál de estas opciones pertenece al módulo stock y no al de ventas?",
-        options: ["Grabación de un pedido de ventas", "Cobro de factura botón", "Consultar stock", "Alta de entidad"],
-        correctAnswer: 2,
-        explanation: "Consultar stock pertenece al módulo stock."
-      }
-    ]
-  },
-
-  vehicles: {
-    title: "Quiz de Vehículos",
-    questions: [
-      {
-        id: "vehicles-q1",
-        question: "¿Qué acción aparece en el módulo de vehículos?",
-        options: ["Alta de tesorería", "Crear remesa", "Traspaso de vehículo", "Agenda de taller"],
-        correctAnswer: 2,
-        explanation: "El contenido del módulo vehicles incluye traspaso de vehículo."
-      },
-      {
-        id: "vehicles-q2",
-        question: "¿Qué módulo usarías para un cambio de posesión o ubicación de un vehículo?",
-        options: ["Support", "Vehicles", "Administración", "Taller"],
-        correctAnswer: 1,
-        explanation: "El módulo vehicles agrupa operaciones del vehículo."
-      },
-      {
-        id: "vehicles-q3",
-        question: "¿Qué operación está directamente ligada a un vehículo completo y no a stock genérico?",
-        options: ["Movimiento de stock", "Traspaso de vehículo", "Creación de remesa", "Arqueo de caja"],
-        correctAnswer: 1,
-        explanation: "El traspaso de vehículo actúa sobre la unidad de vehículo."
-      },
-      {
-        id: "vehicles-q4",
-        question: "¿Cuál de estas acciones corresponde al módulo vehicles?",
-        options: ["Alta de OR Facturación", "Alta de servicio", "Traspaso de vehículo", "Riesgo de entidades"],
-        correctAnswer: 2,
-        explanation: "Es el contenido existente en ese módulo."
-      },
-      {
-        id: "vehicles-q5",
-        question: "¿Qué área funcional se centra en unidades de vehículo?",
-        options: ["Vehicles", "Tesorería", "Contabilidad", "Nóminas"],
-        correctAnswer: 0,
-        explanation: "Vehicles se centra en operaciones sobre vehículos."
-      },
-      {
-        id: "vehicles-q6",
-        question: "¿Qué opción describe mejor el módulo vehicles?",
-        options: ["Gestiona cierres de caja", "Gestiona operaciones sobre vehículos", "Gestiona citas de taller", "Gestiona remesas bancarias"],
-        correctAnswer: 1,
-        explanation: "El contenido visible del módulo se refiere a traspasos de vehículo."
-      },
-      {
-        id: "vehicles-q7",
-        question: "¿Cuál de estas tareas no pertenece a administración sino a vehicles?",
-        options: ["Crear inmovilizado", "Alta de factura de gastos", "Traspaso de vehículo", "Crear asientos contables"],
-        correctAnswer: 2,
-        explanation: "El traspaso de vehículo pertenece al módulo vehicles."
-      },
-      {
-        id: "vehicles-q8",
-        question: "¿Qué contenido usarías para mover una unidad entre contextos o responsables?",
-        options: ["Cobro de anticipo", "Agenda de taller", "Relaciones de entidades", "Traspaso de vehículo"],
-        correctAnswer: 3,
-        explanation: "El traspaso de vehículo responde a esa necesidad."
-      },
-      {
-        id: "vehicles-q9",
-        question: "¿Qué módulo no está centrado en documentos contables ni pagos?",
-        options: ["Administración", "Sales", "Vehicles", "Support"],
-        correctAnswer: 2,
-        explanation: "Vehicles se centra en la unidad vehículo."
-      },
-      {
-        id: "vehicles-q10",
-        question: "¿Qué contenido hay actualmente en vehicles según tu archivo?",
-        options: ["Centro de ayuda", "Alta de entidad", "Facturación en tanda", "Traspaso de vehículo"],
-        correctAnswer: 3,
-        explanation: "El contenido existente en vehicles es traspaso de vehículo."
-      }
-    ]
+function shuffleArray(items = []) {
+  const arr = [...items];
+  for (let i = arr.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
   }
-};
+  return arr;
+}
 
-export function getModuleQuiz(module) {
-  return moduleQuizzes[module] || null;
+function sampleSize(items = [], size = 10) {
+  return shuffleArray(items).slice(0, Math.min(size, items.length));
+}
+
+function dedupeStrings(items = []) {
+  return [...new Set(items.filter(Boolean).map((item) => String(item).trim()).filter(Boolean))];
+}
+
+function getModuleLabel(module) {
+  const labels = {
+    sales: "Ventas",
+    workshop: "Taller",
+    administracion: "Administración",
+    stock: "Stock",
+    vehicles: "Vehículos",
+    support: "Soporte"
+  };
+  return labels[module] || humanizeKeyword(module);
+}
+
+function getQuestionId(module, index) {
+  return `${module}-auto-q${index + 1}`;
+}
+
+function buildWrongTitles(currentItem, moduleItems, limit = 3) {
+  return shuffleArray(
+    moduleItems
+      .filter((item) => item.id !== currentItem.id)
+      .map((item) => normalizeText(item.title))
+      .filter((title) => title && title !== normalizeText(currentItem.title))
+  ).slice(0, limit);
+}
+
+function buildWrongKeywords(currentKeyword, moduleItems, limit = 3) {
+  const pool = [];
+
+  moduleItems.forEach((item) => {
+    (item.keywords || []).forEach((keyword) => {
+      const clean = humanizeKeyword(keyword);
+      if (clean && clean.toLowerCase() !== humanizeKeyword(currentKeyword).toLowerCase()) {
+        pool.push(clean);
+      }
+    });
+  });
+
+  return shuffleArray(dedupeStrings(pool)).slice(0, limit);
+}
+
+function buildWrongModules(currentModule, allModules, limit = 3) {
+  return shuffleArray(
+    allModules
+      .filter((module) => module !== currentModule)
+      .map((module) => getModuleLabel(module))
+  ).slice(0, limit);
+}
+
+function makeOptions(correct, wrongs = []) {
+  const options = shuffleArray(dedupeStrings([correct, ...wrongs])).slice(0, 4);
+  const correctAnswer = options.findIndex((option) => option === correct);
+  return { options, correctAnswer };
+}
+
+function createQuestion(question, correct, wrongs, explanation, meta = {}) {
+  const { options, correctAnswer } = makeOptions(correct, wrongs);
+  if (options.length < 4 || correctAnswer === -1) return null;
+
+  return {
+    question,
+    options,
+    correctAnswer,
+    explanation,
+    ...meta
+  };
+}
+
+function buildTitleQuestions(module, moduleItems) {
+  const questions = [];
+
+  moduleItems.forEach((item) => {
+    const cleanTitle = normalizeText(item.title);
+    const wrongTitles = buildWrongTitles(item, moduleItems, 3);
+
+    const q1 = createQuestion(
+      `¿Qué contenido pertenece al módulo de ${getModuleLabel(module)}?`,
+      cleanTitle,
+      wrongTitles,
+      `Este contenido forma parte del módulo de ${getModuleLabel(module)}.`,
+      { sourceId: item.id, template: "title-in-module" }
+    );
+    if (q1) questions.push(q1);
+
+    if ((item.keywords || []).length > 0) {
+      const mainKeyword = humanizeKeyword(item.keywords[0]);
+      const q2 = createQuestion(
+        `¿Qué contenido está más relacionado con "${mainKeyword}"?`,
+        cleanTitle,
+        wrongTitles,
+        `El contenido correcto es el que trata directamente sobre ${mainKeyword.toLowerCase()}.`,
+        { sourceId: item.id, template: "title-by-keyword" }
+      );
+      if (q2) questions.push(q2);
+    }
+  });
+
+  return questions;
+}
+
+function buildKeywordQuestions(module, moduleItems) {
+  const questions = [];
+
+  moduleItems.forEach((item) => {
+    const cleanTitle = normalizeText(item.title);
+    const keywords = dedupeStrings((item.keywords || []).map(humanizeKeyword));
+
+    keywords.forEach((keyword, keywordIndex) => {
+      const wrongKeywords = buildWrongKeywords(keyword, moduleItems, 3);
+
+      const q = createQuestion(
+        `¿Qué concepto aparece asociado al contenido "${cleanTitle}"?`,
+        keyword,
+        wrongKeywords,
+        `La palabra clave "${keyword}" está asociada a este contenido.`,
+        {
+          sourceId: item.id,
+          template: "keyword-by-title",
+          variant: keywordIndex
+        }
+      );
+
+      if (q) questions.push(q);
+    });
+  });
+
+  return questions;
+}
+
+function buildModuleQuestions(module, moduleItems, allModules) {
+  const questions = [];
+
+  moduleItems.forEach((item) => {
+    const cleanTitle = normalizeText(item.title);
+    const wrongModules = buildWrongModules(module, allModules, 3);
+
+    const q1 = createQuestion(
+      `¿A qué área pertenece el contenido "${cleanTitle}"?`,
+      getModuleLabel(module),
+      wrongModules,
+      `Ese contenido está clasificado dentro del módulo de ${getModuleLabel(module)}.`,
+      { sourceId: item.id, template: "module-by-title" }
+    );
+    if (q1) questions.push(q1);
+
+    if ((item.keywords || []).length > 0) {
+      const keyword = humanizeKeyword(item.keywords[0]);
+      const q2 = createQuestion(
+        `¿En qué módulo encaja mejor un contenido sobre "${keyword}" cuando corresponde a "${cleanTitle}"?`,
+        getModuleLabel(module),
+        wrongModules,
+        `Ese contenido pertenece al módulo de ${getModuleLabel(module)}.`,
+        { sourceId: item.id, template: "module-by-keyword" }
+      );
+      if (q2) questions.push(q2);
+    }
+  });
+
+  return questions;
+}
+
+function buildSequenceQuestions(module, moduleItems) {
+  const questions = [];
+  const normalizedItems = moduleItems.map((item) => ({
+    ...item,
+    cleanTitle: normalizeText(item.title)
+  }));
+
+  for (let index = 0; index < normalizedItems.length - 1; index += 1) {
+    const current = normalizedItems[index];
+    const next = normalizedItems[index + 1];
+    const wrongTitles = buildWrongTitles(next, normalizedItems, 3);
+
+    const q = createQuestion(
+      `Dentro del orden actual del contenido del módulo ${getModuleLabel(module)}, ¿qué contenido aparece después de "${current.cleanTitle}"?`,
+      next.cleanTitle,
+      wrongTitles,
+      `En el orden actual del módulo, ese contenido aparece después del indicado.`,
+      { sourceId: current.id, template: "next-in-sequence" }
+    );
+
+    if (q) questions.push(q);
+  }
+
+  return questions;
+}
+
+function buildComparisonQuestions(module, moduleItems) {
+  const questions = [];
+
+  moduleItems.forEach((item) => {
+    const cleanTitle = normalizeText(item.title);
+    const words = dedupeStrings(
+      cleanTitle
+        .split(/[\s,/()+-]+/)
+        .map((word) => word.trim())
+        .filter((word) => word.length >= 4)
+    );
+
+    if (words.length > 0) {
+      const chosenWord = words[0];
+      const wrongWords = shuffleArray(
+        dedupeStrings(
+          moduleItems
+            .filter((entry) => entry.id !== item.id)
+            .flatMap((entry) =>
+              normalizeText(entry.title)
+                .split(/[\s,/()+-]+/)
+                .map((word) => word.trim())
+                .filter((word) => word.length >= 4 && word.toLowerCase() !== chosenWord.toLowerCase())
+            )
+        )
+      ).slice(0, 3);
+
+      const q = createQuestion(
+        `¿Qué término aparece en el contenido "${cleanTitle}"?`,
+        chosenWord,
+        wrongWords,
+        `Ese término forma parte del título del contenido.`,
+        { sourceId: item.id, template: "word-in-title" }
+      );
+
+      if (q) questions.push(q);
+    }
+  });
+
+  return questions;
+}
+
+function dedupeQuestions(questions = [], module = "module") {
+  const seen = new Set();
+
+  return questions
+    .filter(Boolean)
+    .filter((question) => {
+      const signature = `${question.question}||${question.options.join("|")}`;
+      if (seen.has(signature)) return false;
+      seen.add(signature);
+      return true;
+    })
+    .map((question, index) => ({
+      ...question,
+      id: getQuestionId(module, index)
+    }));
+}
+
+function buildQuestionBankForModule(module) {
+  const moduleItems = getContentByModule(module);
+  const allModules = dedupeStrings(learningContent.map((item) => item.module));
+
+  if (!moduleItems.length) {
+    return {
+      title: `Quiz de ${getModuleLabel(module)}`,
+      questions: []
+    };
+  }
+
+  const questions = dedupeQuestions(
+    [
+      ...buildTitleQuestions(module, moduleItems),
+      ...buildKeywordQuestions(module, moduleItems),
+      ...buildModuleQuestions(module, moduleItems, allModules),
+      ...buildSequenceQuestions(module, moduleItems),
+      ...buildComparisonQuestions(module, moduleItems)
+    ],
+    module
+  );
+
+  return {
+    title: `Quiz de ${getModuleLabel(module)}`,
+    questions
+  };
+}
+
+export function getModuleQuiz(module, questionCount = 10) {
+  const quiz = buildQuestionBankForModule(module);
+
+  return {
+    ...quiz,
+    totalAvailableQuestions: quiz.questions.length,
+    questions: sampleSize(quiz.questions, questionCount)
+  };
 }
