@@ -890,12 +890,21 @@ function humanizeKeyword(value = "") {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
+function normalizeForCompare(value = "") {
+  return normalizeText(value)
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
 function shuffleArray(items = []) {
   const arr = [...items];
+
   for (let i = arr.length - 1; i > 0; i -= 1) {
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
+
   return arr;
 }
 
@@ -904,7 +913,14 @@ function sampleSize(items = [], size = 10) {
 }
 
 function dedupeStrings(items = []) {
-  return [...new Set(items.filter(Boolean).map((item) => String(item).trim()).filter(Boolean))];
+  return [
+    ...new Set(
+      items
+        .filter(Boolean)
+        .map((item) => String(item).trim())
+        .filter(Boolean)
+    )
+  ];
 }
 
 function getModuleLabel(module) {
@@ -916,6 +932,7 @@ function getModuleLabel(module) {
     vehicles: "Vehículos",
     support: "Soporte"
   };
+
   return labels[module] || humanizeKeyword(module);
 }
 
@@ -923,23 +940,37 @@ function getQuestionId(module, index) {
   return `${module}-auto-q${index + 1}`;
 }
 
+function getCleanModuleItems(module) {
+  return getContentByModule(module).map((item) => ({
+    ...item,
+    cleanTitle: normalizeText(item.title),
+    cleanKeywords: dedupeStrings((item.keywords || []).map(humanizeKeyword))
+  }));
+}
+
 function buildWrongTitles(currentItem, moduleItems, limit = 3) {
   return shuffleArray(
-    moduleItems
-      .filter((item) => item.id !== currentItem.id)
-      .map((item) => normalizeText(item.title))
-      .filter((title) => title && title !== normalizeText(currentItem.title))
+    dedupeStrings(
+      moduleItems
+        .filter((item) => item.id !== currentItem.id)
+        .map((item) => item.cleanTitle)
+        .filter(
+          (title) =>
+            title &&
+            normalizeForCompare(title) !== normalizeForCompare(currentItem.cleanTitle)
+        )
+    )
   ).slice(0, limit);
 }
 
 function buildWrongKeywords(currentKeyword, moduleItems, limit = 3) {
+  const current = normalizeForCompare(currentKeyword);
   const pool = [];
 
   moduleItems.forEach((item) => {
-    (item.keywords || []).forEach((keyword) => {
-      const clean = humanizeKeyword(keyword);
-      if (clean && clean.toLowerCase() !== humanizeKeyword(currentKeyword).toLowerCase()) {
-        pool.push(clean);
+    item.cleanKeywords.forEach((keyword) => {
+      if (normalizeForCompare(keyword) !== current) {
+        pool.push(keyword);
       }
     });
   });
@@ -955,15 +986,31 @@ function buildWrongModules(currentModule, allModules, limit = 3) {
   ).slice(0, limit);
 }
 
+function buildWrongWords(currentWord, moduleItems, limit = 3) {
+  const current = normalizeForCompare(currentWord);
+  const pool = moduleItems.flatMap((item) =>
+    item.cleanTitle
+      .split(/[\s,/()+-]+/)
+      .map((word) => word.trim())
+      .filter((word) => word.length >= 4 && normalizeForCompare(word) !== current)
+  );
+
+  return shuffleArray(dedupeStrings(pool)).slice(0, limit);
+}
+
 function makeOptions(correct, wrongs = []) {
   const options = shuffleArray(dedupeStrings([correct, ...wrongs])).slice(0, 4);
   const correctAnswer = options.findIndex((option) => option === correct);
+
   return { options, correctAnswer };
 }
 
 function createQuestion(question, correct, wrongs, explanation, meta = {}) {
   const { options, correctAnswer } = makeOptions(correct, wrongs);
-  if (options.length < 4 || correctAnswer === -1) return null;
+
+  if (options.length < 4 || correctAnswer === -1) {
+    return null;
+  }
 
   return {
     question,
@@ -977,30 +1024,32 @@ function createQuestion(question, correct, wrongs, explanation, meta = {}) {
 function buildTitleQuestions(module, moduleItems) {
   const questions = [];
 
-  moduleItems.forEach((item) => {
-    const cleanTitle = normalizeText(item.title);
+  moduleItems.forEach((item, index) => {
     const wrongTitles = buildWrongTitles(item, moduleItems, 3);
 
-    const q1 = createQuestion(
+    const variants = [
       `¿Qué contenido pertenece al módulo de ${getModuleLabel(module)}?`,
-      cleanTitle,
-      wrongTitles,
-      `Este contenido forma parte del módulo de ${getModuleLabel(module)}.`,
-      { sourceId: item.id, template: "title-in-module" }
-    );
-    if (q1) questions.push(q1);
+      `¿Cuál de estos contenidos forma parte del área de ${getModuleLabel(module)}?`,
+      `Selecciona un contenido real del módulo ${getModuleLabel(module)}.`
+    ];
 
-    if ((item.keywords || []).length > 0) {
-      const mainKeyword = humanizeKeyword(item.keywords[0]);
-      const q2 = createQuestion(
-        `¿Qué contenido está más relacionado con "${mainKeyword}"?`,
-        cleanTitle,
+    variants.forEach((questionText, variantIndex) => {
+      const question = createQuestion(
+        questionText,
+        item.cleanTitle,
         wrongTitles,
-        `El contenido correcto es el que trata directamente sobre ${mainKeyword.toLowerCase()}.`,
-        { sourceId: item.id, template: "title-by-keyword" }
+        `Este contenido forma parte del módulo de ${getModuleLabel(module)}.`,
+        {
+          sourceId: item.id,
+          template: "title-in-module",
+          variant: `${index}-${variantIndex}`
+        }
       );
-      if (q2) questions.push(q2);
-    }
+
+      if (question) {
+        questions.push(question);
+      }
+    });
   });
 
   return questions;
@@ -1010,25 +1059,32 @@ function buildKeywordQuestions(module, moduleItems) {
   const questions = [];
 
   moduleItems.forEach((item) => {
-    const cleanTitle = normalizeText(item.title);
-    const keywords = dedupeStrings((item.keywords || []).map(humanizeKeyword));
-
-    keywords.forEach((keyword, keywordIndex) => {
+    item.cleanKeywords.forEach((keyword, keywordIndex) => {
       const wrongKeywords = buildWrongKeywords(keyword, moduleItems, 3);
 
-      const q = createQuestion(
-        `¿Qué concepto aparece asociado al contenido "${cleanTitle}"?`,
-        keyword,
-        wrongKeywords,
-        `La palabra clave "${keyword}" está asociada a este contenido.`,
-        {
-          sourceId: item.id,
-          template: "keyword-by-title",
-          variant: keywordIndex
-        }
-      );
+      const variants = [
+        `¿Qué concepto aparece asociado al contenido "${item.cleanTitle}"?`,
+        `¿Cuál de estas palabras clave encaja mejor con "${item.cleanTitle}"?`,
+        `¿Qué tema se trabaja en el contenido "${item.cleanTitle}"?`
+      ];
 
-      if (q) questions.push(q);
+      variants.forEach((questionText, variantIndex) => {
+        const question = createQuestion(
+          questionText,
+          keyword,
+          wrongKeywords,
+          `La palabra clave "${keyword}" está asociada a este contenido.`,
+          {
+            sourceId: item.id,
+            template: "keyword-by-title",
+            variant: `${keywordIndex}-${variantIndex}`
+          }
+        );
+
+        if (question) {
+          questions.push(question);
+        }
+      });
     });
   });
 
@@ -1038,30 +1094,32 @@ function buildKeywordQuestions(module, moduleItems) {
 function buildModuleQuestions(module, moduleItems, allModules) {
   const questions = [];
 
-  moduleItems.forEach((item) => {
-    const cleanTitle = normalizeText(item.title);
+  moduleItems.forEach((item, index) => {
     const wrongModules = buildWrongModules(module, allModules, 3);
 
-    const q1 = createQuestion(
-      `¿A qué área pertenece el contenido "${cleanTitle}"?`,
-      getModuleLabel(module),
-      wrongModules,
-      `Ese contenido está clasificado dentro del módulo de ${getModuleLabel(module)}.`,
-      { sourceId: item.id, template: "module-by-title" }
-    );
-    if (q1) questions.push(q1);
+    const variants = [
+      `¿A qué área pertenece el contenido "${item.cleanTitle}"?`,
+      `¿En qué módulo encaja mejor "${item.cleanTitle}"?`,
+      `¿Dónde clasificarías el contenido "${item.cleanTitle}"?`
+    ];
 
-    if ((item.keywords || []).length > 0) {
-      const keyword = humanizeKeyword(item.keywords[0]);
-      const q2 = createQuestion(
-        `¿En qué módulo encaja mejor un contenido sobre "${keyword}" cuando corresponde a "${cleanTitle}"?`,
+    variants.forEach((questionText, variantIndex) => {
+      const question = createQuestion(
+        questionText,
         getModuleLabel(module),
         wrongModules,
-        `Ese contenido pertenece al módulo de ${getModuleLabel(module)}.`,
-        { sourceId: item.id, template: "module-by-keyword" }
+        `Ese contenido está clasificado dentro del módulo de ${getModuleLabel(module)}.`,
+        {
+          sourceId: item.id,
+          template: "module-by-title",
+          variant: `${index}-${variantIndex}`
+        }
       );
-      if (q2) questions.push(q2);
-    }
+
+      if (question) {
+        questions.push(question);
+      }
+    });
   });
 
   return questions;
@@ -1069,25 +1127,35 @@ function buildModuleQuestions(module, moduleItems, allModules) {
 
 function buildSequenceQuestions(module, moduleItems) {
   const questions = [];
-  const normalizedItems = moduleItems.map((item) => ({
-    ...item,
-    cleanTitle: normalizeText(item.title)
-  }));
 
-  for (let index = 0; index < normalizedItems.length - 1; index += 1) {
-    const current = normalizedItems[index];
-    const next = normalizedItems[index + 1];
-    const wrongTitles = buildWrongTitles(next, normalizedItems, 3);
+  for (let index = 0; index < moduleItems.length - 1; index += 1) {
+    const current = moduleItems[index];
+    const next = moduleItems[index + 1];
+    const wrongTitles = buildWrongTitles(next, moduleItems, 3);
 
-    const q = createQuestion(
-      `Dentro del orden actual del contenido del módulo ${getModuleLabel(module)}, ¿qué contenido aparece después de "${current.cleanTitle}"?`,
-      next.cleanTitle,
-      wrongTitles,
-      `En el orden actual del módulo, ese contenido aparece después del indicado.`,
-      { sourceId: current.id, template: "next-in-sequence" }
-    );
+    const variants = [
+      `Dentro del orden actual del módulo ${getModuleLabel(module)}, ¿qué contenido aparece después de "${current.cleanTitle}"?`,
+      `Según la secuencia actual del módulo ${getModuleLabel(module)}, ¿qué va después de "${current.cleanTitle}"?`,
+      `En el listado actual de ${getModuleLabel(module)}, ¿qué contenido sigue a "${current.cleanTitle}"?`
+    ];
 
-    if (q) questions.push(q);
+    variants.forEach((questionText, variantIndex) => {
+      const question = createQuestion(
+        questionText,
+        next.cleanTitle,
+        wrongTitles,
+        `En el orden actual del módulo, ese contenido aparece después del indicado.`,
+        {
+          sourceId: current.id,
+          template: "next-in-sequence",
+          variant: `${index}-${variantIndex}`
+        }
+      );
+
+      if (question) {
+        questions.push(question);
+      }
+    });
   }
 
   return questions;
@@ -1096,40 +1164,41 @@ function buildSequenceQuestions(module, moduleItems) {
 function buildComparisonQuestions(module, moduleItems) {
   const questions = [];
 
-  moduleItems.forEach((item) => {
-    const cleanTitle = normalizeText(item.title);
+  moduleItems.forEach((item, index) => {
     const words = dedupeStrings(
-      cleanTitle
+      item.cleanTitle
         .split(/[\s,/()+-]+/)
         .map((word) => word.trim())
         .filter((word) => word.length >= 4)
     );
 
-    if (words.length > 0) {
-      const chosenWord = words[0];
-      const wrongWords = shuffleArray(
-        dedupeStrings(
-          moduleItems
-            .filter((entry) => entry.id !== item.id)
-            .flatMap((entry) =>
-              normalizeText(entry.title)
-                .split(/[\s,/()+-]+/)
-                .map((word) => word.trim())
-                .filter((word) => word.length >= 4 && word.toLowerCase() !== chosenWord.toLowerCase())
-            )
-        )
-      ).slice(0, 3);
+    words.slice(0, 2).forEach((chosenWord, wordIndex) => {
+      const wrongWords = buildWrongWords(chosenWord, moduleItems, 3);
 
-      const q = createQuestion(
-        `¿Qué término aparece en el contenido "${cleanTitle}"?`,
-        chosenWord,
-        wrongWords,
-        `Ese término forma parte del título del contenido.`,
-        { sourceId: item.id, template: "word-in-title" }
-      );
+      const variants = [
+        `¿Qué término aparece en el contenido "${item.cleanTitle}"?`,
+        `¿Cuál de estas palabras forma parte del título "${item.cleanTitle}"?`,
+        `Selecciona un término incluido en "${item.cleanTitle}".`
+      ];
 
-      if (q) questions.push(q);
-    }
+      variants.forEach((questionText, variantIndex) => {
+        const question = createQuestion(
+          questionText,
+          chosenWord,
+          wrongWords,
+          `Ese término forma parte del título del contenido.`,
+          {
+            sourceId: item.id,
+            template: "word-in-title",
+            variant: `${index}-${wordIndex}-${variantIndex}`
+          }
+        );
+
+        if (question) {
+          questions.push(question);
+        }
+      });
+    });
   });
 
   return questions;
@@ -1141,8 +1210,14 @@ function dedupeQuestions(questions = [], module = "module") {
   return questions
     .filter(Boolean)
     .filter((question) => {
-      const signature = `${question.question}||${question.options.join("|")}`;
-      if (seen.has(signature)) return false;
+      const signature = `${question.question}||${question.options
+        .map((option) => normalizeForCompare(option))
+        .join("|")}`;
+
+      if (seen.has(signature)) {
+        return false;
+      }
+
       seen.add(signature);
       return true;
     })
@@ -1153,7 +1228,7 @@ function dedupeQuestions(questions = [], module = "module") {
 }
 
 function buildQuestionBankForModule(module) {
-  const moduleItems = getContentByModule(module);
+  const moduleItems = getCleanModuleItems(module);
   const allModules = dedupeStrings(learningContent.map((item) => item.module));
 
   if (!moduleItems.length) {
@@ -1176,6 +1251,7 @@ function buildQuestionBankForModule(module) {
 
   return {
     title: `Quiz de ${getModuleLabel(module)}`,
+    totalAvailableQuestions: questions.length,
     questions
   };
 }
@@ -1184,8 +1260,8 @@ export function getModuleQuiz(module, questionCount = 10) {
   const quiz = buildQuestionBankForModule(module);
 
   return {
-    ...quiz,
-    totalAvailableQuestions: quiz.questions.length,
+    title: quiz.title,
+    totalAvailableQuestions: quiz.totalAvailableQuestions,
     questions: sampleSize(quiz.questions, questionCount)
   };
 }
