@@ -1213,3 +1213,13 @@ function buildQuestionBankForModule(module) {
     questions
   };
 }
+
+export function getModuleQuiz(module, questionCount = 10) {
+  const quiz = buildQuestionBankForModule(module);
+
+  return {
+    title: quiz.title,
+    totalAvailableQuestions: quiz.totalAvailableQuestions,
+    questions: sampleSize(quiz.questions, questionCount)
+  };
+}
