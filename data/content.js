@@ -1200,29 +1200,16 @@ function buildQuestionBankForModule(module) {
     };
   }
 
-const questions = dedupeQuestions(
-  [
-    ...buildTitleQuestions(module, moduleItems),
-    ...buildKeywordQuestions(module, moduleItems),
-    ...buildModuleQuestions(module, moduleItems, allModules),
-    ...buildApplicationQuestions(module, moduleItems)
-  ],
-  module
-);
-
-return {
-  title: `Quiz de ${getModuleLabel(module)}`,
-  totalAvailableQuestions: questions.length,
-  questions
-};
-}
-
-export function getModuleQuiz(module, questionCount = 10) {
-  const quiz = buildQuestionBankForModule(module);
+  const questions = dedupeQuestions(
+    [
+      ...buildModuleQuestions(module, moduleItems, allModules)
+    ],
+    module
+  );
 
   return {
-    title: quiz.title,
-    totalAvailableQuestions: quiz.totalAvailableQuestions,
-    questions: sampleSize(quiz.questions, questionCount)
+    title: `Quiz de ${getModuleLabel(module)}`,
+    totalAvailableQuestions: questions.length,
+    questions
   };
 }
