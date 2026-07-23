@@ -9,17 +9,17 @@ export const learningContent = [
   // ============= VENTAS (27 videos) =============
   {
     id: "sales-op-comercial-vo",
-    title: "Vídeo 1.3.14 Pasos de una operación comercial con VO",
+    title: "VÃ­deo 1.3.14 Pasos de una operaciÃ³n comercial con VO",
     module: "sales",
     process: "create_customer",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=gRMGfQYIPQc",
-    keywords: ["ventas", "operación", "VO", "vehículo ocasión"]
+    keywords: ["ventas", "operaciÃ³n", "VO", "vehÃ­culo ocasiÃ³n"]
   },
   {
     id: "sales-accesorios-op",
-    title: "Vídeo 1.3.13 Gestión de accesorios en operaciones",
+    title: "VÃ­deo 1.3.13 GestiÃ³n de accesorios en operaciones",
     module: "sales",
     process: "create_customer",
     type: "video",
@@ -29,17 +29,17 @@ export const learningContent = [
   },
   {
     id: "sales-op-comercial-basica",
-    title: "Vídeo 1.3.10 Pasos de una operación comercial básica",
+    title: "VÃ­deo 1.3.10 Pasos de una operaciÃ³n comercial bÃ¡sica",
     module: "sales",
     process: "create_customer",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=xpaBekYUKCA",
-    keywords: ["ventas", "operación", "básica"]
+    keywords: ["ventas", "operaciÃ³n", "bÃ¡sica"]
   },
   {
     id: "sales-asignar-bastidores",
-    title: "Vídeo 1.3.11 Asignar bastidores a operaciones comerciales",
+    title: "VÃ­deo 1.3.11 Asignar bastidores a operaciones comerciales",
     module: "sales",
     process: "create_customer",
     type: "video",
@@ -49,27 +49,27 @@ export const learningContent = [
   },
   {
     id: "sales-cambiar-propietario",
-    title: "Vídeo 1.3.9 Cambiar propietario de un vehículo - 2 métodos",
+    title: "VÃ­deo 1.3.9 Cambiar propietario de un vehÃ­culo - 2 mÃ©todos",
     module: "sales",
     process: "create_customer",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=-UXObPa5wdY",
-    keywords: ["ventas", "propietario", "vehículo"]
+    keywords: ["ventas", "propietario", "vehÃ­culo"]
   },
   {
     id: "sales-cambiar-modelo",
-    title: "Vídeo 1.3.8 Cambiar modelo de vehículo o el color",
+    title: "VÃ­deo 1.3.8 Cambiar modelo de vehÃ­culo o el color",
     module: "sales",
     process: "create_customer",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=7LsMIK6JilM",
-    keywords: ["ventas", "modelo", "color", "vehículo"]
+    keywords: ["ventas", "modelo", "color", "vehÃ­culo"]
   },
   {
     id: "sales-unidad-demo",
-    title: "Vídeo 1.3.7 Convertir un bastidor a unidad demo",
+    title: "VÃ­deo 1.3.7 Convertir un bastidor a unidad demo",
     module: "sales",
     process: "create_customer",
     type: "video",
@@ -79,7 +79,7 @@ export const learningContent = [
   },
   {
     id: "sales-presupuesto-ventas",
-    title: "Vídeo 1.8.1 Grabación de un presupuesto de ventas",
+    title: "VÃ­deo 1.8.1 GrabaciÃ³n de un presupuesto de ventas",
     module: "sales",
     process: "create_quote",
     type: "video",
@@ -89,7 +89,7 @@ export const learningContent = [
   },
   {
     id: "sales-pedido-ventas",
-    title: "Vídeo 1.8.2 Grabación de un pedido de ventas",
+    title: "VÃ­deo 1.8.2 GrabaciÃ³n de un pedido de ventas",
     module: "sales",
     process: "create_order",
     type: "video",
@@ -99,17 +99,17 @@ export const learningContent = [
   },
   {
     id: "sales-albaran-ventas",
-    title: "Vídeo 1.8.3 Grabación de un albarán de ventas",
+    title: "VÃ­deo 1.8.3 GrabaciÃ³n de un albarÃ¡n de ventas",
     module: "sales",
     process: "create_invoice",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=7PDRiTFo3uY",
-    keywords: ["ventas", "albarán", "crear"]
+    keywords: ["ventas", "albarÃ¡n", "crear"]
   },
   {
     id: "sales-panel-venta-directa",
-    title: "Vídeo 1.8.14 Panel de Venta Directa",
+    title: "VÃ­deo 1.8.14 Panel de Venta Directa",
     module: "sales",
     process: "create_invoice",
     type: "video",
@@ -119,7 +119,7 @@ export const learningContent = [
   },
   {
     id: "sales-precios-tarifas",
-    title: "Vídeo 1.8.15 Gestión de precios y tarifas de ventas",
+    title: "VÃ­deo 1.8.15 GestiÃ³n de precios y tarifas de ventas",
     module: "sales",
     process: "create_invoice",
     type: "video",
@@ -129,7 +129,7 @@ export const learningContent = [
   },
   {
     id: "sales-tarifas-ventas",
-    title: "Vídeo 1.6 Tarifas de ventas",
+    title: "VÃ­deo 1.6 Tarifas de ventas",
     module: "sales",
     process: "create_invoice",
     type: "video",
@@ -139,27 +139,27 @@ export const learningContent = [
   },
   {
     id: "sales-articulos-tarifa",
-    title: "Vídeo 1.4 Artículos y tarifa de artículos",
+    title: "VÃ­deo 1.4 ArtÃ­culos y tarifa de artÃ­culos",
     module: "sales",
     process: "create_invoice",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=5Pd4kE0VN9A",
-    keywords: ["ventas", "artículos", "tarifa"]
+    keywords: ["ventas", "artÃ­culos", "tarifa"]
   },
   {
     id: "sales-datos-historicos",
-    title: "Vídeo 1.5.5 Datos importantes - Históricos - Tipos de pago - Cuenta contable",
+    title: "VÃ­deo 1.5.5 Datos importantes - HistÃ³ricos - Tipos de pago - Cuenta contable",
     module: "sales",
     process: "create_customer",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=i86LcnRVEQ8",
-    keywords: ["ventas", "históricos", "pagos", "contable"]
+    keywords: ["ventas", "histÃ³ricos", "pagos", "contable"]
   },
   {
     id: "sales-riesgo-entidades",
-    title: "Vídeo 1.5.4 Riesgo de entidades",
+    title: "VÃ­deo 1.5.4 Riesgo de entidades",
     module: "sales",
     process: "create_customer",
     type: "video",
@@ -169,7 +169,7 @@ export const learningContent = [
   },
   {
     id: "sales-cuentas-bancarias",
-    title: "Vídeo 1.5.3 Cuentas bancarias - por defecto - activa",
+    title: "VÃ­deo 1.5.3 Cuentas bancarias - por defecto - activa",
     module: "sales",
     process: "create_customer",
     type: "video",
@@ -179,7 +179,7 @@ export const learningContent = [
   },
   {
     id: "sales-relaciones-entidades",
-    title: "Vídeo 1.5.2 Relaciones de entidades",
+    title: "VÃ­deo 1.5.2 Relaciones de entidades",
     module: "sales",
     process: "create_customer",
     type: "video",
@@ -189,7 +189,7 @@ export const learningContent = [
   },
   {
     id: "sales-alta-entidad",
-    title: "Vídeo 1.5.1 Alta de entidad",
+    title: "VÃ­deo 1.5.1 Alta de entidad",
     module: "sales",
     process: "create_customer",
     type: "video",
@@ -199,7 +199,7 @@ export const learningContent = [
   },
   {
     id: "sales-copiar-pegar",
-    title: "Vídeo 1.0.7 Copiar y pegar entre documentos de todo tipo",
+    title: "VÃ­deo 1.0.7 Copiar y pegar entre documentos de todo tipo",
     module: "sales",
     process: "create_invoice",
     type: "video",
@@ -209,7 +209,7 @@ export const learningContent = [
   },
   {
     id: "sales-operaciones-genericas",
-    title: "Vídeo 1.0.6 Operaciones genéricas - filtrar - partir - multipartir",
+    title: "VÃ­deo 1.0.6 Operaciones genÃ©ricas - filtrar - partir - multipartir",
     module: "sales",
     process: "create_invoice",
     type: "video",
@@ -219,7 +219,7 @@ export const learningContent = [
   },
   {
     id: "sales-factura-servicios",
-    title: "Vídeo 1.9.15 Crear factura de venta de servicios",
+    title: "VÃ­deo 1.9.15 Crear factura de venta de servicios",
     module: "sales",
     process: "create_invoice",
     type: "video",
@@ -229,17 +229,17 @@ export const learningContent = [
   },
   {
     id: "sales-facturacion-tanda",
-    title: "Vídeo 1.9.17 Facturación en tanda de albaranes de ventas",
+    title: "VÃ­deo 1.9.17 FacturaciÃ³n en tanda de albaranes de ventas",
     module: "sales",
     process: "create_invoice",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=rekB1NbepHI",
-    keywords: ["ventas", "facturación", "tanda", "albaranes"]
+    keywords: ["ventas", "facturaciÃ³n", "tanda", "albaranes"]
   },
   {
     id: "sales-albaranes-or",
-    title: "Vídeo 1.9.16 Añadir albaranes ORs a una factura de ventas",
+    title: "VÃ­deo 1.9.16 AÃ±adir albaranes ORs a una factura de ventas",
     module: "sales",
     process: "create_invoice",
     type: "video",
@@ -249,7 +249,7 @@ export const learningContent = [
   },
   {
     id: "sales-anticipo-cobro",
-    title: "Vídeo 1.9.9 Crear anticipo de cobro a cliente sin pedido ni operación",
+    title: "VÃ­deo 1.9.9 Crear anticipo de cobro a cliente sin pedido ni operaciÃ³n",
     module: "sales",
     process: "create_payment",
     type: "video",
@@ -259,7 +259,7 @@ export const learningContent = [
   },
   {
     id: "sales-cobro-anticipo",
-    title: "Vídeo 1.9.6 Creación cobro de anticipo de pedido de ventas",
+    title: "VÃ­deo 1.9.6 CreaciÃ³n cobro de anticipo de pedido de ventas",
     module: "sales",
     process: "create_payment",
     type: "video",
@@ -269,7 +269,7 @@ export const learningContent = [
   },
   {
     id: "sales-cobro-factura",
-    title: "Vídeo 1.9.5 Cobro de factura botón",
+    title: "VÃ­deo 1.9.5 Cobro de factura botÃ³n",
     module: "sales",
     process: "create_payment",
     type: "video",
@@ -281,7 +281,7 @@ export const learningContent = [
   // ============= TALLER (14 videos) =============
   {
     id: "workshop-agenda-taller",
-    title: "Vídeo 1.10.5 Agenda de taller y calendarios",
+    title: "VÃ­deo 1.10.5 Agenda de taller y calendarios",
     module: "workshop",
     process: "create_or",
     type: "video",
@@ -291,17 +291,17 @@ export const learningContent = [
   },
   {
     id: "workshop-gestion-siniestros",
-    title: "Vídeo 1.10.3 Gestión de siniestros",
+    title: "VÃ­deo 1.10.3 GestiÃ³n de siniestros",
     module: "workshop",
     process: "create_or",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=um1A1NwBBSM",
-    keywords: ["taller", "siniestros", "gestión"]
+    keywords: ["taller", "siniestros", "gestiÃ³n"]
   },
   {
     id: "workshop-franquicias",
-    title: "Vídeo 1.10.2 Gestión de franquicias",
+    title: "VÃ­deo 1.10.2 GestiÃ³n de franquicias",
     module: "workshop",
     process: "create_or",
     type: "video",
@@ -311,27 +311,27 @@ export const learningContent = [
   },
   {
     id: "workshop-fichaje-mecanicos",
-    title: "Vídeo 1.10.1 Fichaje de los mecánicos",
+    title: "VÃ­deo 1.10.1 Fichaje de los mecÃ¡nicos",
     module: "workshop",
     process: "create_or",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=tJakqZndiS4",
-    keywords: ["taller", "fichaje", "mecánicos"]
+    keywords: ["taller", "fichaje", "mecÃ¡nicos"]
   },
   {
     id: "workshop-cita-cliente-existe",
-    title: "Vídeo 3.0.1 Cita con cliente y vehículos existentes",
+    title: "VÃ­deo 3.0.1 Cita con cliente y vehÃ­culos existentes",
     module: "workshop",
     process: "create_or",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=00V2ruQBhZk",
-    keywords: ["taller", "cita", "cliente", "vehículos"]
+    keywords: ["taller", "cita", "cliente", "vehÃ­culos"]
   },
   {
     id: "workshop-cita-no-existe",
-    title: "Vídeo 3.0.2 Cita con cliente y vehículos no existentes",
+    title: "VÃ­deo 3.0.2 Cita con cliente y vehÃ­culos no existentes",
     module: "workshop",
     process: "create_or",
     type: "video",
@@ -341,27 +341,27 @@ export const learningContent = [
   },
   {
     id: "workshop-cita-cortesia",
-    title: "Vídeo 3.0.3 Alta de cita con vehículo de cortesía",
+    title: "VÃ­deo 3.0.3 Alta de cita con vehÃ­culo de cortesÃ­a",
     module: "workshop",
     process: "create_or",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=7ccR6ds1DLA",
-    keywords: ["taller", "cita", "cortesía"]
+    keywords: ["taller", "cita", "cortesÃ­a"]
   },
   {
     id: "workshop-renovacion-cita",
-    title: "Vídeo 3.0.4 Renovación de una cita",
+    title: "VÃ­deo 3.0.4 RenovaciÃ³n de una cita",
     module: "workshop",
     process: "create_or",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=0gXnpIllq60",
-    keywords: ["taller", "renovación", "cita"]
+    keywords: ["taller", "renovaciÃ³n", "cita"]
   },
   {
     id: "workshop-or-desde-cita",
-    title: "Vídeo 3.0.5 Alta de OR desde cita",
+    title: "VÃ­deo 3.0.5 Alta de OR desde cita",
     module: "workshop",
     process: "create_or",
     type: "video",
@@ -371,17 +371,17 @@ export const learningContent = [
   },
   {
     id: "workshop-or-vehiculo-cliente",
-    title: "Vídeo 2.0.1 Alta de OR Vehículo Cliente",
+    title: "VÃ­deo 2.0.1 Alta de OR VehÃ­culo Cliente",
     module: "workshop",
     process: "create_or",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=nR_vv-Zn-xw",
-    keywords: ["taller", "OR", "vehículo", "cliente"]
+    keywords: ["taller", "OR", "vehÃ­culo", "cliente"]
   },
   {
     id: "workshop-or-tempario",
-    title: "Vídeo 2.0.2 Alta de OR Tempario y usos",
+    title: "VÃ­deo 2.0.2 Alta de OR Tempario y usos",
     module: "workshop",
     process: "create_or",
     type: "video",
@@ -391,295 +391,295 @@ export const learningContent = [
   },
   {
     id: "workshop-or-confirmacion",
-    title: "Vídeo 2.0.3 Alta de OR Confirmación",
+    title: "VÃ­deo 2.0.3 Alta de OR ConfirmaciÃ³n",
     module: "workshop",
     process: "create_or",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=CP6VhvQwBG8",
-    keywords: ["taller", "OR", "confirmación"]
+    keywords: ["taller", "OR", "confirmaciÃ³n"]
   },
   {
     id: "workshop-or-facturacion",
-    title: "Vídeo 2.0.4 Alta de OR Facturación",
+    title: "VÃ­deo 2.0.4 Alta de OR FacturaciÃ³n",
     module: "workshop",
     process: "create_or",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=Qcnel8GHAYI",
-    keywords: ["taller", "OR", "facturación"]
+    keywords: ["taller", "OR", "facturaciÃ³n"]
   },
   {
     id: "workshop-alta-vehiculo-taller",
-    title: "Vídeo 1.3.6 Alta de vehículo de taller en OR - VO en albarán de compra",
+    title: "VÃ­deo 1.3.6 Alta de vehÃ­culo de taller en OR - VO en albarÃ¡n de compra",
     module: "workshop",
     process: "create_or",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=LSkr9xnBvHU",
-    keywords: ["taller", "vehículo", "OR", "albarán"]
+    keywords: ["taller", "vehÃ­culo", "OR", "albarÃ¡n"]
   },
 
-  // ============= ADMINISTRACIÓN (26 videos) =============
+  // ============= ADMINISTRACIÃ“N (26 videos) =============
   {
     id: "admin-alta-cuentas-tesoreria",
-    title: "Vídeo 1.9.1 Alta de cuentas de tesorería",
+    title: "VÃ­deo 1.9.1 Alta de cuentas de tesorerÃ­a",
     module: "administracion",
     process: "create_treasury",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=Y36AsanSAqM",
-    keywords: ["administración", "tesorería", "cuentas"]
+    keywords: ["administraciÃ³n", "tesorerÃ­a", "cuentas"]
   },
   {
     id: "admin-alta-conceptos-tesoreria",
-    title: "Vídeo 1.9.2 Alta de conceptos de tesorería",
+    title: "VÃ­deo 1.9.2 Alta de conceptos de tesorerÃ­a",
     module: "administracion",
     process: "create_treasury",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=CiWzkWyfdrg",
-    keywords: ["administración", "tesorería", "conceptos"]
+    keywords: ["administraciÃ³n", "tesorerÃ­a", "conceptos"]
   },
   {
     id: "admin-alta-servicio",
-    title: "Vídeo 1.9.3 Alta de un servicio",
+    title: "VÃ­deo 1.9.3 Alta de un servicio",
     module: "administracion",
     process: "create_treasury",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=Yf9wausRSNM",
-    keywords: ["administración", "servicio", "alta"]
+    keywords: ["administraciÃ³n", "servicio", "alta"]
   },
   {
     id: "admin-registro-manual-tesoreria",
-    title: "Vídeo 1.9.4 Alta de registro manual en tesorería",
+    title: "VÃ­deo 1.9.4 Alta de registro manual en tesorerÃ­a",
     module: "administracion",
     process: "create_treasury",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=ZUGrwXrC9YI",
-    keywords: ["administración", "tesorería", "registro"]
+    keywords: ["administraciÃ³n", "tesorerÃ­a", "registro"]
   },
   {
     id: "admin-aplicacion-anticipos",
-    title: "Vídeo 1.9.7 Aplicación de anticipos asociados a la entidad",
+    title: "VÃ­deo 1.9.7 AplicaciÃ³n de anticipos asociados a la entidad",
     module: "administracion",
     process: "create_treasury",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=-HWQ68Kmq6o",
-    keywords: ["administración", "anticipos", "entidad"]
+    keywords: ["administraciÃ³n", "anticipos", "entidad"]
   },
   {
     id: "admin-arqueo-cierre-caja",
-    title: "Vídeo 1.9.8 Arqueo y cierre de cuentas de tesorería caja",
+    title: "VÃ­deo 1.9.8 Arqueo y cierre de cuentas de tesorerÃ­a caja",
     module: "administracion",
     process: "create_cash_close",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=dRtFfjg_exY",
-    keywords: ["administración", "arqueo", "cierre", "caja"]
+    keywords: ["administraciÃ³n", "arqueo", "cierre", "caja"]
   },
   {
     id: "admin-alta-factura-gastos",
-    title: "Vídeo 1.9.10 Alta de factura de gastos",
+    title: "VÃ­deo 1.9.10 Alta de factura de gastos",
     module: "administracion",
     process: "create_expense_invoice",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=uUxXY5UKEoY",
-    keywords: ["administración", "factura", "gastos"]
+    keywords: ["administraciÃ³n", "factura", "gastos"]
   },
   {
     id: "admin-gastos-contratos",
-    title: "Vídeo 1.9.11 Facturar gastos mediante contratos y vencimientos",
+    title: "VÃ­deo 1.9.11 Facturar gastos mediante contratos y vencimientos",
     module: "administracion",
     process: "create_expense_invoice",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=TNDKT2y5hO0",
-    keywords: ["administración", "gastos", "contratos"]
+    keywords: ["administraciÃ³n", "gastos", "contratos"]
   },
   {
     id: "admin-remesas-cobros-pagos",
-    title: "Vídeo 1.9.12 Alta de remesas de cobros y pagos",
+    title: "VÃ­deo 1.9.12 Alta de remesas de cobros y pagos",
     module: "administracion",
     process: "create_accounting",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=gXESkNyr8K0",
-    keywords: ["administración", "remesas", "cobros", "pagos"]
+    keywords: ["administraciÃ³n", "remesas", "cobros", "pagos"]
   },
   {
     id: "admin-remesa-nominas",
-    title: "Vídeo 1.9.13 Creación de remesa de nóminas",
+    title: "VÃ­deo 1.9.13 CreaciÃ³n de remesa de nÃ³minas",
     module: "administracion",
     process: "create_accounting",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=SQae6dXHFVM",
-    keywords: ["administración", "remesa", "nóminas"]
+    keywords: ["administraciÃ³n", "remesa", "nÃ³minas"]
   },
   {
     id: "admin-asientos-contables",
-    title: "Vídeo 1.9.14 Crear asientos contables",
+    title: "VÃ­deo 1.9.14 Crear asientos contables",
     module: "administracion",
     process: "create_accounting",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=GnnjPbUOVzc",
-    keywords: ["administración", "asientos", "contables"]
+    keywords: ["administraciÃ³n", "asientos", "contables"]
   },
   {
     id: "admin-balance-sumas-saldos",
-    title: "Vídeo 1.9.18 Consultar balance de sumas y saldos",
+    title: "VÃ­deo 1.9.18 Consultar balance de sumas y saldos",
     module: "administracion",
     process: "create_accounting",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=bY17KCsaldo",
-    keywords: ["administración", "balance", "sumas", "saldos"]
+    keywords: ["administraciÃ³n", "balance", "sumas", "saldos"]
   },
   {
     id: "admin-extracto-mayor-cuenta",
-    title: "Vídeo 1.9.19 Consultar un extracto o mayor de una cuenta",
+    title: "VÃ­deo 1.9.19 Consultar un extracto o mayor de una cuenta",
     module: "administracion",
     process: "create_accounting",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=vuZUopl0i6o",
-    keywords: ["administración", "extracto", "mayor", "cuenta"]
+    keywords: ["administraciÃ³n", "extracto", "mayor", "cuenta"]
   },
   {
     id: "admin-facturacion-tanda-compras",
-    title: "Vídeo 1.9.20 Facturación en tanda de albaranes de compras",
+    title: "VÃ­deo 1.9.20 FacturaciÃ³n en tanda de albaranes de compras",
     module: "administracion",
     process: "create_expense_invoice",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=qDszeXhuyM0",
-    keywords: ["administración", "facturación", "tanda", "compras"]
+    keywords: ["administraciÃ³n", "facturaciÃ³n", "tanda", "compras"]
   },
   {
     id: "admin-facturacion-albaran-compra",
-    title: "Vídeo 1.9.21 Facturación de albarán de compras por selección + facturar + Añadir albaranes a factura",
+    title: "VÃ­deo 1.9.21 FacturaciÃ³n de albarÃ¡n de compras por selecciÃ³n + facturar + AÃ±adir albaranes a factura",
     module: "administracion",
     process: "create_expense_invoice",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=gqhc1w6UJLk",
-    keywords: ["administración", "facturación", "albarán", "compras"]
+    keywords: ["administraciÃ³n", "facturaciÃ³n", "albarÃ¡n", "compras"]
   },
   {
     id: "admin-config-facturas-compra",
-    title: "Vídeo 1.9.22 Configurar y modificar facturas de compras gastos 2 opciones",
+    title: "VÃ­deo 1.9.22 Configurar y modificar facturas de compras gastos 2 opciones",
     module: "administracion",
     process: "create_expense_invoice",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=1yszRTRq1Js",
-    keywords: ["administración", "configurar", "facturas", "compras"]
+    keywords: ["administraciÃ³n", "configurar", "facturas", "compras"]
   },
   {
     id: "admin-check-serie-albaranes",
-    title: "Vídeo 1.9.23 Check en serie en albaranes de ventas para que solicite fecha al facturarlos",
+    title: "VÃ­deo 1.9.23 Check en serie en albaranes de ventas para que solicite fecha al facturarlos",
     module: "administracion",
     process: "create_invoice_payment",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=Qx32vNwrGgw",
-    keywords: ["administración", "check", "serie", "albaranes"]
+    keywords: ["administraciÃ³n", "check", "serie", "albaranes"]
   },
   {
     id: "admin-crear-inmovilizado",
-    title: "Vídeo 1.9.24 Crear inmovilizado",
+    title: "VÃ­deo 1.9.24 Crear inmovilizado",
     module: "administracion",
     process: "create_accounting",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=um2XG_04Ph0",
-    keywords: ["administración", "crear", "inmovilizado"]
+    keywords: ["administraciÃ³n", "crear", "inmovilizado"]
   },
   {
     id: "admin-anadir-albaranes-factura-compra",
-    title: "Vídeo 1.9.25 Añadir albaranes a una factura de compra (casar)",
+    title: "VÃ­deo 1.9.25 AÃ±adir albaranes a una factura de compra (casar)",
     module: "administracion",
     process: "create_expense_invoice",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=argxT0imYrI",
-    keywords: ["administración", "Añadir", "albaranes", "factura"]
+    keywords: ["administraciÃ³n", "AÃ±adir", "albaranes", "factura"]
   },
   {
     id: "admin-abonar-factura-ventas",
-    title: "Vídeo 1.9.26 Abonar factura de ventas",
+    title: "VÃ­deo 1.9.26 Abonar factura de ventas",
     module: "administracion",
     process: "create_invoice_payment",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=ME51X4g0tgc",
-    keywords: ["administración", "abonar", "factura", "ventas"]
+    keywords: ["administraciÃ³n", "abonar", "factura", "ventas"]
   },
   {
     id: "admin-cobro-factura",
-    title: "Vídeo 1.9.5 Cobro de factura botón",
+    title: "VÃ­deo 1.9.5 Cobro de factura botÃ³n",
     module: "administracion",
     process: "create_invoice_payment",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=Kq6uO1qGPA8",
-    keywords: ["administración", "cobro", "factura"]
+    keywords: ["administraciÃ³n", "cobro", "factura"]
   },
   {
     id: "admin-cobro-anticipo",
-    title: "Vídeo 1.9.6 Creación cobro de anticipo de pedido de ventas",
+    title: "VÃ­deo 1.9.6 CreaciÃ³n cobro de anticipo de pedido de ventas",
     module: "administracion",
     process: "create_invoice_payment",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=rKyJG8G09zY",
-    keywords: ["administración", "cobro", "anticipo", "pedido"]
+    keywords: ["administraciÃ³n", "cobro", "anticipo", "pedido"]
   },
   {
     id: "admin-anticipo-cobro",
-    title: "Vídeo 1.9.9 Crear anticipo de cobro a cliente sin pedido ni operación",
+    title: "VÃ­deo 1.9.9 Crear anticipo de cobro a cliente sin pedido ni operaciÃ³n",
     module: "administracion",
     process: "create_invoice_payment",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=mryBbM_dlWo",
-    keywords: ["administración", "anticipo", "cobro", "cliente"]
+    keywords: ["administraciÃ³n", "anticipo", "cobro", "cliente"]
   },
   {
     id: "admin-factura-servicios",
-    title: "Vídeo 1.9.15 Crear factura de venta de servicios",
+    title: "VÃ­deo 1.9.15 Crear factura de venta de servicios",
     module: "administracion",
     process: "create_expense_invoice",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=1SDf1kJPUBI",
-    keywords: ["administración", "factura", "servicios"]
+    keywords: ["administraciÃ³n", "factura", "servicios"]
   },
   {
     id: "admin-albaranes-or",
-    title: "Vídeo 1.9.16 Añadir albaranes ORs a una factura de ventas",
+    title: "VÃ­deo 1.9.16 AÃ±adir albaranes ORs a una factura de ventas",
     module: "administracion",
     process: "create_invoice_payment",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=XHC95_iRS3c",
-    keywords: ["administración", "albaranes", "OR", "factura"]
+    keywords: ["administraciÃ³n", "albaranes", "OR", "factura"]
   },
   {
     id: "admin-facturacion-tanda",
-    title: "Vídeo 1.9.17 Facturación en tanda de albaranes de ventas",
+    title: "VÃ­deo 1.9.17 FacturaciÃ³n en tanda de albaranes de ventas",
     module: "administracion",
     process: "create_invoice_payment",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=rekB1NbepHI",
-    keywords: ["administración", "facturación", "tanda", "albaranes"]
+    keywords: ["administraciÃ³n", "facturaciÃ³n", "tanda", "albaranes"]
   },
 
   // ============= STOCK (3 videos - existing) =============
@@ -717,13 +717,13 @@ export const learningContent = [
   // ============= VEHICLES (1 video - existing) =============
   {
     id: "vehicles-transfer",
-    title: "Traspaso de vehículo",
+    title: "Traspaso de vehÃ­culo",
     module: "vehicles",
     process: "vehicle_transfer",
     type: "video",
     source: "youtube",
     url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    keywords: ["vehículos", "traspaso"]
+    keywords: ["vehÃ­culos", "traspaso"]
   },
 
   // ============= SUPPORT (1 video - existing) =============
@@ -877,7 +877,7 @@ export function getHelpText(contentOrId) {
 
 function normalizeText(value = "") {
   return String(value)
-    .replace(/^Vídeo\s+\d+(?:\.\d+)*\s*/i, "")
+    .replace(/^VÃ­deo\s+\d+(?:\.\d+)*\s*/i, "")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -931,9 +931,9 @@ function getModuleLabel(module) {
   const labels = {
     sales: "Ventas",
     workshop: "Taller",
-    administracion: "Administración",
+    administracion: "AdministraciÃ³n",
     stock: "Stock",
-    vehicles: "Vehículos",
+    vehicles: "VehÃ­culos",
     support: "Soporte"
   };
 
@@ -1032,9 +1032,9 @@ function buildTitleQuestions(module, moduleItems) {
     const wrongTitles = buildWrongTitles(item, moduleItems, 3);
 
     const variants = [
-      `¿Cuál de estas palabras clave está asociada a "${item.cleanTitle}"?`,
-      `¿Qué proceso de trabajo cubre el contenido "${item.cleanTitle}"?`,
-      `¿Qué harías para gestionar "${item.cleanTitle.split(' ').slice(0,4).join(' ')}"?`
+      `Â¿CuÃ¡l de estas palabras clave estÃ¡ asociada a "${item.cleanTitle}"?`,
+      `Â¿QuÃ© proceso de trabajo cubre el contenido "${item.cleanTitle}"?`,
+      `Â¿QuÃ© harÃ­as para gestionar "${item.cleanTitle.split(' ').slice(0,4).join(' ')}"?`
     ];
 
     variants.forEach((questionText, variantIndex) => {
@@ -1042,7 +1042,7 @@ function buildTitleQuestions(module, moduleItems) {
         questionText,
         item.cleanTitle,
         wrongTitles,
-        `La keyword "${item.cleanKeywords[0] || item.cleanTitle}" está asociada a ese contenido.`,
+        `La keyword "${item.cleanKeywords[0] || item.cleanTitle}" estÃ¡ asociada a ese contenido.`,
         {
           sourceId: item.id,
           template: "keyword-identify-content",
@@ -1067,9 +1067,9 @@ function buildKeywordQuestions(module, moduleItems) {
       const wrongKeywords = buildWrongKeywords(keyword, moduleItems, 3);
 
       const variants = [
-        `¿Qué concepto aparece asociado al contenido "${item.cleanTitle}"?`,
-        `¿Cuál de estas palabras clave encaja mejor con "${item.cleanTitle}"?`,
-        `¿Qué tema se trabaja en el contenido "${item.cleanTitle}"?`
+        `Â¿QuÃ© concepto aparece asociado al contenido "${item.cleanTitle}"?`,
+        `Â¿CuÃ¡l de estas palabras clave encaja mejor con "${item.cleanTitle}"?`,
+        `Â¿QuÃ© tema se trabaja en el contenido "${item.cleanTitle}"?`
       ];
 
       variants.forEach((questionText, variantIndex) => {
@@ -1077,7 +1077,7 @@ function buildKeywordQuestions(module, moduleItems) {
           questionText,
           keyword,
           wrongKeywords,
-          `La palabra clave "${keyword}" está asociada a este contenido.`,
+          `La palabra clave "${keyword}" estÃ¡ asociada a este contenido.`,
           {
             sourceId: item.id,
             template: "keyword-by-title",
@@ -1102,9 +1102,9 @@ function buildModuleQuestions(module, moduleItems, allModules) {
     const wrongModules = buildWrongModules(module, allModules, 3);
 
     const variants = [
-      `¿A qué área pertenece el contenido "${item.cleanTitle}"?`,
-      `¿En qué módulo encaja mejor "${item.cleanTitle}"?`,
-      `¿Dónde clasificarías el contenido "${item.cleanTitle}"?`
+      `Â¿A quÃ© Ã¡rea pertenece el contenido "${item.cleanTitle}"?`,
+      `Â¿En quÃ© mÃ³dulo encaja mejor "${item.cleanTitle}"?`,
+      `Â¿DÃ³nde clasificarÃ­as el contenido "${item.cleanTitle}"?`
     ];
 
     variants.forEach((questionText, variantIndex) => {
@@ -1112,7 +1112,7 @@ function buildModuleQuestions(module, moduleItems, allModules) {
         questionText,
         getModuleLabel(module),
         wrongModules,
-        `Ese contenido está clasificado dentro del módulo de ${getModuleLabel(module)}.`,
+        `Ese contenido estÃ¡ clasificado dentro del mÃ³dulo de ${getModuleLabel(module)}.`,
         {
           sourceId: item.id,
           template: "module-by-title",
@@ -1138,9 +1138,9 @@ function buildApplicationQuestions(module, moduleItems) {
     const wrongTitles = buildWrongTitles(current, moduleItems, 3);
 
     const variants = [
-      `¿Qué vídeo del módulo ${getModuleLabel(module)} tratarías para aprender sobre "${current.cleanKeywords[0] || current.cleanTitle}"?`,
-      `¿Cuál de estos contenidos describe mejor lo que hace "${current.cleanTitle}"?`,
-      `Si un empleado necesita conocer "${current.cleanKeywords[0] || current.cleanTitle}", ¿qué vídeo debe consultar?`
+      `Â¿QuÃ© vÃ­deo del mÃ³dulo ${getModuleLabel(module)} tratarÃ­as para aprender sobre "${current.cleanKeywords[0] || current.cleanTitle}"?`,
+      `Â¿CuÃ¡l de estos contenidos describe mejor lo que hace "${current.cleanTitle}"?`,
+      `Si un empleado necesita conocer "${current.cleanKeywords[0] || current.cleanTitle}", Â¿quÃ© vÃ­deo debe consultar?`
     ];
 
     variants.forEach((questionText, variantIndex) => {
@@ -1148,7 +1148,7 @@ function buildApplicationQuestions(module, moduleItems) {
         questionText,
         current.cleanTitle,
         wrongTitles,
-        `Ese vídeo cubre ese concepto dentro del módulo ${getModuleLabel(module)}.`,
+        `Ese vÃ­deo cubre ese concepto dentro del mÃ³dulo ${getModuleLabel(module)}.`,
         {
           sourceId: current.id,
           template: "application-by-keyword",
@@ -1223,3 +1223,4 @@ export function getModuleQuiz(module, questionCount = 10) {
     questions: sampleSize(quiz.questions, questionCount)
   };
 }
+
