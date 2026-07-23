@@ -40,7 +40,7 @@ function shuffleArray<T>(items: T[]) {
 function shuffleQuestion(question: QuestionShape): QuestionShape {
   const optionEntries = question.options.map((option, optionIndex) => ({
     option,
-    isCorrect: optionIndex === Number(question.correctAnswer),
+    isCorrect: optionIndex === Number(question.correctAnswer)
   }));
 
   const shuffledOptions = shuffleArray(optionEntries);
@@ -49,7 +49,7 @@ function shuffleQuestion(question: QuestionShape): QuestionShape {
   return {
     ...question,
     options: shuffledOptions.map((entry) => entry.option),
-    correctAnswer,
+    correctAnswer
   };
 }
 
@@ -60,21 +60,23 @@ function normalizeQuizForClient(quiz: QuizShape) {
     passingScore: quiz.passingScore ?? 70,
     module: {
       name: quiz.module?.title ?? quiz.title ?? "Quiz",
-      slug: quiz.module?.slug ?? "",
+      slug: quiz.module?.slug ?? ""
     },
     questions: quiz.questions
       .sort((a, b) => Number(a.order ?? 0) - Number(b.order ?? 0))
       .map((question, index) => ({
         ...shuffleQuestion(question),
-        order: index + 1,
-      })),
+        order: index + 1
+      }))
   };
 }
 
 function buildFallbackQuiz(moduleSlug: string) {
-  const fallbackQuiz = moduleQuizzes[moduleSlug as keyof typeof moduleQuizzes];
+  const fallbackQuiz = getModuleQuiz(moduleSlug, 10);
 
-  if (!fallbackQuiz) return null;
+  if (!fallbackQuiz || !Array.isArray(fallbackQuiz.questions) || fallbackQuiz.questions.length === 0) {
+    return null;
+  }
 
   return normalizeQuizForClient({
     id: `fallback-${moduleSlug}`,
@@ -82,34 +84,34 @@ function buildFallbackQuiz(moduleSlug: string) {
     passingScore: 70,
     module: {
       title: fallbackQuiz.title,
-      slug: moduleSlug,
+      slug: moduleSlug
     },
-    questions: fallbackQuiz.questions.map((q, index) => ({
-      id: q.id,
-      question: q.question,
-      options: q.options,
-      explanation: q.explanation,
-      correctAnswer: Number(q.correctAnswer),
-      order: index + 1,
-    })),
+    questions: fallbackQuiz.questions.map((question, index) => ({
+      id: question.id,
+      question: question.question,
+      options: question.options,
+      explanation: question.explanation ?? "",
+      correctAnswer: Number(question.correctAnswer),
+      order: index + 1
+    }))
   });
 }
 
 async function getDbQuiz(moduleSlug: string) {
   const quiz = await prisma.quiz.findFirst({
     where: {
-      module: { slug: moduleSlug },
+      module: { slug: moduleSlug }
     },
     include: {
       module: {
         select: {
           title: true,
-          slug: true,
-        },
+          slug: true
+        }
       },
       questions: {
         orderBy: {
-          order: "asc",
+          order: "asc"
         },
         select: {
           id: true,
@@ -117,27 +119,29 @@ async function getDbQuiz(moduleSlug: string) {
           options: true,
           explanation: true,
           order: true,
-          correctIndex: true,
-        },
-      },
-    },
+          correctIndex: true
+        }
+      }
+    }
   });
 
-  if (!quiz) return null;
+  if (!quiz) {
+    return null;
+  }
 
   return normalizeQuizForClient({
     id: quiz.id,
     title: (quiz as any).title ?? quiz.module?.title ?? "Quiz",
     passingScore: (quiz as any).passingScore ?? 70,
     module: quiz.module,
-    questions: quiz.questions.map((q) => ({
-      id: q.id,
-      question: q.question,
-      options: Array.isArray(q.options) ? (q.options as string[]) : [],
-      explanation: q.explanation,
-      order: q.order,
-      correctAnswer: Number((q as any).correctIndex),
-    })),
+    questions: quiz.questions.map((question) => ({
+      id: question.id,
+      question: question.question,
+      options: Array.isArray(question.options) ? (question.options as string[]) : [],
+      explanation: question.explanation,
+      order: question.order,
+      correctAnswer: Number((question as any).correctIndex)
+    }))
   });
 }
 
@@ -210,7 +214,10 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
 
     const results = answers.map(
       (answer: { questionId: string; answer: number | string }) => {
-        const matchedQuestion = questions.find((q: QuestionShape) => q.id === answer.questionId);
+        const matchedQuestion = questions.find(
+          (question: QuestionShape) => question.id === answer.questionId
+        );
+
         const isCorrect =
           matchedQuestion != null &&
           String(matchedQuestion.correctAnswer) === String(answer.answer);
@@ -219,12 +226,12 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
           questionId: answer.questionId,
           isCorrect,
           correctAnswer: matchedQuestion?.correctAnswer ?? null,
-          explanation: matchedQuestion?.explanation ?? "",
+          explanation: matchedQuestion?.explanation ?? ""
         };
       }
     );
 
-    const correctCount = results.filter((r) => r.isCorrect).length;
+    const correctCount = results.filter((result) => result.isCorrect).length;
     const total = questions.length;
     const percentage = total > 0 ? Math.round((correctCount / total) * 100) : 0;
     const passingScore = quiz.passingScore ?? 70;
@@ -238,8 +245,8 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
             quizId: quiz.id,
             score: percentage,
             passed,
-            answers: JSON.stringify(answers),
-          },
+            answers: JSON.stringify(answers)
+          }
         });
       } catch (error) {
         console.error("Quiz attempt could not be saved:", error);
@@ -252,7 +259,7 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
       percentage,
       passed,
       passingScore,
-      results,
+      results
     });
   } catch (error) {
     console.error("Error submitting quiz:", error);
